@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bienes</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="library_name">MaterialBarcodeScanner</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for barcode detection.</string>
+    <string name="no_camera_permission">Cannot start the barcode reader because the camera permission was not granted.</string>
+</resources>
