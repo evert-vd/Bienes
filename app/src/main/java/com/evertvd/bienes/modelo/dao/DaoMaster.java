@@ -21,28 +21,12 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        EmpresaDao.createTable(db, ifNotExists);
-        DepartamentoDao.createTable(db, ifNotExists);
-        SedeDao.createTable(db, ifNotExists);
-        UbicacionDao.createTable(db, ifNotExists);
-        ResponsableDao.createTable(db, ifNotExists);
-        CuentaContableDao.createTable(db, ifNotExists);
-        CentroCostoDao.createTable(db, ifNotExists);
-        CatalogoDao.createTable(db, ifNotExists);
         ActivoDao.createTable(db, ifNotExists);
         HistorialDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        EmpresaDao.dropTable(db, ifExists);
-        DepartamentoDao.dropTable(db, ifExists);
-        SedeDao.dropTable(db, ifExists);
-        UbicacionDao.dropTable(db, ifExists);
-        ResponsableDao.dropTable(db, ifExists);
-        CuentaContableDao.dropTable(db, ifExists);
-        CentroCostoDao.dropTable(db, ifExists);
-        CatalogoDao.dropTable(db, ifExists);
         ActivoDao.dropTable(db, ifExists);
         HistorialDao.dropTable(db, ifExists);
     }
@@ -63,14 +47,6 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(EmpresaDao.class);
-        registerDaoClass(DepartamentoDao.class);
-        registerDaoClass(SedeDao.class);
-        registerDaoClass(UbicacionDao.class);
-        registerDaoClass(ResponsableDao.class);
-        registerDaoClass(CuentaContableDao.class);
-        registerDaoClass(CentroCostoDao.class);
-        registerDaoClass(CatalogoDao.class);
         registerDaoClass(ActivoDao.class);
         registerDaoClass(HistorialDao.class);
     }

@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //cargarEmpresas();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +143,9 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Empresa",empresaList.get(i).getEmpresa());
             }
 
-            List<Sede>sedeList= Controller.getDaoSession().getSedeDao().loadAll();
-            for (int i=0;i<sedeList.size();i++){
-                Log.e("Sede",sedeList.get(i).getSede()+" Empresa:"+sedeList.get(i).getDepartamento().getEmpresa().getEmpresa());
+            List<Catalogo>catalogoList= Controller.getDaoSession().getCatalogoDao().loadAll();
+            for (int i=0;i<catalogoList.size();i++){
+                Log.e("nomCat"+String.valueOf(i+1),catalogoList.get(i).getCatalogo()+" cod:"+catalogoList.get(i).getEmpresa_id2());
             }
 
         } else if (id == R.id.nav_slideshow) {
@@ -230,6 +232,23 @@ public class MainActivity extends AppCompatActivity
         materialBarcodeScanner.startScan();
     }
 
+        private void cargarEmpresas(){
+            Empresa molinos=new Empresa();
+            molinos.setEmpresa("MOLINOS & CIA SA");
+            Controller.getDaoSession().getEmpresaDao().insert(molinos);
 
+            Empresa comercio=new Empresa();
+            comercio.setEmpresa("COMERCIO & CIA SA");
+            Controller.getDaoSession().getEmpresaDao().insert(comercio);
+
+            Empresa miromina=new Empresa();
+            miromina.setEmpresa("MIROMINA SA");
+            Controller.getDaoSession().getEmpresaDao().insert(miromina);
+
+            Empresa fertimax=new Empresa();
+            fertimax.setEmpresa("FERTIMAX SAC");
+            Controller.getDaoSession().getEmpresaDao().insert(fertimax);
+
+        }
 
 }

@@ -23,6 +23,7 @@ import com.evertvd.bienes.modelo.CentroCosto;
 import com.evertvd.bienes.modelo.CuentaContable;
 import com.evertvd.bienes.modelo.Departamento;
 import com.evertvd.bienes.modelo.Empresa;
+import com.evertvd.bienes.modelo.ExampleEmpresa;
 import com.evertvd.bienes.modelo.Responsable;
 import com.evertvd.bienes.modelo.Sede;
 import com.evertvd.bienes.modelo.Ubicacion;
@@ -33,14 +34,17 @@ import com.evertvd.bienes.utils.Buscar;
 import com.evertvd.bienes.vista.activitys.FileInterno;
 import com.evertvd.bienes.vista.activitys.MainActivity;
 
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -93,7 +97,7 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
         btnAceptar = (Button) view.findViewById(R.id.btnAceptar);
         btnAceptar.setOnClickListener(this);
 
-        btnBuscar=(Button)view.findViewById(R.id.btnBuscar);
+        btnBuscar = (Button) view.findViewById(R.id.btnBuscar);
         btnBuscar.setOnClickListener(this);
 
         tilArchivo = (TextInputLayout) view.findViewById(R.id.tilArchivo);
@@ -108,12 +112,12 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.btnAceptar) {
             if (validarCodigo(tilArchivo.getEditText().getText().toString())) {
-                loadDataBD();
-               startActivity(new Intent(getContext(), MainActivity.class));
+                readFile();
+                startActivity(new Intent(getContext(), MainActivity.class));
             }
         } else if (v.getId() == R.id.btnCancelar) {
             this.dismiss();
-        }else if(v.getId()==R.id.btnBuscar){
+        } else if (v.getId() == R.id.btnBuscar) {
             Intent intent = new Intent(getContext(), FileInterno.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
@@ -171,28 +175,69 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     }
 
 
-    private void loadDataBD() {
+    private void readFile() {
         //String[] activosString = leerArchivoSD(path);
-
         try {
             CsvReader activos = new CsvReader(path);
             activos.readHeaders();
-            while (activos.readRecord()) {
+            ArrayList<String> empresaList=new ArrayList<String>();
+            ArrayList<String> departamentoList=new ArrayList<String>();
+            ArrayList<String> sedeList=new ArrayList<String>();
+            ArrayList<String> ubicacionList=new ArrayList<String>();
+            ArrayList<String> codCatalogoList=new ArrayList<String>();
+            ArrayList<String> responsableList=new ArrayList<String>();
+            ArrayList<String> codCentroList=new ArrayList<String>();
+            ArrayList<String> cuentaList=new ArrayList<String>();
 
-                String empresaNom = activos.get("Empresa");
-                Log.e("Emp",empresaNom);
-                if(Buscar.buscarBarras(empresaNom)==null){
-                    Empresa empresa = new Empresa();
-                    empresa.setEmpresa(empresaNom);
-                    Controller.getDaoSession().getEmpresaDao().insert(empresa);
+
+            while (activos.readRecord()) {
+                String empresa = activos.get("Empresa");
+                String departamento = activos.get("Departamento");
+                String sede = activos.get("Sede");
+                String ubicacion = activos.get("Ubicación");
+                String codCatalogo = activos.get("Cod. Catálogo");
+                String nomCatalogo = activos.get("Catálogo");
+
+                String responsable = activos.get("Responsable");
+                String codCentro = activos.get("C. Resp");
+                String CentroCosto = activos.get("Centro Responsabilidad");
+                String cuenta = activos.get("Cta. Ctble.");
+
+                /*
+                if (!empresaList.contains(empresa)) {
+                    empresaList.add(empresa);
+                    cargarEmpresa(empresa);
                 }
+                if (!departamentoList.contains(departamento)) {
+                    departamentoList.add(departamento);
+                }
+                if (!sedeList.contains(sede)) {
+                    departamentoList.add(sede);
+                }
+                if (!ubicacionList.contains(ubicacion)) {
+                    ubicacionList.add(ubicacion);
+                }
+                if (!codCatalogoList.contains(codCatalogo+" "+nomCatalogo+" "+empresa)) {
+                    codCatalogoList.add(codCatalogo+" "+nomCatalogo+" "+empresa);
+                    cargarCatalogo(codCatalogo,nomCatalogo, empresa);
+                }
+                */
+
+
+            }
+            //cargarCatalogo(catalogoList);
+
+            for(int i=0; i<empresaList.size();i++){
+                Log.e("Empresa",empresaList.get(i));
             }
             activos.close();
         } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
 
         //convertir arraystring en liststring
@@ -305,26 +350,28 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
 
     }
 
+    private void cargarEmpresa(String texto){
+        Empresa empresa=new Empresa();
+        empresa.setEmpresa(texto);
+        //Controller.getDaoSession().getEmpresaDao().insert(empresa);
 
-    private void obtenerEmpresas(String[] datos){
-        List<String> lista = Arrays.asList(datos);
-        //lista = new ArrayList<Element>(Arrays.asList(array));
+    }
 
-        for(int i=1;i<lista.size();i++){
-            Log.e("longitud",String.valueOf(i)+" dato:"+lista.get(i));
+    private void cargarDepartamento(List<String> list){
 
-            /*
-            String linea[]=datos[i].split(",");
+    }
 
-                if (Buscar.buscarEmpresa(linea[2])==null){
-                    Empresa empresa = new Empresa();
-                    empresa.setEmpresa(linea[2]);
-                    Controller.getDaoSession().getEmpresaDao().insert(empresa);
-                }
-                */
-            }
+    private void cargarSede(List<String> list){
 
+    }
 
+    private void cargarCatalogo(String codCatalogo, String nomCatalogo, String nomEmpresa){
+        Catalogo catalogo=new Catalogo();
+        catalogo.setCodigo(codCatalogo);
+        catalogo.setCatalogo(nomCatalogo);
+        Empresa empresa=Buscar.buscarEmpresa(nomEmpresa);
+        catalogo.setEmpresa_id2(empresa.getId());
+        //Controller.getDaoSession().getCatalogoDao().insert(catalogo);
     }
 
 
@@ -340,4 +387,7 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
         return true;
     }
 
-}
+
+
+    }
+

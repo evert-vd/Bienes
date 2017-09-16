@@ -26,7 +26,7 @@ public class Generator {
 
     }
 
-    private static void crearSchema(){
+    private static void crearSchema() {
         int schemaVersion = 1;   // incrementar en cada nueva actualización del esquema.
         String dataPackage = "com.evertvd.bienes.modelo";   // ruta donde almacenar las clases-entidades.
 
@@ -77,7 +77,7 @@ public class Generator {
         /* entidades */
 
         /* entidades */
-
+        /*
         Entity empresa = schema.addEntity("Empresa");   // nombre de la tabla-entidad
         empresa.addIdProperty().primaryKey().autoincrement();   // columna id
         empresa.addStringProperty("empresa");
@@ -156,7 +156,7 @@ public class Generator {
         inventario.addToMany(inventarioZona, inventarioId);
         zona.addToMany(inventarioZona, zonaId);
        */
-
+/*
         departamento.addToOne(empresa, empresaId);
         empresa.addToMany(departamento, empresaId);
 
@@ -190,7 +190,48 @@ public class Generator {
 
         historial.addToOne(activo, activoId);
         activo.addToMany(historial, activoId);
+    }
+    */
 
+
+        Entity activo = schema.addEntity("Activo");
+        activo.addIdProperty().primaryKey().autoincrement();
+        activo.addStringProperty("codigo").unique();
+        activo.addStringProperty("codigobarra");
+        activo.addStringProperty("empresa");
+        activo.addStringProperty("departamento");
+        activo.addStringProperty("sede");
+        activo.addStringProperty("ubicacion");
+        activo.addStringProperty("familia");
+        activo.addStringProperty("subfamilia");
+        activo.addStringProperty("codcatalogo");
+        activo.addStringProperty("catalogo");
+        activo.addStringProperty("placa");
+        activo.addStringProperty("marca");
+        activo.addStringProperty("modelo");
+        activo.addStringProperty("serie");
+        activo.addStringProperty("foto");
+        activo.addStringProperty("responsable");
+        activo.addStringProperty("tipoActivo");//af,bc,cv,rv
+        activo.addStringProperty("activopadre");
+        activo.addStringProperty("codCentro");
+        activo.addStringProperty("centro");
+        activo.addStringProperty("cuenta");
+        activo.addStringProperty("estado");
+        activo.addStringProperty("expediente");
+        activo.addStringProperty("ordencompra");
+        activo.addStringProperty("factura");
+        activo.addStringProperty("fechacompra");
+        activo.addStringProperty("observacion");
+        activo.addIntProperty("seleccionado");
+        Entity historial = schema.addEntity("Historial");
+        historial.addIdProperty().primaryKey().autoincrement();
+        historial.addStringProperty("campo");
+        historial.addStringProperty("fechamodificacion");
+        Property activoId = historial.addLongProperty("activo_id").index().getProperty();  // clave foránea
+
+        historial.addToOne(activo, activoId);
+        activo.addToMany(historial, activoId);
 
     }
 }
