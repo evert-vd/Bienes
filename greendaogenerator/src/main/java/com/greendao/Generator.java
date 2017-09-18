@@ -196,14 +196,14 @@ public class Generator {
 
         Entity activo = schema.addEntity("Activo");
         activo.addIdProperty().primaryKey().autoincrement();
-        activo.addStringProperty("codigo").unique();
+        activo.addStringProperty("codigo");
         activo.addStringProperty("codigobarra");
         activo.addStringProperty("empresa");
         activo.addStringProperty("departamento");
         activo.addStringProperty("sede");
         activo.addStringProperty("ubicacion");
-        activo.addStringProperty("familia");
-        activo.addStringProperty("subfamilia");
+        //activo.addStringProperty("familia");
+        //activo.addStringProperty("subfamilia");
         activo.addStringProperty("codcatalogo");
         activo.addStringProperty("catalogo");
         activo.addStringProperty("placa");
@@ -224,6 +224,8 @@ public class Generator {
         activo.addStringProperty("fechacompra");
         activo.addStringProperty("observacion");
         activo.addIntProperty("seleccionado");
+
+
         Entity historial = schema.addEntity("Historial");
         historial.addIdProperty().primaryKey().autoincrement();
         historial.addStringProperty("campo");

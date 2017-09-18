@@ -1,8 +1,10 @@
 package com.evertvd.bienes.vista.dialogs;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Dialog;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -18,19 +20,9 @@ import com.csvreader.CsvReader;
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.Catalogo;
-import com.evertvd.bienes.modelo.CentroCosto;
-import com.evertvd.bienes.modelo.CuentaContable;
-import com.evertvd.bienes.modelo.Departamento;
-import com.evertvd.bienes.modelo.Empresa;
-import com.evertvd.bienes.modelo.ExampleEmpresa;
-import com.evertvd.bienes.modelo.Responsable;
-import com.evertvd.bienes.modelo.Sede;
-import com.evertvd.bienes.modelo.Ubicacion;
-import com.evertvd.bienes.modelo.dao.DepartamentoDao;
-import com.evertvd.bienes.modelo.dao.EmpresaDao;
-import com.evertvd.bienes.modelo.dao.UbicacionDao;
+
 import com.evertvd.bienes.utils.Buscar;
+import com.evertvd.bienes.utils.TareaCarga;
 import com.evertvd.bienes.vista.activitys.FileInterno;
 import com.evertvd.bienes.vista.activitys.MainActivity;
 
@@ -46,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+;
 
 /**
  * Created by evertvd on 14/09/2017.
@@ -55,7 +49,8 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     private static final String TAG = DBuscarArchivo.class.getSimpleName();
     private Button btnAceptar, btnCancelar, btnBuscar;
     private EditText txtArchivo;
-
+    ProgressDialog progreesDialog;
+    int time=0, tamaño=0;
     private TextInputLayout tilArchivo;
     private String path, nombreArchivo;
     int REQUEST_CODE = 1;
@@ -112,8 +107,20 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.btnAceptar) {
             if (validarCodigo(tilArchivo.getEditText().getText().toString())) {
-                readFile();
-                startActivity(new Intent(getContext(), MainActivity.class));
+               // dialogoProgreso();
+                //Long time=readFile();
+                //long durationInMs = TimeUnit.MILLISECONDS.convert(time, TimeUnit.NANOSECONDS);
+
+                //Log.e("tu met se ejecuta en:",String.valueOf(durationInMs)+" ms");
+
+                //startActivity(new Intent(getContext(),MainActivity.class));
+
+
+                ProgressDialog progress = new ProgressDialog(getContext());
+                //progreesDialog.setMax(20);
+                //progreesDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progress.setMessage("Cargando data, por favor espere...");
+                new TareaCarga(progress, getContext(),path).execute();
             }
         } else if (v.getId() == R.id.btnCancelar) {
             this.dismiss();
@@ -177,9 +184,19 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
 
     private void readFile() {
         //String[] activosString = leerArchivoSD(path);
+
+
+        // ...
+        // El resto del código
+
+        Long startTime = System.nanoTime();
+
+
         try {
+
             CsvReader activos = new CsvReader(path);
             activos.readHeaders();
+            /*
             ArrayList<String> empresaList=new ArrayList<String>();
             ArrayList<String> departamentoList=new ArrayList<String>();
             ArrayList<String> sedeList=new ArrayList<String>();
@@ -188,20 +205,40 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
             ArrayList<String> responsableList=new ArrayList<String>();
             ArrayList<String> codCentroList=new ArrayList<String>();
             ArrayList<String> cuentaList=new ArrayList<String>();
-
+            */
 
             while (activos.readRecord()) {
+                String codigo = activos.get("Cod. Activo");
+                String barras = activos.get("Cod. Barras");
                 String empresa = activos.get("Empresa");
                 String departamento = activos.get("Departamento");
                 String sede = activos.get("Sede");
                 String ubicacion = activos.get("Ubicación");
                 String codCatalogo = activos.get("Cod. Catálogo");
                 String nomCatalogo = activos.get("Catálogo");
-
+                String placa = activos.get("Placa");
+                String marca = activos.get("Marca");
+                String modelo = activos.get("Modelo");
+                String serie = activos.get("Serie");
+                String foto = activos.get("Si/No");
                 String responsable = activos.get("Responsable");
+                String tipoActivo = activos.get("Tipo Activo");
+                String activoPadre = activos.get("Cod. Activo Padre");
                 String codCentro = activos.get("C. Resp");
                 String CentroCosto = activos.get("Centro Responsabilidad");
                 String cuenta = activos.get("Cta. Ctble.");
+                String estado = activos.get("Estado");
+                String expediente = activos.get("Expediente");
+                String ordenCompra = activos.get("Ord. Compra");
+                String factura = activos.get("Fac. Compra");
+                String fecCompra = activos.get("Fec. Compra");
+                String observacion = activos.get("Observacion");
+
+                cargarDatos(codigo,barras,empresa,departamento,sede,ubicacion,codCatalogo,nomCatalogo,
+                        placa,marca,modelo,serie,foto,responsable,tipoActivo,activoPadre,codCentro,CentroCosto,cuenta,estado,
+                        expediente,ordenCompra,factura,fecCompra,observacion);
+
+
 
                 /*
                 if (!empresaList.contains(empresa)) {
@@ -224,21 +261,24 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
                 */
 
 
+
             }
+
+
+
             //cargarCatalogo(catalogoList);
 
-            for(int i=0; i<empresaList.size();i++){
-                Log.e("Empresa",empresaList.get(i));
-            }
             activos.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
+        long endTime = System.nanoTime();
+        int time2=(int)TimeUnit.MILLISECONDS.convert((endTime-startTime), TimeUnit.NANOSECONDS);
+        time=time2;
+        //resultado en milisecugundos
 
         //convertir arraystring en liststring
         //List<String> lista = new ArrayList<String>();
@@ -350,6 +390,140 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
 
     }
 
+    private void dialogoProgreso(){
+
+        Log.e("time",String.valueOf(time));
+        progreesDialog = new ProgressDialog(getContext());
+        progreesDialog.setMax(time);
+        progreesDialog.setMessage("Cargando informacion de "+path);
+        progreesDialog.setTitle("Leyendo archivo");
+        progreesDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progreesDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (progreesDialog.getProgress() <= progreesDialog.getMax()) {
+                        readFile();
+                        handle.sendMessage(handle.obtainMessage());
+                        if (progreesDialog.getProgress() == progreesDialog.getMax()) {
+
+                            progreesDialog.dismiss();
+                            //break;
+                        }
+                    }
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+
+    private void tamañoData(){
+        try {
+            CsvReader activos = new CsvReader(path);
+            activos.readHeaders();
+            List<String>tamañoData=new ArrayList<String>();
+
+            while (activos.readRecord()) {
+                String codigo = activos.get("Cod. Activo");
+
+                tamañoData.add(codigo);
+
+            }
+
+            tamaño=tamañoData.size();
+
+            activos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+    private void cargarDatos(String codigo, String barras, String empresa,
+                             String departamento, String sede, String ubicacion,
+                             String codCatalogo, String nomCatalogo, String placa,
+                             String marca, String modelo, String serie, String foto,
+                             String responsable, String tipoActivo, String activoPadre,
+                             String codCentro, String centroCosto, String cuenta,
+                             String estado, String expediente, String ordenCompra,
+                             String factura, String fecCompra, String observacion) {
+
+        Activo activo=new Activo();
+        activo.setCodigo(codigo);
+        activo.setCodigobarra(barras);
+        activo.setEmpresa(empresa);
+        activo.setDepartamento(departamento);
+        activo.setSede(sede);
+        activo.setUbicacion(ubicacion);
+        activo.setCodcatalogo(codCatalogo);
+        activo.setCatalogo(nomCatalogo);
+        activo.setPlaca(placa);
+        activo.setMarca(marca);
+        activo.setModelo(modelo);
+        activo.setSerie(serie);
+        activo.setFoto(foto);
+        activo.setResponsable(responsable);
+        activo.setTipoActivo(tipoActivo);
+        activo.setActivopadre(activoPadre);
+        activo.setCodCentro(codCentro);
+        activo.setCentro(centroCosto);
+        activo.setCuenta(cuenta);
+        activo.setEstado(estado);
+        activo.setExpediente(expediente);
+        activo.setOrdencompra(ordenCompra);
+        activo.setFactura(factura);
+        activo.setFechacompra(fecCompra);
+        activo.setObservacion(observacion);
+
+        Controller.getDaoSession().getActivoDao().insert(activo);
+
+
+    }
+
+    private void cargarDatos3(String[] cabecera) {
+        for(int i=0;i<cabecera.length;i++){
+            Activo activo=new Activo();
+            activo.setCodigo(cabecera[0]);
+            activo.setCodigobarra(cabecera[1]);
+            activo.setEmpresa(cabecera[2]);
+            activo.setDepartamento(cabecera[3]);
+            activo.setSede(cabecera[4]);
+            activo.setUbicacion(cabecera[5]);
+            activo.setCodcatalogo(cabecera[6]);
+            activo.setCatalogo(cabecera[7]);
+            activo.setPlaca(cabecera[8]);
+            activo.setMarca(cabecera[9]);
+            activo.setModelo(cabecera[10]);
+            activo.setSerie(cabecera[11]);
+            activo.setFoto(cabecera[12]);
+            activo.setResponsable(cabecera[13]);
+            activo.setTipoActivo(cabecera[14]);
+            activo.setActivopadre(cabecera[15]);
+            activo.setCodCentro(cabecera[16]);
+            activo.setCentro(cabecera[17]);
+            activo.setCuenta(cabecera[18]);
+            activo.setEstado(cabecera[19]);
+            activo.setExpediente(cabecera[20]);
+            activo.setOrdencompra(cabecera[21]);
+            activo.setFactura(cabecera[22]);
+            activo.setFechacompra(cabecera[23]);
+            activo.setObservacion(cabecera[24]);
+
+            Controller.getDaoSession().getActivoDao().insert(activo);
+
+        }
+    }
+
+    /*
     private void cargarEmpresa(String texto){
         Empresa empresa=new Empresa();
         empresa.setEmpresa(texto);
@@ -373,7 +547,7 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
         catalogo.setEmpresa_id2(empresa.getId());
         //Controller.getDaoSession().getCatalogoDao().insert(catalogo);
     }
-
+*/
 
     private boolean validarCodigo(String etCodigo) {
         if (etCodigo.trim().length() == 0) {
@@ -388,6 +562,14 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     }
 
 
+
+    Handler handle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            progreesDialog.incrementProgressBy(1);
+        }
+    };
 
     }
 

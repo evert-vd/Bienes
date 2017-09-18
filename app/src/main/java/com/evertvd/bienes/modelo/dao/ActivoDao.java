@@ -31,28 +31,26 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         public final static Property Departamento = new Property(4, String.class, "departamento", false, "DEPARTAMENTO");
         public final static Property Sede = new Property(5, String.class, "sede", false, "SEDE");
         public final static Property Ubicacion = new Property(6, String.class, "ubicacion", false, "UBICACION");
-        public final static Property Familia = new Property(7, String.class, "familia", false, "FAMILIA");
-        public final static Property Subfamilia = new Property(8, String.class, "subfamilia", false, "SUBFAMILIA");
-        public final static Property Codcatalogo = new Property(9, String.class, "codcatalogo", false, "CODCATALOGO");
-        public final static Property Catalogo = new Property(10, String.class, "catalogo", false, "CATALOGO");
-        public final static Property Placa = new Property(11, String.class, "placa", false, "PLACA");
-        public final static Property Marca = new Property(12, String.class, "marca", false, "MARCA");
-        public final static Property Modelo = new Property(13, String.class, "modelo", false, "MODELO");
-        public final static Property Serie = new Property(14, String.class, "serie", false, "SERIE");
-        public final static Property Foto = new Property(15, String.class, "foto", false, "FOTO");
-        public final static Property Responsable = new Property(16, String.class, "responsable", false, "RESPONSABLE");
-        public final static Property TipoActivo = new Property(17, String.class, "tipoActivo", false, "TIPO_ACTIVO");
-        public final static Property Activopadre = new Property(18, String.class, "activopadre", false, "ACTIVOPADRE");
-        public final static Property CodCentro = new Property(19, String.class, "codCentro", false, "COD_CENTRO");
-        public final static Property Centro = new Property(20, String.class, "centro", false, "CENTRO");
-        public final static Property Cuenta = new Property(21, String.class, "cuenta", false, "CUENTA");
-        public final static Property Estado = new Property(22, String.class, "estado", false, "ESTADO");
-        public final static Property Expediente = new Property(23, String.class, "expediente", false, "EXPEDIENTE");
-        public final static Property Ordencompra = new Property(24, String.class, "ordencompra", false, "ORDENCOMPRA");
-        public final static Property Factura = new Property(25, String.class, "factura", false, "FACTURA");
-        public final static Property Fechacompra = new Property(26, String.class, "fechacompra", false, "FECHACOMPRA");
-        public final static Property Observacion = new Property(27, String.class, "observacion", false, "OBSERVACION");
-        public final static Property Seleccionado = new Property(28, Integer.class, "seleccionado", false, "SELECCIONADO");
+        public final static Property Codcatalogo = new Property(7, String.class, "codcatalogo", false, "CODCATALOGO");
+        public final static Property Catalogo = new Property(8, String.class, "catalogo", false, "CATALOGO");
+        public final static Property Placa = new Property(9, String.class, "placa", false, "PLACA");
+        public final static Property Marca = new Property(10, String.class, "marca", false, "MARCA");
+        public final static Property Modelo = new Property(11, String.class, "modelo", false, "MODELO");
+        public final static Property Serie = new Property(12, String.class, "serie", false, "SERIE");
+        public final static Property Foto = new Property(13, String.class, "foto", false, "FOTO");
+        public final static Property Responsable = new Property(14, String.class, "responsable", false, "RESPONSABLE");
+        public final static Property TipoActivo = new Property(15, String.class, "tipoActivo", false, "TIPO_ACTIVO");
+        public final static Property Activopadre = new Property(16, String.class, "activopadre", false, "ACTIVOPADRE");
+        public final static Property CodCentro = new Property(17, String.class, "codCentro", false, "COD_CENTRO");
+        public final static Property Centro = new Property(18, String.class, "centro", false, "CENTRO");
+        public final static Property Cuenta = new Property(19, String.class, "cuenta", false, "CUENTA");
+        public final static Property Estado = new Property(20, String.class, "estado", false, "ESTADO");
+        public final static Property Expediente = new Property(21, String.class, "expediente", false, "EXPEDIENTE");
+        public final static Property Ordencompra = new Property(22, String.class, "ordencompra", false, "ORDENCOMPRA");
+        public final static Property Factura = new Property(23, String.class, "factura", false, "FACTURA");
+        public final static Property Fechacompra = new Property(24, String.class, "fechacompra", false, "FECHACOMPRA");
+        public final static Property Observacion = new Property(25, String.class, "observacion", false, "OBSERVACION");
+        public final static Property Seleccionado = new Property(26, Integer.class, "seleccionado", false, "SELECCIONADO");
     }
 
     private DaoSession daoSession;
@@ -72,34 +70,32 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"ACTIVO\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"CODIGO\" TEXT UNIQUE ," + // 1: codigo
+                "\"CODIGO\" TEXT," + // 1: codigo
                 "\"CODIGOBARRA\" TEXT," + // 2: codigobarra
                 "\"EMPRESA\" TEXT," + // 3: empresa
                 "\"DEPARTAMENTO\" TEXT," + // 4: departamento
                 "\"SEDE\" TEXT," + // 5: sede
                 "\"UBICACION\" TEXT," + // 6: ubicacion
-                "\"FAMILIA\" TEXT," + // 7: familia
-                "\"SUBFAMILIA\" TEXT," + // 8: subfamilia
-                "\"CODCATALOGO\" TEXT," + // 9: codcatalogo
-                "\"CATALOGO\" TEXT," + // 10: catalogo
-                "\"PLACA\" TEXT," + // 11: placa
-                "\"MARCA\" TEXT," + // 12: marca
-                "\"MODELO\" TEXT," + // 13: modelo
-                "\"SERIE\" TEXT," + // 14: serie
-                "\"FOTO\" TEXT," + // 15: foto
-                "\"RESPONSABLE\" TEXT," + // 16: responsable
-                "\"TIPO_ACTIVO\" TEXT," + // 17: tipoActivo
-                "\"ACTIVOPADRE\" TEXT," + // 18: activopadre
-                "\"COD_CENTRO\" TEXT," + // 19: codCentro
-                "\"CENTRO\" TEXT," + // 20: centro
-                "\"CUENTA\" TEXT," + // 21: cuenta
-                "\"ESTADO\" TEXT," + // 22: estado
-                "\"EXPEDIENTE\" TEXT," + // 23: expediente
-                "\"ORDENCOMPRA\" TEXT," + // 24: ordencompra
-                "\"FACTURA\" TEXT," + // 25: factura
-                "\"FECHACOMPRA\" TEXT," + // 26: fechacompra
-                "\"OBSERVACION\" TEXT," + // 27: observacion
-                "\"SELECCIONADO\" INTEGER);"); // 28: seleccionado
+                "\"CODCATALOGO\" TEXT," + // 7: codcatalogo
+                "\"CATALOGO\" TEXT," + // 8: catalogo
+                "\"PLACA\" TEXT," + // 9: placa
+                "\"MARCA\" TEXT," + // 10: marca
+                "\"MODELO\" TEXT," + // 11: modelo
+                "\"SERIE\" TEXT," + // 12: serie
+                "\"FOTO\" TEXT," + // 13: foto
+                "\"RESPONSABLE\" TEXT," + // 14: responsable
+                "\"TIPO_ACTIVO\" TEXT," + // 15: tipoActivo
+                "\"ACTIVOPADRE\" TEXT," + // 16: activopadre
+                "\"COD_CENTRO\" TEXT," + // 17: codCentro
+                "\"CENTRO\" TEXT," + // 18: centro
+                "\"CUENTA\" TEXT," + // 19: cuenta
+                "\"ESTADO\" TEXT," + // 20: estado
+                "\"EXPEDIENTE\" TEXT," + // 21: expediente
+                "\"ORDENCOMPRA\" TEXT," + // 22: ordencompra
+                "\"FACTURA\" TEXT," + // 23: factura
+                "\"FECHACOMPRA\" TEXT," + // 24: fechacompra
+                "\"OBSERVACION\" TEXT," + // 25: observacion
+                "\"SELECCIONADO\" INTEGER);"); // 26: seleccionado
     }
 
     /** Drops the underlying database table. */
@@ -147,114 +143,104 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
             stmt.bindString(7, ubicacion);
         }
  
-        String familia = entity.getFamilia();
-        if (familia != null) {
-            stmt.bindString(8, familia);
-        }
- 
-        String subfamilia = entity.getSubfamilia();
-        if (subfamilia != null) {
-            stmt.bindString(9, subfamilia);
-        }
- 
         String codcatalogo = entity.getCodcatalogo();
         if (codcatalogo != null) {
-            stmt.bindString(10, codcatalogo);
+            stmt.bindString(8, codcatalogo);
         }
  
         String catalogo = entity.getCatalogo();
         if (catalogo != null) {
-            stmt.bindString(11, catalogo);
+            stmt.bindString(9, catalogo);
         }
  
         String placa = entity.getPlaca();
         if (placa != null) {
-            stmt.bindString(12, placa);
+            stmt.bindString(10, placa);
         }
  
         String marca = entity.getMarca();
         if (marca != null) {
-            stmt.bindString(13, marca);
+            stmt.bindString(11, marca);
         }
  
         String modelo = entity.getModelo();
         if (modelo != null) {
-            stmt.bindString(14, modelo);
+            stmt.bindString(12, modelo);
         }
  
         String serie = entity.getSerie();
         if (serie != null) {
-            stmt.bindString(15, serie);
+            stmt.bindString(13, serie);
         }
  
         String foto = entity.getFoto();
         if (foto != null) {
-            stmt.bindString(16, foto);
+            stmt.bindString(14, foto);
         }
  
         String responsable = entity.getResponsable();
         if (responsable != null) {
-            stmt.bindString(17, responsable);
+            stmt.bindString(15, responsable);
         }
  
         String tipoActivo = entity.getTipoActivo();
         if (tipoActivo != null) {
-            stmt.bindString(18, tipoActivo);
+            stmt.bindString(16, tipoActivo);
         }
  
         String activopadre = entity.getActivopadre();
         if (activopadre != null) {
-            stmt.bindString(19, activopadre);
+            stmt.bindString(17, activopadre);
         }
  
         String codCentro = entity.getCodCentro();
         if (codCentro != null) {
-            stmt.bindString(20, codCentro);
+            stmt.bindString(18, codCentro);
         }
  
         String centro = entity.getCentro();
         if (centro != null) {
-            stmt.bindString(21, centro);
+            stmt.bindString(19, centro);
         }
  
         String cuenta = entity.getCuenta();
         if (cuenta != null) {
-            stmt.bindString(22, cuenta);
+            stmt.bindString(20, cuenta);
         }
  
         String estado = entity.getEstado();
         if (estado != null) {
-            stmt.bindString(23, estado);
+            stmt.bindString(21, estado);
         }
  
         String expediente = entity.getExpediente();
         if (expediente != null) {
-            stmt.bindString(24, expediente);
+            stmt.bindString(22, expediente);
         }
  
         String ordencompra = entity.getOrdencompra();
         if (ordencompra != null) {
-            stmt.bindString(25, ordencompra);
+            stmt.bindString(23, ordencompra);
         }
  
         String factura = entity.getFactura();
         if (factura != null) {
-            stmt.bindString(26, factura);
+            stmt.bindString(24, factura);
         }
  
         String fechacompra = entity.getFechacompra();
         if (fechacompra != null) {
-            stmt.bindString(27, fechacompra);
+            stmt.bindString(25, fechacompra);
         }
  
         String observacion = entity.getObservacion();
         if (observacion != null) {
-            stmt.bindString(28, observacion);
+            stmt.bindString(26, observacion);
         }
  
         Integer seleccionado = entity.getSeleccionado();
         if (seleccionado != null) {
-            stmt.bindLong(29, seleccionado);
+            stmt.bindLong(27, seleccionado);
         }
     }
 
@@ -297,114 +283,104 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
             stmt.bindString(7, ubicacion);
         }
  
-        String familia = entity.getFamilia();
-        if (familia != null) {
-            stmt.bindString(8, familia);
-        }
- 
-        String subfamilia = entity.getSubfamilia();
-        if (subfamilia != null) {
-            stmt.bindString(9, subfamilia);
-        }
- 
         String codcatalogo = entity.getCodcatalogo();
         if (codcatalogo != null) {
-            stmt.bindString(10, codcatalogo);
+            stmt.bindString(8, codcatalogo);
         }
  
         String catalogo = entity.getCatalogo();
         if (catalogo != null) {
-            stmt.bindString(11, catalogo);
+            stmt.bindString(9, catalogo);
         }
  
         String placa = entity.getPlaca();
         if (placa != null) {
-            stmt.bindString(12, placa);
+            stmt.bindString(10, placa);
         }
  
         String marca = entity.getMarca();
         if (marca != null) {
-            stmt.bindString(13, marca);
+            stmt.bindString(11, marca);
         }
  
         String modelo = entity.getModelo();
         if (modelo != null) {
-            stmt.bindString(14, modelo);
+            stmt.bindString(12, modelo);
         }
  
         String serie = entity.getSerie();
         if (serie != null) {
-            stmt.bindString(15, serie);
+            stmt.bindString(13, serie);
         }
  
         String foto = entity.getFoto();
         if (foto != null) {
-            stmt.bindString(16, foto);
+            stmt.bindString(14, foto);
         }
  
         String responsable = entity.getResponsable();
         if (responsable != null) {
-            stmt.bindString(17, responsable);
+            stmt.bindString(15, responsable);
         }
  
         String tipoActivo = entity.getTipoActivo();
         if (tipoActivo != null) {
-            stmt.bindString(18, tipoActivo);
+            stmt.bindString(16, tipoActivo);
         }
  
         String activopadre = entity.getActivopadre();
         if (activopadre != null) {
-            stmt.bindString(19, activopadre);
+            stmt.bindString(17, activopadre);
         }
  
         String codCentro = entity.getCodCentro();
         if (codCentro != null) {
-            stmt.bindString(20, codCentro);
+            stmt.bindString(18, codCentro);
         }
  
         String centro = entity.getCentro();
         if (centro != null) {
-            stmt.bindString(21, centro);
+            stmt.bindString(19, centro);
         }
  
         String cuenta = entity.getCuenta();
         if (cuenta != null) {
-            stmt.bindString(22, cuenta);
+            stmt.bindString(20, cuenta);
         }
  
         String estado = entity.getEstado();
         if (estado != null) {
-            stmt.bindString(23, estado);
+            stmt.bindString(21, estado);
         }
  
         String expediente = entity.getExpediente();
         if (expediente != null) {
-            stmt.bindString(24, expediente);
+            stmt.bindString(22, expediente);
         }
  
         String ordencompra = entity.getOrdencompra();
         if (ordencompra != null) {
-            stmt.bindString(25, ordencompra);
+            stmt.bindString(23, ordencompra);
         }
  
         String factura = entity.getFactura();
         if (factura != null) {
-            stmt.bindString(26, factura);
+            stmt.bindString(24, factura);
         }
  
         String fechacompra = entity.getFechacompra();
         if (fechacompra != null) {
-            stmt.bindString(27, fechacompra);
+            stmt.bindString(25, fechacompra);
         }
  
         String observacion = entity.getObservacion();
         if (observacion != null) {
-            stmt.bindString(28, observacion);
+            stmt.bindString(26, observacion);
         }
  
         Integer seleccionado = entity.getSeleccionado();
         if (seleccionado != null) {
-            stmt.bindLong(29, seleccionado);
+            stmt.bindLong(27, seleccionado);
         }
     }
 
@@ -429,28 +405,26 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // departamento
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // sede
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // ubicacion
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // familia
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // subfamilia
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // codcatalogo
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // catalogo
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // placa
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // marca
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // modelo
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // serie
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // foto
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // responsable
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // tipoActivo
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // activopadre
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // codCentro
-            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // centro
-            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // cuenta
-            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // estado
-            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // expediente
-            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // ordencompra
-            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // factura
-            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // fechacompra
-            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // observacion
-            cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28) // seleccionado
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // codcatalogo
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // catalogo
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // placa
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // marca
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // modelo
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // serie
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // foto
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // responsable
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // tipoActivo
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // activopadre
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // codCentro
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // centro
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // cuenta
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // estado
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // expediente
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // ordencompra
+            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // factura
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // fechacompra
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // observacion
+            cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26) // seleccionado
         );
         return entity;
     }
@@ -464,28 +438,26 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         entity.setDepartamento(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setSede(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setUbicacion(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setFamilia(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setSubfamilia(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setCodcatalogo(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setCatalogo(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setPlaca(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setMarca(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setModelo(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setSerie(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setFoto(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setResponsable(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setTipoActivo(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setActivopadre(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setCodCentro(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setCentro(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setCuenta(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
-        entity.setEstado(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
-        entity.setExpediente(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
-        entity.setOrdencompra(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
-        entity.setFactura(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
-        entity.setFechacompra(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
-        entity.setObservacion(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
-        entity.setSeleccionado(cursor.isNull(offset + 28) ? null : cursor.getInt(offset + 28));
+        entity.setCodcatalogo(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setCatalogo(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setPlaca(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setMarca(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setModelo(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setSerie(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setFoto(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setResponsable(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setTipoActivo(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setActivopadre(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setCodCentro(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setCentro(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setCuenta(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setEstado(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setExpediente(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setOrdencompra(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setFactura(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
+        entity.setFechacompra(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setObservacion(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setSeleccionado(cursor.isNull(offset + 26) ? null : cursor.getInt(offset + 26));
      }
     
     @Override

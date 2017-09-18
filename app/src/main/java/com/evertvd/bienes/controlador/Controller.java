@@ -4,17 +4,12 @@ import android.app.Application;
 
 
 import com.evertvd.bienes.modelo.dao.ActivoDao;
-import com.evertvd.bienes.modelo.dao.CatalogoDao;
-import com.evertvd.bienes.modelo.dao.CentroCostoDao;
-import com.evertvd.bienes.modelo.dao.CuentaContableDao;
+
 import com.evertvd.bienes.modelo.dao.DaoMaster;
 import com.evertvd.bienes.modelo.dao.DaoSession;
-import com.evertvd.bienes.modelo.dao.DepartamentoDao;
-import com.evertvd.bienes.modelo.dao.EmpresaDao;
+
 import com.evertvd.bienes.modelo.dao.HistorialDao;
-import com.evertvd.bienes.modelo.dao.ResponsableDao;
-import com.evertvd.bienes.modelo.dao.SedeDao;
-import com.evertvd.bienes.modelo.dao.UbicacionDao;
+
 
 import org.greenrobot.greendao.database.Database;
 
@@ -26,15 +21,9 @@ public class Controller extends Application {
     public static final boolean ENCRYPTED = true;
     static DaoSession daoSession;
     static ActivoDao activoDao;
-    static CatalogoDao catalogoDao;
-    static CentroCostoDao centroCostoDao;
-    static CuentaContableDao cuentaContableDao;
-    static DepartamentoDao departamentoDao;
-    static EmpresaDao empresaDao;
+
     static HistorialDao historialDao;
-    static ResponsableDao responsableDao;
-    static SedeDao sedeDao;
-    static UbicacionDao ubicacionDao;
+
 
     @Override
     public void onCreate() {
@@ -44,15 +33,15 @@ public class Controller extends Application {
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         activoDao=daoSession.getActivoDao();
-        catalogoDao=daoSession.getCatalogoDao();
-        centroCostoDao=daoSession.getCentroCostoDao();
-        cuentaContableDao=daoSession.getCuentaContableDao();
-        departamentoDao=daoSession.getDepartamentoDao();
-        empresaDao = daoSession.getEmpresaDao();
-        historialDao=daoSession.getHistorialDao();
-        responsableDao=daoSession.getResponsableDao();
-        sedeDao=daoSession.getSedeDao();
-        ubicacionDao=daoSession.getUbicacionDao();
+        //catalogoDao=daoSession.getCatalogoDao();
+        //centroCostoDao=daoSession.getCentroCostoDao();
+        //cuentaContableDao=daoSession.getCuentaContableDao();
+        //departamentoDao=daoSession.getDepartamentoDao();
+        //empresaDao = daoSession.getEmpresaDao();
+        //historialDao=daoSession.getHistorialDao();
+        //responsableDao=daoSession.getResponsableDao();
+        //sedeDao=daoSession.getSedeDao();
+        //ubicacionDao=daoSession.getUbicacionDao();
 
         ///// Using the below lines of code we can toggle ENCRYPTED to true or false in other to use either an encrypted database or not.
 //      DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "users-db-encrypted" : "users-db");

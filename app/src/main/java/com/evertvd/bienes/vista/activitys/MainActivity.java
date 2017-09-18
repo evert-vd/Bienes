@@ -1,6 +1,8 @@
 package com.evertvd.bienes.vista.activitys;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,28 +19,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
+import com.evertvd.bienes.modelo.dao.ActivoDao;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScanner;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScannerBuilder;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.Catalogo;
-import com.evertvd.bienes.modelo.CentroCosto;
-import com.evertvd.bienes.modelo.CuentaContable;
-import com.evertvd.bienes.modelo.Departamento;
-import com.evertvd.bienes.modelo.Empresa;
+
 import com.evertvd.bienes.modelo.Historial;
-import com.evertvd.bienes.modelo.Responsable;
-import com.evertvd.bienes.modelo.Sede;
-import com.evertvd.bienes.modelo.Ubicacion;
+
 import com.evertvd.bienes.utils.Buscar;
+import com.evertvd.bienes.utils.TareaCarga;
+import com.evertvd.bienes.utils.TareaRead;
 import com.evertvd.bienes.vista.dialogs.DBuscarArchivo;
 import com.google.android.gms.vision.barcode.Barcode;
 
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.evertvd.bienes.modelo.dao.ActivoDao.Properties.Catalogo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity
     public static final String BARCODE_KEY = "BARCODE";
     private ScaleGestureDetector mScaleDetector;
     private Barcode barcodeResult;
+    private ListView lisActivo;
+    int zoomFactor=1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //cargarEmpresas();
+        lisActivo=(ListView)findViewById(R.id.listActivo);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +147,7 @@ public class MainActivity extends AppCompatActivity
             dialogCierreInventario.setCancelable(false);
             dialogCierreInventario.show(fragmentManager, "dialogo buscar Archivo");
         } else if (id == R.id.nav_gallery) {
-            List<Empresa>empresaList= Controller.getDaoSession().getEmpresaDao().loadAll();
+           /* List<Empresa>empresaList= Controller.getDaoSession().getEmpresaDao().loadAll();
             for (int i=0;i<empresaList.size();i++){
                 Log.e("Empresa",empresaList.get(i).getEmpresa());
             }
@@ -147,37 +156,47 @@ public class MainActivity extends AppCompatActivity
             for (int i=0;i<catalogoList.size();i++){
                 Log.e("nomCat"+String.valueOf(i+1),catalogoList.get(i).getCatalogo()+" cod:"+catalogoList.get(i).getEmpresa_id2());
             }
+            */
+
+            ProgressDialog progress = new ProgressDialog(this);
+            //progreesDialog.setMax(20);
+            //progreesDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setMessage("Cargando data, por favor espere...");
+            new TareaRead(progress, this).execute();
 
         } else if (id == R.id.nav_slideshow) {
-            List<Activo>activoList= Controller.getDaoSession().getActivoDao().loadAll();
-            for (int i=0;i<activoList.size();i++){
-                Log.e("Empresa",activoList.get(i).getCodigo()+" Ubicacion:"+activoList.get(i).getUbicacion().getSede().getDepartamento().getEmpresa().getEmpresa()+ " Catalogo:"+activoList.get(i).getCatalogo().getCatalogo());
+            List<Activo> activoDaoList=Controller.getDaoSession().getActivoDao().loadAll();
+            ArrayList<String> lista=new ArrayList<String>();
+            Log.e("tamaño",String.valueOf(activoDaoList.size()));
+            for (int i=0;i<activoDaoList.size();i++){
+                lista.add(String.valueOf(i)+" activo"+activoDaoList.get(i).getCodigo());
             }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, lista);
+
+
+            // Assign adapter to ListView
+            lisActivo.setAdapter(adapter);
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            Controller.getDaoSession();
-            Controller.getDaoSession().deleteAll(Empresa.class);
-            Controller.getDaoSession().deleteAll(Departamento.class);
-            Controller.getDaoSession().deleteAll(Sede.class);
-            Controller.getDaoSession().deleteAll(Ubicacion.class);
-            Controller.getDaoSession().deleteAll(CuentaContable.class);
-            Controller.getDaoSession().deleteAll(CentroCosto.class);
-            Controller.getDaoSession().deleteAll(Catalogo.class);
-            Controller.getDaoSession().deleteAll(Responsable.class);
+            //Controller.getDaoSession();
+            //Controller.getDaoSession().deleteAll(Empresa.class);
+            //Controller.getDaoSession().deleteAll(Departamento.class);
+            //Controller.getDaoSession().deleteAll(Sede.class);
+            //Controller.getDaoSession().deleteAll(Ubicacion.class);
+            //Controller.getDaoSession().deleteAll(CuentaContable.class);
+            //Controller.getDaoSession().deleteAll(CentroCosto.class);
+            //Controller.getDaoSession().deleteAll(Catalogo.class);
+            //Controller.getDaoSession().deleteAll(Responsable.class);
             Controller.getDaoSession().deleteAll(Activo.class);
             Controller.getDaoSession().deleteAll(Historial.class);
             //Controller.getDaoSession().getAllDaos().clear();
 
-
-
-            List<Empresa>empresa=Controller.getDaoSession().getEmpresaDao().loadAll();
-            Controller.getDaoSession().getEmpresaDao().deleteAll();
-            for(int i=0;i<empresa.size();i++){
-            }
 
         }
 
@@ -198,10 +217,15 @@ public class MainActivity extends AppCompatActivity
             }
             @Override
             public boolean onScale(ScaleGestureDetector detector) {
-                Log.d("dato", "zoom ongoing, scale: " + detector.getScaleFactor());
-                return false;
+
+
+
+
+                return true;
             }
         });
+
+
 
         /**
          * Build a new MaterialBarcodeScanner
@@ -219,10 +243,19 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResult(Barcode barcode) {
                         barcodeResult = barcode;
-                        String texto=barcode.rawValue;
+                        //String texto=barcode.rawValue;
                         //result.setText(barcode.rawValue);
-                        if(Buscar.buscarBarras(barcode.rawValue)!=null){
+                        List<Activo>activoList=Buscar.buscarBarras(barcode.rawValue);
+                        Log.e("CB encontrado", barcode.rawValue);
+
+
+                        if(!activoList.isEmpty()){
+                         for (int i=0;i<activoList.size();i++){
+                             activoList.get(i).setSeleccionado(1);
+                             Controller.getDaoSession().getActivoDao().update(activoList.get(i));
+                         }
                             startActivity(new Intent(getApplicationContext(),BarScanner.class));
+
                         }else{
                             Toast.makeText(getApplicationContext(),"C.B. "+barcode.rawValue+" no encontrado",Toast.LENGTH_SHORT).show();
                         }
@@ -232,23 +265,6 @@ public class MainActivity extends AppCompatActivity
         materialBarcodeScanner.startScan();
     }
 
-        private void cargarEmpresas(){
-            Empresa molinos=new Empresa();
-            molinos.setEmpresa("MOLINOS & CIA SA");
-            Controller.getDaoSession().getEmpresaDao().insert(molinos);
 
-            Empresa comercio=new Empresa();
-            comercio.setEmpresa("COMERCIO & CIA SA");
-            Controller.getDaoSession().getEmpresaDao().insert(comercio);
-
-            Empresa miromina=new Empresa();
-            miromina.setEmpresa("MIROMINA SA");
-            Controller.getDaoSession().getEmpresaDao().insert(miromina);
-
-            Empresa fertimax=new Empresa();
-            fertimax.setEmpresa("FERTIMAX SAC");
-            Controller.getDaoSession().getEmpresaDao().insert(fertimax);
-
-        }
 
 }

@@ -22,16 +22,12 @@ public class Activo {
 
     @Id(autoincrement = true)
     private Long id;
-
-    @Unique
     private String codigo;
     private String codigobarra;
     private String empresa;
     private String departamento;
     private String sede;
     private String ubicacion;
-    private String familia;
-    private String subfamilia;
     private String codcatalogo;
     private String catalogo;
     private String placa;
@@ -78,7 +74,7 @@ public class Activo {
     }
 
     @Generated
-    public Activo(Long id, String codigo, String codigobarra, String empresa, String departamento, String sede, String ubicacion, String familia, String subfamilia, String codcatalogo, String catalogo, String placa, String marca, String modelo, String serie, String foto, String responsable, String tipoActivo, String activopadre, String codCentro, String centro, String cuenta, String estado, String expediente, String ordencompra, String factura, String fechacompra, String observacion, Integer seleccionado) {
+    public Activo(Long id, String codigo, String codigobarra, String empresa, String departamento, String sede, String ubicacion, String codcatalogo, String catalogo, String placa, String marca, String modelo, String serie, String foto, String responsable, String tipoActivo, String activopadre, String codCentro, String centro, String cuenta, String estado, String expediente, String ordencompra, String factura, String fechacompra, String observacion, Integer seleccionado) {
         this.id = id;
         this.codigo = codigo;
         this.codigobarra = codigobarra;
@@ -86,8 +82,6 @@ public class Activo {
         this.departamento = departamento;
         this.sede = sede;
         this.ubicacion = ubicacion;
-        this.familia = familia;
-        this.subfamilia = subfamilia;
         this.codcatalogo = codcatalogo;
         this.catalogo = catalogo;
         this.placa = placa;
@@ -171,22 +165,6 @@ public class Activo {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
-    }
-
-    public String getFamilia() {
-        return familia;
-    }
-
-    public void setFamilia(String familia) {
-        this.familia = familia;
-    }
-
-    public String getSubfamilia() {
-        return subfamilia;
-    }
-
-    public void setSubfamilia(String subfamilia) {
-        this.subfamilia = subfamilia;
     }
 
     public String getCodcatalogo() {

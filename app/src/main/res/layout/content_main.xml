@@ -13,8 +13,12 @@
     tools:context="com.evertvd.bienes.vista.activitys.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
+
+
+    <ListView
+        android:id="@+id/listActivo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="match_parent"
+        ></ListView>
+
 </RelativeLayout>

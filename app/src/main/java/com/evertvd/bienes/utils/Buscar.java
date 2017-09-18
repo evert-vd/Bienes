@@ -1,24 +1,12 @@
 package com.evertvd.bienes.utils;
 
+import android.util.Log;
+
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.Catalogo;
-import com.evertvd.bienes.modelo.CentroCosto;
-import com.evertvd.bienes.modelo.CuentaContable;
-import com.evertvd.bienes.modelo.Departamento;
-import com.evertvd.bienes.modelo.Empresa;
-import com.evertvd.bienes.modelo.Responsable;
-import com.evertvd.bienes.modelo.Sede;
-import com.evertvd.bienes.modelo.Ubicacion;
+
 import com.evertvd.bienes.modelo.dao.ActivoDao;
-import com.evertvd.bienes.modelo.dao.CatalogoDao;
-import com.evertvd.bienes.modelo.dao.CentroCostoDao;
-import com.evertvd.bienes.modelo.dao.CuentaContableDao;
-import com.evertvd.bienes.modelo.dao.DepartamentoDao;
-import com.evertvd.bienes.modelo.dao.EmpresaDao;
-import com.evertvd.bienes.modelo.dao.ResponsableDao;
-import com.evertvd.bienes.modelo.dao.SedeDao;
-import com.evertvd.bienes.modelo.dao.UbicacionDao;
+
 
 import java.util.List;
 
@@ -28,6 +16,7 @@ import java.util.List;
 
 public class Buscar {
 
+    /*
     public static Empresa buscarEmpresa(String texto){
         //List<Empresa> empresaList=Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Empresa.eq(texto)).list();
        // if(empresaList.isEmpty()){
@@ -82,5 +71,14 @@ public class Buscar {
         Activo activo = Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).unique();
         return activo;
     }
+    */
 
+    public static List<Activo> buscarBarras(String texto) {
+        List<Activo> activoList=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).list();
+        //Activo activo = Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).unique();
+        for (int i=0;i<activoList.size();i++){
+            Log.e("cb",activoList.get(i).getCodigobarra());
+        }
+        return activoList;
+    }
 }
