@@ -9,4 +9,13 @@
     <string name="library_name">MaterialBarcodeScanner</string>
     <string name="permission_camera_rationale">Access to the camera is needed for barcode detection.</string>
     <string name="no_camera_permission">Cannot start the barcode reader because the camera permission was not granted.</string>
+
+
+    <string name="olinguito">Olinguito</string>
+    <string name="menu">Menu</string>
+    <string name="subtitle">Bassaricyon neblina</string>
+    <string name="option1">Option 1</string>
+    <string name="option2">Option 2</string>
+    <string name="option3">Option 3</string>
+    <string name="details">Details</string>
 </resources>
