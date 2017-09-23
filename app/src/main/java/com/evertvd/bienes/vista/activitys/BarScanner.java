@@ -8,11 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.evertvd.bienes.modelo.Activo;
 import com.evertvd.bienes.modelo.dao.ActivoDao;
 import com.evertvd.bienes.vista.adapters.ActivosAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,13 +37,23 @@ public class BarScanner extends AppCompatActivity {
     List<Activo> activoList;
     private RecyclerView recycler;
     private RecyclerView.LayoutManager lManager;
+    ImageButton imgCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_scanner);
 
-        activoList= Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Seleccionado.eq(1)).list();
+        //activoList= Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Seleccionado.eq(1)).list();
+
+        //ArrayList<String>listBarras=(ArrayList<String>)getIntent().getStringArrayListExtra("barras");
+
+        //getIntent().getSerializableExtra("activo");
+        activoList = (ArrayList<Activo> ) getIntent().getSerializableExtra("activo");
+
+        for (int i=0;i<activoList.size();i++){
+            Log.e("dato recuperado",activoList.get(i).getCodigobarra());
+        }
 
         /*
         txtInformacion=(TextView)findViewById(R.id.txtDetalle);
@@ -57,6 +70,9 @@ public class BarScanner extends AppCompatActivity {
 
         recycler = (RecyclerView) findViewById(R.id.recActivos);
         recycler.setHasFixedSize(true);
+
+
+
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);

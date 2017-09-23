@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.evertvd.bienes.vista.activitys.MainActivity"
+    tools:context="com.evertvd.bienes.vista.activitys.Main3Activity"
     tools:showIn="@layout/app_bar_main">
 
 
@@ -19,6 +19,8 @@
         android:id="@+id/listActivo"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        ></ListView>
+        >
+
+    </ListView>
 
 </RelativeLayout>

@@ -17,26 +17,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.csvreader.CsvReader;
+
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
 
-import com.evertvd.bienes.utils.Buscar;
 import com.evertvd.bienes.utils.TareaCarga;
 import com.evertvd.bienes.vista.activitys.FileInterno;
-import com.evertvd.bienes.vista.activitys.MainActivity;
+import com.evertvd.bienes.vista.activitys.Main3Activity;
 
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 ;
@@ -55,6 +52,8 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     private String path, nombreArchivo;
     int REQUEST_CODE = 1;
     View view;
+
+
     //MetodosAuxiliares metodosAuxiliares;
 
     public DBuscarArchivo() {
@@ -65,6 +64,8 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle bundle) {
+
+        //btnProcess.setProgress(0);
         // this.idProducto=idProducto;
         //recuperacion del parametro que viene del punto de invocacion del dialog--viene como string
         // idProducto = getArguments().getInt("idProducto");
@@ -79,10 +80,12 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
      * @return DiÃƒÂ¡logo
      */
     public AlertDialog buscarArchivo() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.d_buscar_archivo, null);
+
 
         txtArchivo = (EditText) view.findViewById(R.id.txtArchivo);
 
@@ -119,8 +122,10 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
                 ProgressDialog progress = new ProgressDialog(getContext());
                 //progreesDialog.setMax(20);
                 //progreesDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+               progress.setCanceledOnTouchOutside(false);
+                progress.setCancelable(false);
                 progress.setMessage("Cargando data, por favor espere...");
-                new TareaCarga(progress, getContext(),path).execute();
+                //new TareaCarga(progress, getContext(),path).execute();
             }
         } else if (v.getId() == R.id.btnCancelar) {
             this.dismiss();
@@ -128,7 +133,10 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
             Intent intent = new Intent(getContext(), FileInterno.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
-    }
+            }
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -412,7 +420,7 @@ public class DBuscarArchivo extends DialogFragment implements View.OnClickListen
                             //break;
                         }
                     }
-                    startActivity(new Intent(getContext(), MainActivity.class));
+                    startActivity(new Intent(getContext(), Main3Activity.class));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

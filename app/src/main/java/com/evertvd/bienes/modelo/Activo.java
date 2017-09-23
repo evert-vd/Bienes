@@ -1,7 +1,11 @@
 package com.evertvd.bienes.modelo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import com.evertvd.bienes.modelo.dao.DaoSession;
 import org.greenrobot.greendao.DaoException;
@@ -18,7 +22,7 @@ import com.evertvd.bienes.modelo.dao.HistorialDao;
  * Entity mapped to table "ACTIVO".
  */
 @Entity(active = true)
-public class Activo {
+public class Activo implements Serializable{
 
     @Id(autoincrement = true)
     private Long id;
@@ -386,7 +390,12 @@ public class Activo {
         }
     }
 
+
+
+
     // KEEP METHODS - put your custom methods here
+
+
     // KEEP METHODS END
 
 }

@@ -1,15 +1,22 @@
 package com.evertvd.bienes.utils;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.csvreader.CsvReader;
+
+import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
+
 import com.evertvd.bienes.vista.activitys.MainActivity;
+import com.evertvd.bienes.vista.fragments.Principal;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,31 +28,49 @@ import java.util.concurrent.TimeUnit;
 
 public class TareaCarga  extends AsyncTask<Void, Void, Void> {
 
-        ProgressDialog progress;
-        MainActivity act;
+    ProgressDialog progress;
+    //DialogFragment dialogTask;
     Context context;
     String path;
 
+
+    //para progresDialog
         public TareaCarga(ProgressDialog progress, Context context, String path) {
             this.progress = progress;
             this.context = context;
             this.path=path;
         }
 
+
+    /*
+    //para dialog fragment
+    public TareaCarga(DialogFragment progress, Context context, String path) {
+        this.dialogTask = progress;
+        this.context = context;
+        this.path=path;
+    }
+    */
+
         public void onPreExecute() {
             progress.show();
+
         //aquí se puede colocar código a ejecutarse previo
         //a la operación
+
         }
+
+   
 
         public void onPostExecute(Void unused) {
         //aquí se puede colocar código que
         //se ejecutará tras finalizar
             progress.dismiss();
+            //context.startActivity(new Intent(context,MainActivity.class));
 
             context.startActivity(new Intent(context,MainActivity.class));
             Toast.makeText(context,"Data Cargada correctamente",Toast.LENGTH_SHORT).show();
         }
+
 
         protected Void doInBackground(Void... params) {
 

@@ -2,20 +2,14 @@ package com.evertvd.bienes.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.csvreader.CsvReader;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.vista.activitys.MainActivity;
+import com.evertvd.bienes.vista.activitys.Main3Activity;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -25,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class TareaRead extends AsyncTask<Void, Void, Void> {
 
     ProgressDialog progress;
-    MainActivity act;
+    Main3Activity act;
     Context context;
     String path;
     List<Activo> activoList;
