@@ -3,9 +3,8 @@ package com.evertvd.bienes.vista.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,49 +45,53 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        //private TextInputLayout tilCodigo, tilBarras, tilDepartamento, tilSede, tilUbicacion, tilCodCatalogo, tilCatalogo,
-               // tilDecripcion, tilPlaca, tilMarca, tilModelo, tilSerie, tilCodCentro, tilCentro, tilResponsable;
+
         EditText txtCodigo, txtBarras, txtDepartamento, txtSede, txtUbicacion, txtCodCatalogo, txtCatalogo,
-                txtDecripcion, txtPlaca, txtMarca, txtModelo, txtSerie, txtCodCentro, txtCentro, txtResponsable;
-        TextView txtTipoActivo;
-        ImageButton imgEstado;
+                txtDecripcion, txtPlaca, txtMarca, txtModelo, txtSerie, txtCodCentro, txtCentro, txtResponsable,
+                txtEmpresa, txtOC,txtFactura,txtFecCompra;
+
+        TextView txtTipoActivo1;
+        TextView txtCodigo1, txtBarras1, txtDepartamento1, txtSede1, txtUbicacion1, txtCodCatalogo1, txtCatalogo1,
+                txtDecripcion1, txtPlaca1, txtMarca1, txtModelo1, txtSerie1, txtCodCentro1, txtCentro1, txtResponsable1,
+                txtEmpresa1, txtOC1,txtFactura1,txtFecCompra1;
+        ImageButton imgEstado1;
         private String codigoBarras;
 
         private ImageButton imgCamera;
-        // TextView codigo, stock, estado;
-        // TextView descripcion;
-        //TextView zona;
-        // TextView cantidad;//se estÃ¡ poniendo la cantidad
-        //ImageView img;
-        // TextView idProducto;
+
 
 
         public ViewHolder(View v) {
             super(v);
 
             this.imgCamera = (ImageButton) v.findViewById(R.id.imgCamera);
-            //this.imgCamera.setOnClickListener(this);
-            // v.setOnClickListener(this);
+            this.imgEstado1=(ImageButton)v.findViewById(R.id.imgEstado1);
 
+            this.txtCodigo1 = (EditText) v.findViewById(R.id.edtCodigo1);
+            this.txtBarras1 = (EditText) v.findViewById(R.id.edtBarras1);
+            this.txtDepartamento1 = (EditText) v.findViewById(R.id.edtDepartamento);
+            this.txtSede1 = (EditText) v.findViewById(R.id.txtSede);
+            this.txtUbicacion1 = (EditText) v.findViewById(R.id.txtUbicacion);
+            this.txtCodCatalogo1 = (EditText) v.findViewById(R.id.txtCodCatalogo);
+            this.txtCatalogo1 = (EditText) v.findViewById(R.id.txtCatalogo);
+            this.txtTipoActivo1 = (TextView) v.findViewById(R.id.txtTipoActivo);
+            this.txtDecripcion1 = (EditText) v.findViewById(R.id.txtDescipcion);
+            this.txtPlaca1 = (EditText) v.findViewById(R.id.txtPlaca);
+            this.txtMarca1 = (EditText) v.findViewById(R.id.txtMarca);
+            this.txtModelo1 = (EditText) v.findViewById(R.id.txtModelo);
+            this.txtSerie1 = (EditText) v.findViewById(R.id.txtSerie);
+            this.txtCodCentro1 = (EditText) v.findViewById(R.id.txtCodCentro);
+            this.txtCentro1 = (EditText) v.findViewById(R.id.txtCentro);
+            this.txtResponsable1 = (EditText) v.findViewById(R.id.txtResponsable);
+
+            this.txtEmpresa1=(EditText)v.findViewById(R.id.txtEmpresa);
+            this.txtOC1=(EditText)v.findViewById(R.id.txtOrdenCompra);
+            this.txtFactura1=(EditText)v.findViewById(R.id.txtFactura);
+            this.txtFecCompra1=(EditText)v.findViewById(R.id.txtFecha);
 
             /*
-            this.tilCodigo = (TextInputLayout) v.findViewById(R.id.tilCodigo);
-            this.tilBarras = (TextInputLayout) v.findViewById(R.id.tilBarras);
-            this.tilDepartamento = (TextInputLayout) v.findViewById(R.id.tilDepartamento);
-            this.tilSede = (TextInputLayout) v.findViewById(R.id.tilSede);
-            this.tilUbicacion = (TextInputLayout) v.findViewById(R.id.tilUbicacion);
-            this.tilCodCatalogo = (TextInputLayout) v.findViewById(R.id.tilCodCatalogo);
-            this.tilCatalogo = (TextInputLayout) v.findViewById(R.id.tilCatalogo);
-            //this.tilDecripcion = (TextInputLayout) v.findViewById(R.id.tilDescripcion);
-            this.tilPlaca = (TextInputLayout) v.findViewById(R.id.tilPlaca);
-            this.tilMarca = (TextInputLayout) v.findViewById(R.id.tilMarca);
-            this.tilModelo = (TextInputLayout) v.findViewById(R.id.tilModelo);
-            this.tilSerie = (TextInputLayout) v.findViewById(R.id.tilSerie);
-            this.tilCodCentro = (TextInputLayout) v.findViewById(R.id.tilCodCentro);
-            this.tilCentro = (TextInputLayout) v.findViewById(R.id.tilCentro);
-            this.tilResponsable = (TextInputLayout) v.findViewById(R.id.tilResponsable);
-            */
+             this.imgEstado=(ImageButton)v.findViewById(R.id.imgEstado);
+
             this.txtCodigo = (EditText) v.findViewById(R.id.edtCodigo);
             this.txtBarras = (EditText) v.findViewById(R.id.edtBarras);
             this.txtDepartamento = (EditText) v.findViewById(R.id.edtDepartamento);
@@ -105,18 +108,16 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
             this.txtCodCentro = (EditText) v.findViewById(R.id.txtCodCentro);
             this.txtCentro = (EditText) v.findViewById(R.id.txtCentro);
             this.txtResponsable = (EditText) v.findViewById(R.id.txtResponsable);
-            //this.cantidad = (TextView) v.findViewById(R.id.cantidad);
-            //this.zona = (TextView) v.findViewById(R.id.nombreZona);
-            //METODOS DE PRUEBA
-            //this.stock=(TextView)v.findViewById(R.id.stock);
-            //this.estado=(TextView)v.findViewById(R.id.estadoVista);
-            //this.img=(ImageView)v.findViewById(R.id.imgLlanta);
-        }
+
+            this.txtEmpresa=(EditText)v.findViewById(R.id.txtEmpresa);
+            this.txtOC=(EditText)v.findViewById(R.id.txtOrdenCompra);
+            this.txtFactura=(EditText)v.findViewById(R.id.txtFactura);
+            this.txtFecCompra=(EditText)v.findViewById(R.id.txtFecha);
+             */
 
         }
 
-
-
+        }
 
 
         // Create new views (invoked by the layout manager)
@@ -130,10 +131,6 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
         //...
         //ViewHolder vh = new ViewHolder(v);
         //return vh;
-
-
-
-
         return new ViewHolder(v);
     }
 
@@ -145,37 +142,36 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
         //Tener cuidado con los tipos de datos que se almaccena, debemos parsear todo a Sring
 
         try {
+            holder.txtTipoActivo1.setText(String.valueOf(tipoActivo(activoList.get(position).getTipo())));
+            holder.txtDecripcion.setText(String.valueOf(activoList.get(position).getDescripcion()));
+            if(activoList.get(position).getEstado()=="\u00fb"){
+                holder.imgEstado1.setImageResource(R.drawable.ic_close_white);
+                holder.imgEstado1.setBackgroundColor(Color.RED);
+            }else{
+                holder.imgEstado1.setImageResource(R.drawable.ic_check);
+                holder.imgEstado1.setBackgroundColor(Color.GREEN);
+            }
 
-            holder.codigoBarras=activoList.get(position).getCodigobarra();
             holder.txtCodigo.setText(String.valueOf(activoList.get(position).getCodigo()));
             holder.txtBarras.setText(String.valueOf(activoList.get(position).getCodigobarra()));
-            holder.txtDepartamento.setText(String.valueOf(activoList.get(position).getDepartamento()));
-            holder.txtSede.setText(String.valueOf(activoList.get(position).getSede()));
-            holder.txtUbicacion.setText(String.valueOf(activoList.get(position).getUbicacion()));
-            holder.txtCodCatalogo.setText(String.valueOf(activoList.get(position).getCodcatalogo()));
-            holder.txtCatalogo.setText(String.valueOf(activoList.get(position).getCatalogo()));
-            holder.txtTipoActivo.setText(String.valueOf(tipoActivo(activoList.get(position).getTipoActivo())));
-            
-            holder.txtDecripcion.setText(String.valueOf(activoList.get(position).getObservacion()));
-            holder.txtPlaca.setText(String.valueOf(activoList.get(position).getPlaca()));
+            holder.txtDepartamento.setText(String.valueOf(activoList.get(position).getUbicacion().getSede().getDepartamento().getDepartamento()));
+            holder.txtSede.setText(String.valueOf(activoList.get(position).getUbicacion().getSede().getSede()));
+            holder.txtUbicacion.setText(String.valueOf(activoList.get(position).getUbicacion().getUbicacion()));
+            holder.txtCodCatalogo.setText(String.valueOf(activoList.get(position).getCatalogo().getCodigo()));
+            holder.txtCatalogo.setText(String.valueOf(activoList.get(position).getCatalogo().getCatalogo()));
+            holder.txtEmpresa.setText(String.valueOf(activoList.get(position).getCatalogo().getEmpresa().getEmpresa()));
+            holder.txtPlaca.setText(String.valueOf(activoList.get(position).getMarca()));
             holder.txtMarca.setText(String.valueOf(activoList.get(position).getMarca()));
             holder.txtModelo.setText(String.valueOf(activoList.get(position).getModelo()));
             holder.txtSerie.setText(String.valueOf(activoList.get(position).getSerie()));
-            holder.txtCodCentro.setText(String.valueOf(activoList.get(position).getCodCentro()));
-            holder.txtCentro.setText(String.valueOf(activoList.get(position).getCentro()));
-            holder.txtResponsable.setText(String.valueOf(activoList.get(position).getResponsable()));
-            //holder.txtSerie.setText(String.valueOf(activoList.get(position).getDepartamento()));
+            holder.txtCodCentro.setText(String.valueOf(activoList.get(position).getCentroCosto().getCodigo()));
+            holder.txtCentro.setText(String.valueOf(activoList.get(position).getCentroCosto().getCentro()));
+            holder.txtResponsable.setText(String.valueOf(activoList.get(position).getResponsable().getResponsable()));
 
-
-           // holder.descripcion.setText(productoList.get(position).getDescripcion());
-           // List<Zona> zonaList = AppController.getDaoSession().getZonaDao().queryBuilder().where(ZonaDao.Properties.Id.eq(productoList.get(position).getZona_id())).list();
-           // holder.zona.setText(zonaList.get(0).getNombre());
-           // holder.cantidad.setText(String.valueOf(productoList.get(position).getStock()));
-
-            //METODOS DE PRUEBA
-            //holder.stock.setText(String.valueOf(items.get(position).getStock()));
-            //holder.estado.setText(String.valueOf(items.get(position).getEstado()));
-            //TextDrawable drawable = TextDrawable.builder().buildRect("A", Color.RED);
+            //holder.txtEmpresa.setText(String.valueOf(activoList.get(position).getEmpresa()));
+            holder.txtOC.setText(String.valueOf(activoList.get(position).getOrdencompra()));
+            holder.txtFactura.setText(String.valueOf(activoList.get(position).getFactura()));
+            holder.txtFecCompra.setText(String.valueOf(activoList.get(position).getFechacompra()));
 
             holder.imgCamera.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -184,7 +180,6 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
                     intent.putExtra("barras", activoList.get(position).getCodigobarra());
                     intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     contexto.startActivity(intent);
-                    //contexto.startActivity(new Intent(contexto, CollageActivity.class));
                 }
             });
 
@@ -193,6 +188,20 @@ public class ActivosAdapter extends RecyclerView.Adapter<ActivosAdapter.ViewHold
             //Log.e("Error", e.getMessage().toString());
             //Toast.makeText(contexto, "Error al cargar los datos al adaptador", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int estadoActivo(String estado) {
+        String activo="\u00fc";
+        String baja="\u00fb";
+        int estadoActivo=1;
+        if(estado.equalsIgnoreCase(activo)){
+            estadoActivo=1;
+            Toast.makeText(contexto,"activo",Toast.LENGTH_SHORT).show();
+        }else if(estado.equalsIgnoreCase(baja)){
+            estadoActivo=-1;
+            Toast.makeText(contexto,"baja",Toast.LENGTH_SHORT).show();
+        }
+        return estadoActivo;
     }
 
     private String tipoActivo(String tipoActivo) {

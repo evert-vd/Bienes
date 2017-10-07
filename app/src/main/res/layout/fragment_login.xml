@@ -23,13 +23,14 @@
             android:layout_centerHorizontal="true"
             style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
             android:progress="0"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="En la Espera"
+            android:visibility="gone"
             android:id="@+id/progressLabel"
             android:layout_above="@+id/progressBar"
             android:layout_centerHorizontal="true" />
@@ -52,7 +53,7 @@
             android:id="@+id/btnBuscarData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Cargar Data"
+            android:text="Leer Archivo"
             android:layout_marginTop="20dp"/>
 
         <Button

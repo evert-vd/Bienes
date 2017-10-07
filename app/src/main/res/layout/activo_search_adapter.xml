@@ -8,54 +8,57 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
     android:orientation="vertical"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     tools:context="com.evertvd.bienes.vista.activitys.BarScanner">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/layoutView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal">
+                android:layout_marginRight="20dp">
+
+                <ImageButton
+                    android:id="@+id/imgEditar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:background="@drawable/ic_check"/>
+
 
             <ImageButton
                 android:id="@+id/imgCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:backgroundTint="@color/colorPrimary"
                 android:background="@drawable/ic_menu_camera"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:gravity="right"
-                android:id="@+id/switchForActionBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textOff="Bloqueado"
-                android:textOn="Editable"/>
-
-            </LinearLayout>
+            </RelativeLayout>
             <View
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
+
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,7 +73,7 @@
                             android:layout_weight="0.5">
 
                         <TextView
-                            android:id="@+id/txtTipoActivo"
+                            android:id="@+id/txtTipoActivo1"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_height="match_parent"
@@ -82,15 +85,17 @@
 
 
                         <EditText
-                            android:id="@+id/txtDescipcion"
+                            android:id="@+id/txtDescipcion1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:textSize="12dp"
+                            android:editable="false"
                             android:hint="Descripción"/>
 
+
                         <ImageButton
-                            android:id="@+id/txtEstado"
+                            android:id="@+id/imgEstado1"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"
@@ -99,11 +104,10 @@
                         </LinearLayout>
 
 
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -116,16 +120,18 @@
                            android:text="C.Sigaf"/>
 
                             <EditText
-                                android:id="@+id/edtCodigo"
+                                android:id="@+id/edtCodigo1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14dp"
-                                android:text="codigo sigaf"/>
+                                android:textSize="12dp"
+                                android:editable="false"
+                                android:hint="C.Sigaf"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -134,16 +140,18 @@
                                 android:text="C.Barras"/>
 
                             <EditText
-                                android:id="@+id/edtBarras"
+                                android:id="@+id/edtBarras1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14dp"
-                                android:text="c.barras"/>
+                                android:textSize="12dp"
+                                android:editable="false"
+                                android:hint="C.Barras"/>
                             </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -152,16 +160,18 @@
                                 android:text="O/C"/>
 
                             <EditText
-                                android:id="@+id/txtOrdenCompra"
+                                android:id="@+id/txtOrdenCompra1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14dp"
+                                android:textSize="12dp"
+                                android:editable="false"
                                 android:hint="O/C"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -170,16 +180,18 @@
                                 android:text="Factura"/>
 
                             <EditText
-                                android:id="@+id/txtFactura"
+                                android:id="@+id/txtFactura1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14dp"
+                                android:textSize="12dp"
+                                android:editable="false"
                                 android:hint="N° Factura"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -188,12 +200,496 @@
                                 android:text="F.Compra"/>
 
                             <EditText
-                                android:id="@+id/txtFecha"
+                                android:id="@+id/txtFecha1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14dp"
+                                android:textSize="12dp"
+                                android:editable="false"
                                 android:hint="F.Compra"/>
                         </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Empresa"/>
+
+                        <EditText
+                            android:id="@+id/txtEmpresa1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Empresa"/>
+                    </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="5dp"
+                       android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C.Catalogo"/>
+
+                        <EditText
+                            android:id="@+id/txtCodCatalogo1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Cod.Catalogo"/>
+                   </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="5dp"
+                     android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Catálogo"/>
+
+                        <EditText
+                            android:id="@+id/txtCatalogo1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Catálogo"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Departamento"/>
+
+                        <EditText
+                            android:id="@+id/edtDepartamento1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Departamento"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sede"/>
+
+                        <EditText
+                            android:id="@+id/txtSede1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Sede"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Ubicación"/>
+
+                        <EditText
+                            android:id="@+id/txtUbicacion1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Ubicación"/>
+
+
+                    </LinearLayout>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cod.Centro"/>
+                        <EditText
+                            android:id="@+id/txtCodCentro1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Cod.Centro"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Centro de Costo"/>
+
+                        <EditText
+                            android:id="@+id/txtCentro1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Centro de Responsabilidad"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Responsable"/>
+                        <EditText
+                            android:id="@+id/txtResponsable1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Responsable"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Placa"/>
+
+                        <EditText
+                            android:id="@+id/txtPlaca1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Placa"/>
+                    </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Marca"/>
+
+                            <EditText
+                                android:id="@+id/txtMarca1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:editable="false"
+                                android:hint="Marca"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Modelo"/>
+                            <EditText
+                                android:id="@+id/txtModelo1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:editable="false"
+                                android:hint="Modelo"/>
+                        </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Serie"/>
+                        <EditText
+                            android:id="@+id/txtSerie1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Serie"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--Edit-->
+        <LinearLayout
+            android:id="@+id/layoutEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:visibility="invisible"
+            android:orientation="vertical" >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imgGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:background="@drawable/ic_save"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:layout_weight="3.8">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:layout_weight="0.5">
+
+                        <TextView
+                            android:id="@+id/txtTipoActivo"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/colorWhite"
+                            android:text="AF"/>
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/txtDescipcion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:textSize="12dp"
+                        android:hint="Descripción"/>
+
+
+                    <ImageButton
+                        android:id="@+id/imgEstado"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@color/colorGreen"
+                        android:src="@drawable/ic_check"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C.Sigaf"/>
+
+                        <EditText
+                            android:id="@+id/edtCodigo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="C.Sigaf"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C.Barras"/>
+
+                        <EditText
+                            android:id="@+id/edtBarras"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="C.Barras"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="O/C"/>
+
+                        <EditText
+                            android:id="@+id/txtOrdenCompra"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="O/C"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Factura"/>
+
+                        <EditText
+                            android:id="@+id/txtFactura"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="N° Factura"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="F.Compra"/>
+
+                        <EditText
+                            android:id="@+id/txtFecha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="F.Compra"/>
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -205,11 +701,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                   <LinearLayout
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Empresa"/>
+
+                        <EditText
+                            android:id="@+id/txtEmpresa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:editable="false"
+                            android:hint="Empresa"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -221,26 +736,25 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Cod.Catalogo"
-                            android:text="Cod.Catalágo"/>
-                   </LinearLayout>
+                            android:hint="Cod.Catalogo"/>
+                    </LinearLayout>
 
-                 <LinearLayout
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:orientation="vertical">
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Catálogo"/>
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Catálogo"/>
 
                         <EditText
                             android:id="@+id/txtCatalogo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Catálogo"
-                            android:text="Catálogo"/>
+                            android:hint="Catálogo"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -266,7 +780,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:text="departamento"
                             android:hint="Departamento"/>
 
                     </LinearLayout>
@@ -274,6 +787,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -286,7 +800,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:text="sede"
                             android:hint="Sede"/>
                     </LinearLayout>
 
@@ -298,27 +811,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Ubicación"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicación"/>
 
                         <EditText
                             android:id="@+id/txtUbicacion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Ubicación"
-                            android:text="ubicacion"/>
+                            android:hint="Ubicación"/>
 
 
                     </LinearLayout>
-            </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -331,22 +843,22 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cod.Centro"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cod.Centro"/>
                         <EditText
                             android:id="@+id/txtCodCentro"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Cod.Centro"
-                            android:text="Cod.Centro"/>
+                            android:hint="Cod.Centro"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -359,8 +871,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Centro de Responsabilidad"
-                            android:text="Centro Responsabilidad"/>
+                            android:hint="Centro de Responsabilidad"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -375,18 +886,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Responsable"/>
-                        <EditText
-                            android:id="@+id/txtResponsable"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:hint="Responsable"
-                            android:text="Responsable"/>
-
-
+                    <EditText
+                        android:id="@+id/txtResponsable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:hint="Responsable"/>
                 </LinearLayout>
-
-
 
 
                 <LinearLayout
@@ -408,51 +914,50 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:text="Placa"
                             android:hint="Placa"/>
                     </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Marca"/>
-
-                            <EditText
-                                android:id="@+id/txtMarca"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:textSize="12dp"
-                                android:hint="Marca"
-                                android:text="Marca"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Modelo"/>
-                            <EditText
-                                android:id="@+id/txtModelo"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="12dp"
-                                android:hint="Modelo"
-                                android:text="Modelo"/>
-                        </LinearLayout>
 
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Marca"/>
+
+                        <EditText
+                            android:id="@+id/txtMarca"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="Marca"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Modelo"/>
+                        <EditText
+                            android:id="@+id/txtModelo"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:hint="Modelo"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -464,8 +969,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
-                            android:hint="Serie"
-                            android:text="Serie"/>
+                            android:hint="Serie"/>
                     </LinearLayout>
 
 
@@ -473,5 +977,8 @@
 
             </LinearLayout>
         </LinearLayout>
+
+    </FrameLayout>
+
 
     </android.support.v7.widget.CardView>

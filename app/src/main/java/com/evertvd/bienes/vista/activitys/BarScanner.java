@@ -44,34 +44,10 @@ public class BarScanner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_scanner);
 
-        //activoList= Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Seleccionado.eq(1)).list();
-
-        //ArrayList<String>listBarras=(ArrayList<String>)getIntent().getStringArrayListExtra("barras");
-
-        //getIntent().getSerializableExtra("activo");
-        activoList = (ArrayList<Activo> ) getIntent().getSerializableExtra("activo");
-
-        for (int i=0;i<activoList.size();i++){
-            Log.e("dato recuperado",activoList.get(i).getCodigobarra());
-        }
-
-        /*
-        txtInformacion=(TextView)findViewById(R.id.txtDetalle);
-        String informacion="";
-        List<Activo> activoList= Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Seleccionado.eq(1)).list();
-        for(int i=0;i<activoList.size();i++){
-            informacion+="Codigo:"+activoList.get(i).getCodigo()+"\n"+
-                    " Descripcion:"+activoList.get(i).getObservacion()+"\n"+
-                    " Responsable:"+activoList.get(i).getResponsable()+"\n";
-
-        }
-        txtInformacion.setText(informacion);
-            */
+        activoList=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigo.eq(getIntent().getExtras().getString("activo"))).list();
 
         recycler = (RecyclerView) findViewById(R.id.recActivos);
         recycler.setHasFixedSize(true);
-
-
 
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
@@ -101,13 +77,5 @@ public class BarScanner extends AppCompatActivity {
     }
 
 
-    private void showPopupMenu(View view, int position) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(view.getContext(),view );
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_main, popup.getMenu());
-        //popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position));
-        popup.show();
-    }
 
 }

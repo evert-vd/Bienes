@@ -10,6 +10,14 @@
     <item
         android:id="@+id/action_cargar"
         android:orderInCategory="100"
-        android:title="Cargar Data"
+        android:title="Eliminar Data"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_buscar"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView"
+        android:icon="@drawable/ic_menu_send"
+        app:itemIconTint="#FFFFFF"
+        android:title="Buscar" />
+
 </menu>
