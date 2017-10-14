@@ -56,7 +56,7 @@ public class Collage2 extends Fragment implements View.OnClickListener, SeekBar.
         view=inflater.inflate(R.layout.fragment_collage2, container, false);
 
         activo=getActivity().getIntent().getStringExtra("activo");
-        //Toast.makeText(getActivity(),"C.Barras: "+codigoBarras,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"C.activo2: "+activo,Toast.LENGTH_SHORT).show();
 
         btnGuardar = (FloatingActionButton)view.findViewById(R.id.fabGuardar);
         btnGuardar.setOnClickListener(this);
@@ -224,7 +224,7 @@ public class Collage2 extends Fragment implements View.OnClickListener, SeekBar.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Comprovamos que la foto se a realizado
         if (requestCode == 1 && resultCode ==getActivity().RESULT_OK) {
-            requestCode++;
+            //requestCode++;
             //Creamos un bitmap con la imagen recientemente..se concluye que con esto,... hace lento la aplicacion, se opta por glide
 
             /*
@@ -253,8 +253,8 @@ public class Collage2 extends Fragment implements View.OnClickListener, SeekBar.
             btnClose1.setVisibility(View.VISIBLE);
             sbFoto1.setVisibility(View.VISIBLE);
         } else if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
-            requestCode++;
-            String path = Environment.getExternalStorageDirectory() +
+            //requestCode++;
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
                     "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
 
             photoView2.setVisibility(View.VISIBLE);
@@ -268,7 +268,7 @@ public class Collage2 extends Fragment implements View.OnClickListener, SeekBar.
             btnClose2.setVisibility(View.VISIBLE);
             sbFoto2.setVisibility(View.VISIBLE);
         } else if (requestCode == 3 && resultCode ==getActivity().RESULT_OK) {
-            requestCode++;
+            //requestCode++;
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
                     "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
 

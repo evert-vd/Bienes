@@ -57,7 +57,7 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         view=inflater.inflate(R.layout.fragment_collage1, container, false);
         activo=getActivity().getIntent().getStringExtra("activo");//dato recuperado en el activity
         //codigoBarras=getIntent().getStringExtra("barras");
-        //Toast.makeText(getActivity(),"C.Barras: "+codigoBarras,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"C.activo1: "+activo,Toast.LENGTH_SHORT).show();
 
         btnGuardar = (FloatingActionButton)view.findViewById(R.id.fabGuardar);
         btnGuardar.setOnClickListener(this);
@@ -241,9 +241,11 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(photoView2);
+
             btnFoto2.setVisibility(View.GONE);
             btnClose2.setVisibility(View.VISIBLE);
             sbFoto2.setVisibility(View.VISIBLE);
+
         } else if (requestCode == 3 && resultCode ==getActivity().RESULT_OK) {
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
                     "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";

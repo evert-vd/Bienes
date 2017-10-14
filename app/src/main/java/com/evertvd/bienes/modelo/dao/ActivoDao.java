@@ -17,6 +17,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import com.evertvd.bienes.modelo.Catalogo;
 import com.evertvd.bienes.modelo.CentroCosto;
 import com.evertvd.bienes.modelo.CuentaContable;
+import com.evertvd.bienes.modelo.Empresa;
 import com.evertvd.bienes.modelo.Responsable;
 import com.evertvd.bienes.modelo.Ubicacion;
 
@@ -55,6 +56,7 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         public final static Property Cuentacontable_id = new Property(17, Long.class, "cuentacontable_id", false, "CUENTACONTABLE_ID");
         public final static Property Centrocosto_id = new Property(18, Long.class, "centrocosto_id", false, "CENTROCOSTO_ID");
         public final static Property Catalogo_id = new Property(19, Long.class, "catalogo_id", false, "CATALOGO_ID");
+        public final static Property Empresa_id = new Property(20, Long.class, "empresa_id", false, "EMPRESA_ID");
     }
 
     private DaoSession daoSession;
@@ -63,6 +65,7 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
     private Query<Activo> responsable_ActivoListQuery;
     private Query<Activo> cuentaContable_ActivoListQuery;
     private Query<Activo> centroCosto_ActivoListQuery;
+    private Query<Activo> empresa_ActivoListQuery;
     private Query<Activo> catalogo_ActivoListQuery;
 
     public ActivoDao(DaoConfig config) {
@@ -97,7 +100,8 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
                 "\"RESPONSABLE_ID\" INTEGER," + // 16: responsable_id
                 "\"CUENTACONTABLE_ID\" INTEGER," + // 17: cuentacontable_id
                 "\"CENTROCOSTO_ID\" INTEGER," + // 18: centrocosto_id
-                "\"CATALOGO_ID\" INTEGER);"); // 19: catalogo_id
+                "\"CATALOGO_ID\" INTEGER," + // 19: catalogo_id
+                "\"EMPRESA_ID\" INTEGER);"); // 20: empresa_id
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_ACTIVO_UBICACION_ID ON ACTIVO" +
                 " (\"UBICACION_ID\");");
@@ -109,6 +113,8 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
                 " (\"CENTROCOSTO_ID\");");
         db.execSQL("CREATE INDEX " + constraint + "IDX_ACTIVO_CATALOGO_ID ON ACTIVO" +
                 " (\"CATALOGO_ID\");");
+        db.execSQL("CREATE INDEX " + constraint + "IDX_ACTIVO_EMPRESA_ID ON ACTIVO" +
+                " (\"EMPRESA_ID\");");
     }
 
     /** Drops the underlying database table. */
@@ -220,6 +226,11 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         if (catalogo_id != null) {
             stmt.bindLong(20, catalogo_id);
         }
+ 
+        Long empresa_id = entity.getEmpresa_id();
+        if (empresa_id != null) {
+            stmt.bindLong(21, empresa_id);
+        }
     }
 
     @Override
@@ -325,6 +336,11 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         if (catalogo_id != null) {
             stmt.bindLong(20, catalogo_id);
         }
+ 
+        Long empresa_id = entity.getEmpresa_id();
+        if (empresa_id != null) {
+            stmt.bindLong(21, empresa_id);
+        }
     }
 
     @Override
@@ -360,7 +376,8 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
             cursor.isNull(offset + 16) ? null : cursor.getLong(offset + 16), // responsable_id
             cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17), // cuentacontable_id
             cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18), // centrocosto_id
-            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19) // catalogo_id
+            cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19), // catalogo_id
+            cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20) // empresa_id
         );
         return entity;
     }
@@ -387,6 +404,7 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         entity.setCuentacontable_id(cursor.isNull(offset + 17) ? null : cursor.getLong(offset + 17));
         entity.setCentrocosto_id(cursor.isNull(offset + 18) ? null : cursor.getLong(offset + 18));
         entity.setCatalogo_id(cursor.isNull(offset + 19) ? null : cursor.getLong(offset + 19));
+        entity.setEmpresa_id(cursor.isNull(offset + 20) ? null : cursor.getLong(offset + 20));
      }
     
     @Override
@@ -470,6 +488,20 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         return query.list();
     }
 
+    /** Internal query to resolve the "activoList" to-many relationship of Empresa. */
+    public List<Activo> _queryEmpresa_ActivoList(Long empresa_id) {
+        synchronized (this) {
+            if (empresa_ActivoListQuery == null) {
+                QueryBuilder<Activo> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.Empresa_id.eq(null));
+                empresa_ActivoListQuery = queryBuilder.build();
+            }
+        }
+        Query<Activo> query = empresa_ActivoListQuery.forCurrentThread();
+        query.setParameter(0, empresa_id);
+        return query.list();
+    }
+
     /** Internal query to resolve the "activoList" to-many relationship of Catalogo. */
     public List<Activo> _queryCatalogo_ActivoList(Long catalogo_id) {
         synchronized (this) {
@@ -499,13 +531,16 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
             builder.append(',');
             SqlUtils.appendColumns(builder, "T3", daoSession.getCentroCostoDao().getAllColumns());
             builder.append(',');
-            SqlUtils.appendColumns(builder, "T4", daoSession.getCatalogoDao().getAllColumns());
+            SqlUtils.appendColumns(builder, "T4", daoSession.getEmpresaDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T5", daoSession.getCatalogoDao().getAllColumns());
             builder.append(" FROM ACTIVO T");
             builder.append(" LEFT JOIN UBICACION T0 ON T.\"UBICACION_ID\"=T0.\"_id\"");
             builder.append(" LEFT JOIN RESPONSABLE T1 ON T.\"RESPONSABLE_ID\"=T1.\"_id\"");
             builder.append(" LEFT JOIN CUENTA_CONTABLE T2 ON T.\"CUENTACONTABLE_ID\"=T2.\"_id\"");
             builder.append(" LEFT JOIN CENTRO_COSTO T3 ON T.\"CENTROCOSTO_ID\"=T3.\"_id\"");
-            builder.append(" LEFT JOIN CATALOGO T4 ON T.\"CATALOGO_ID\"=T4.\"_id\"");
+            builder.append(" LEFT JOIN EMPRESA T4 ON T.\"EMPRESA_ID\"=T4.\"_id\"");
+            builder.append(" LEFT JOIN CATALOGO T5 ON T.\"CATALOGO_ID\"=T5.\"_id\"");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -531,6 +566,10 @@ public class ActivoDao extends AbstractDao<Activo, Long> {
         CentroCosto centroCosto = loadCurrentOther(daoSession.getCentroCostoDao(), cursor, offset);
         entity.setCentroCosto(centroCosto);
         offset += daoSession.getCentroCostoDao().getAllColumns().length;
+
+        Empresa empresa = loadCurrentOther(daoSession.getEmpresaDao(), cursor, offset);
+        entity.setEmpresa(empresa);
+        offset += daoSession.getEmpresaDao().getAllColumns().length;
 
         Catalogo catalogo = loadCurrentOther(daoSession.getCatalogoDao(), cursor, offset);
         entity.setCatalogo(catalogo);

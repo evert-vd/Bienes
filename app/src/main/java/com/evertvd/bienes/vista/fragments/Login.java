@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
+import com.evertvd.bienes.tareas.Hilo1;
 import com.evertvd.bienes.utils.TareaInicial;
 import com.evertvd.bienes.vista.activitys.FileInterno;
 
@@ -91,7 +92,8 @@ public class Login extends Fragment implements View.OnClickListener {
             }
                 ProgressDialog progress = new ProgressDialog(getActivity());
                 progress.setMessage("Cargando data de "+path+"...");
-                new TareaInicial(progress,getActivity(),path).execute();
+               // new TareaInicial(progress,getActivity(),path).execute();
+            new Hilo1(getActivity(),path).execute();
 
         }else if(txtNombreArchivo.getId()==R.id.txtNombreArchivo){
             Intent intent = new Intent(getActivity(), FileInterno.class);

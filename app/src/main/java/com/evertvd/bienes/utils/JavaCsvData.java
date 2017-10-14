@@ -99,7 +99,7 @@ this.activoAll=activoAll;
                 activoAll.setFactura(factura);
                 activoAll.setFechacompra(fecCompra);
                 activoAll.setObservacion(observacion);
-                Controller.getDaoSession().getActivoAllDao().insert(activoAll);
+
             }
 
             long endTime = System.nanoTime();

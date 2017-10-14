@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
@@ -53,6 +54,8 @@ public class ViewActivo extends Fragment implements View.OnClickListener{
         numActivo=getActivity().getIntent().getExtras().getString("activo");
         activo= Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigo.eq(getActivity().getIntent().getExtras().getString("activo"))).unique();
 
+        Toast.makeText(getActivity(),activo.getDescripcion(),Toast.LENGTH_SHORT).show();
+
         fabEditar=(FloatingActionButton)view.findViewById(R.id.fabEditar);
         fabEditar.setOnClickListener(this);
 
@@ -64,7 +67,7 @@ public class ViewActivo extends Fragment implements View.OnClickListener{
         this.txtDepartamento1 = (TextView)view. findViewById(R.id.edtDepartamento1);
         this.txtSede1 = (TextView) view.findViewById(R.id.txtSede1);
         this.txtUbicacion1 = (TextView) view.findViewById(R.id.txtUbicacion1);
-        this.txtCodCatalogo1 = (TextView)view. findViewById(R.id.txtCodCatalogo1);
+        //this.txtCodCatalogo1 = (TextView)view. findViewById(R.id.txtCodCatalogo1);
         this.txtCatalogo1 = (TextView)view. findViewById(R.id.txtCatalogo1);
         this.txtTipoActivo1 = (TextView)view. findViewById(R.id.txtTipoActivo1);
         this.txtDecripcion1 = (TextView) view.findViewById(R.id.txtDescipcion1);
@@ -112,7 +115,7 @@ public class ViewActivo extends Fragment implements View.OnClickListener{
         txtFactura1.setText(activo.getFactura());
         txtFecCompra1.setText(activo.getFechacompra());
         txtCatalogo1.setText(activo.getCatalogo().getCatalogo());
-        txtEmpresa1.setText(activo.getCatalogo().getEmpresa().getEmpresa());
+        txtEmpresa1.setText(activo.getEmpresa().getEmpresa());
         txtDepartamento1.setText(activo.getUbicacion().getSede().getDepartamento().getDepartamento());
         txtSede1.setText(activo.getUbicacion().getSede().getSede());
         txtUbicacion1.setText(activo.getUbicacion().getUbicacion());

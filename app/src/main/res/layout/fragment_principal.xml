@@ -5,129 +5,144 @@
     android:layout_height="match_parent"
     tools:context="com.evertvd.bienes.vista.fragments.Principal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <ProgressBar
-        android:id="@+id/progressActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminateTintMode="src_in"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminate="true"/>>
-
     <LinearLayout
-        android:id="@+id/layoutBuscar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_below="@id/progressActivity"/>
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/cbxCatalogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/view1"
-            android:text="Catalogo"/>
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/cbxUbicacion"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/cbxCatalogo"
-            android:text="Catalogo"/>
+            <RadioGroup
+                android:id="@+id/rbnFiltro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rbnTodos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:textSize="10dp"
+                android:text="Todos"/>
+            <RadioButton
+                android:id="@+id/rbnDepartamento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="10dp"
+                android:text="Dep/Sede/Ubic"/>
+            <RadioButton
+                android:id="@+id/rbnEmpresa"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="10dp"
+                android:text="Emp/Catalogo"/>
+            <RadioButton
+                android:id="@+id/rbnCentro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:textSize="10dp"
+                android:text="C.Costo"/>
+            </RadioGroup>
+
         </LinearLayout>
-        <View
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_below="@id/cbxUbicacion"/>
-    </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp">
+
+        <!--
+                <com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView
+                    android:id="@+id/recycler_view"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fastScrollHideDelay="600"
+                    app:fastScrollAlwaysEnabled="false"
+                    app:fastScrollPopupBackgroundColor="?attr/colorAccent"
+                    app:fastScrollPopupTextColor="@android:color/white"
+                    app:fastScrollThumbActiveColor="?attr/colorAccent"
+                    app:fastScrollThumbInactiveColor="?attr/colorAccent"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical"
+                    android:layout_height="match_parent">
+                </android.support.v7.widget.RecyclerView>
+        -->
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="5dp"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/progressActivity">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_marginTop="4dp"
+            />
+
 
         <com.futuremind.recyclerviewfastscroll.FastScroller
             android:id="@+id/fastscroll"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp" />
-
-        <ProgressBar
-            android:id="@+id/main_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>s
-    </RelativeLayout>
-
-
-
-
-            <!--
-        <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="5dp"
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-        <com.futuremind.recyclerviewfastscroll.FastScroller
-            android:id="@+id/fastscroll"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="5dp"
+            app:fastscroll__handleColor="#8f93d1"
             android:layout_alignParentRight="true"/>
 
-
-        <ProgressBar
-            android:id="@+id/main_progress"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-            -->
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_anchorGravity="bottom|right|end"
+            android:src="@drawable/ic_barcode"/>
 
-        <!--
-    <ListView
-        android:id="@+id/listActivos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/txtOpcion">
-    </ListView>
-        -->
+        <LinearLayout
+            android:id="@+id/layoutFondo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorGreyLighten_3"
+            android:alpha="0.8">
+        </LinearLayout>
 
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end|right"
-        android:gravity="bottom|end|right"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_anchorGravity="bottom|right|end"
-        android:src="@drawable/ic_barcode"/>
-
+        <ProgressBar
+            android:id="@+id/progressActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true" />
+        <TextView
+            android:id="@+id/txtCargando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/progressActivity"
+            android:text="Cargando Data"/>
+    </RelativeLayout>
+    </LinearLayout>
 </FrameLayout>

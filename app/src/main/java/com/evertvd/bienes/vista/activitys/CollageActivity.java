@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.vista.fragments.Collage1;
@@ -37,6 +38,7 @@ public class CollageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         numActivo=getIntent().getStringExtra("activo");
+        //Toast.makeText(this,numActivo,Toast.LENGTH_SHORT).show();
 
         abrirFragmentCollage(1);
 

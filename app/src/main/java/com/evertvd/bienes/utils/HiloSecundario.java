@@ -110,6 +110,7 @@ import java.util.concurrent.TimeUnit;
                 String fecCompra = activos.get("Fec. Compra");
                 String observacion = activos.get("Observación");
 
+
                 if(Buscar.buscarEmpresa(empresa)==null){
                     Empresa empresa1=new Empresa();
                     empresa1.setEmpresa(empresa);
@@ -156,7 +157,7 @@ import java.util.concurrent.TimeUnit;
                     Catalogo catalogo=new Catalogo();
                     catalogo.setCatalogo(nomCatalogo);
                     catalogo.setCodigo(codCatalogo);
-                    catalogo.setEmpresaId(Buscar.buscarEmpresa(empresa).getId());
+                    //catalogo.setEmpresaId(Buscar.buscarEmpresa(empresa).getId());
                     Controller.getDaoSession().getCatalogoDao().insert(catalogo);
                 }
 
@@ -164,6 +165,7 @@ import java.util.concurrent.TimeUnit;
                 activo.setCodigo(codigo);
                 activo.setCodigobarra(barras);
                 activo.setCatalogo_id(Buscar.buscarCatalogo(nomCatalogo).getId());
+                activo.setEmpresa_id(Buscar.buscarEmpresa(empresa).getId());
                 activo.setPlaca(placa);
                 activo.setMarca(marca);
                 activo.setModelo(modelo);

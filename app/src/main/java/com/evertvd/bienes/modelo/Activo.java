@@ -10,6 +10,7 @@ import com.evertvd.bienes.modelo.dao.ActivoDao;
 import com.evertvd.bienes.modelo.dao.CatalogoDao;
 import com.evertvd.bienes.modelo.dao.CentroCostoDao;
 import com.evertvd.bienes.modelo.dao.CuentaContableDao;
+import com.evertvd.bienes.modelo.dao.EmpresaDao;
 import com.evertvd.bienes.modelo.dao.HistorialDao;
 import com.evertvd.bienes.modelo.dao.ResponsableDao;
 import com.evertvd.bienes.modelo.dao.UbicacionDao;
@@ -59,6 +60,9 @@ public class Activo {
     @Index
     private Long catalogo_id;
 
+    @Index
+    private Long empresa_id;
+
     /** Used to resolve relations */
     @Generated
     private transient DaoSession daoSession;
@@ -91,6 +95,12 @@ public class Activo {
     @Generated
     private transient Long centroCosto__resolvedKey;
 
+    @ToOne(joinProperty = "empresa_id")
+    private Empresa empresa;
+
+    @Generated
+    private transient Long empresa__resolvedKey;
+
     @ToOne(joinProperty = "catalogo_id")
     private Catalogo catalogo;
 
@@ -114,7 +124,7 @@ public class Activo {
     }
 
     @Generated
-    public Activo(Long id, String codigo, String activopadre, String codigobarra, String descripcion, String placa, String marca, String modelo, String serie, String tipo, String expediente, String ordencompra, String factura, String fechacompra, String estado, Long ubicacion_id, Long responsable_id, Long cuentacontable_id, Long centrocosto_id, Long catalogo_id) {
+    public Activo(Long id, String codigo, String activopadre, String codigobarra, String descripcion, String placa, String marca, String modelo, String serie, String tipo, String expediente, String ordencompra, String factura, String fechacompra, String estado, Long ubicacion_id, Long responsable_id, Long cuentacontable_id, Long centrocosto_id, Long catalogo_id, Long empresa_id) {
         this.id = id;
         this.codigo = codigo;
         this.activopadre = activopadre;
@@ -135,6 +145,7 @@ public class Activo {
         this.cuentacontable_id = cuentacontable_id;
         this.centrocosto_id = centrocosto_id;
         this.catalogo_id = catalogo_id;
+        this.empresa_id = empresa_id;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -304,6 +315,14 @@ public class Activo {
         this.catalogo_id = catalogo_id;
     }
 
+    public Long getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(Long empresa_id) {
+        this.empresa_id = empresa_id;
+    }
+
     /** To-one relationship, resolved on first access. */
     @Generated
     public Ubicacion getUbicacion() {
@@ -401,6 +420,31 @@ public class Activo {
             this.centroCosto = centroCosto;
             centrocosto_id = centroCosto == null ? null : centroCosto.getId();
             centroCosto__resolvedKey = centrocosto_id;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated
+    public Empresa getEmpresa() {
+        Long __key = this.empresa_id;
+        if (empresa__resolvedKey == null || !empresa__resolvedKey.equals(__key)) {
+            __throwIfDetached();
+            EmpresaDao targetDao = daoSession.getEmpresaDao();
+            Empresa empresaNew = targetDao.load(__key);
+            synchronized (this) {
+                empresa = empresaNew;
+            	empresa__resolvedKey = __key;
+            }
+        }
+        return empresa;
+    }
+
+    @Generated
+    public void setEmpresa(Empresa empresa) {
+        synchronized (this) {
+            this.empresa = empresa;
+            empresa_id = empresa == null ? null : empresa.getId();
+            empresa__resolvedKey = empresa_id;
         }
     }
 

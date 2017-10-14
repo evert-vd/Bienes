@@ -55,7 +55,7 @@ public class Controller extends Application {
         daoSession = new DaoMaster(db).newSession();
         totalDao=daoSession.getTotalDao();
         activoDao=daoSession.getActivoDao();
-        activoAllDao=daoSession.getActivoAllDao();
+
         catalogoDao=daoSession.getCatalogoDao();
         centroCostoDao=daoSession.getCentroCostoDao();
         cuentaContableDao=daoSession.getCuentaContableDao();

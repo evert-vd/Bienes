@@ -16,8 +16,7 @@
         android:id="@+id/action_buscar"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView"
-        android:icon="@drawable/ic_menu_send"
-        app:itemIconTint="#FFFFFF"
+        android:icon="@drawable/ic_search"
         android:title="Buscar" />
 
 </menu>

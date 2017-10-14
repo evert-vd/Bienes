@@ -17,6 +17,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
+
                     <uk.co.senab.photoview.PhotoView
                         android:id="@+id/photo_view1"
                         android:layout_width="match_parent"
@@ -39,15 +40,6 @@
                         android:backgroundTint="@color/colorPrimary"
                         android:visibility="gone"
                         android:background="@drawable/ic_close"/>
-
-                    <ImageButton
-                        android:id="@+id/btnEdit"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/ic_edit"/>
 
                     <SeekBar
                         android:id="@+id/zbFoto1"

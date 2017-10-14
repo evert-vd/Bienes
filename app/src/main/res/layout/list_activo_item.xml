@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    app:cardCornerRadius="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="5dp"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:focusable="true"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_margin="5dp"
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,10 +15,10 @@
         android:padding="10dp"
         android:orientation="vertical">
     <TextView
-        android:id="@+id/txtCatalogo"
+        android:id="@+id/txtCodigo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Catalogo"/>
+        android:text="Codigo"/>
 
     <TextView
         android:id="@+id/txtDescripcion"

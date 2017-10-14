@@ -75,7 +75,7 @@ public class EditActivo extends Fragment implements View.OnClickListener {
         txtFecha.setText(activo.getFechacompra());
 
         txtEmpresa=(EditText)view.findViewById(R.id.txtEmpresa);
-        txtEmpresa.setText(activo.getCatalogo().getEmpresa().getEmpresa());
+        txtEmpresa.setText(activo.getEmpresa().getEmpresa());
 
         txtCodCentro=(EditText)view.findViewById(R.id.txtCodCentro);
         txtCodCentro.setText(activo.getCentroCosto().getCodigo());
