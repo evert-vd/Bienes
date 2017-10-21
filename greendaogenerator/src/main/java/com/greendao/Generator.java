@@ -27,7 +27,7 @@ public class Generator {
     }
 
     private static void crearSchema() {
-        int schemaVersion = 2;   // incrementar en cada nueva actualización del esquema.
+        int schemaVersion = 3;   // incrementar en cada nueva actualización del esquema.
         String dataPackage = "com.evertvd.bienes.modelo";   // ruta donde almacenar las clases-entidades.
 
 
@@ -126,7 +126,7 @@ public class Generator {
         catalogo.addIdProperty().primaryKey().autoincrement();
         catalogo.addStringProperty("codigo");
         catalogo.addStringProperty("catalogo");
-        //Property empresaId = catalogo.addLongProperty("empresaId").index().getProperty();// clave foránea
+        Property empresaId = catalogo.addLongProperty("empresa_id").index().getProperty();// clave foránea
 
         Entity activo = schema.addEntity("Activo");
         activo.addIdProperty().primaryKey().autoincrement();
@@ -143,20 +143,22 @@ public class Generator {
         activo.addStringProperty("ordencompra");
         activo.addStringProperty("factura");
         activo.addStringProperty("fechacompra");
-        activo.addStringProperty("estado");
+        activo.addStringProperty("foto");
+        activo.addStringProperty("origenfoto");
+        activo.addStringProperty("estado");//baja/activo
 
         Property ubicacionId = activo.addLongProperty("ubicacion_id").index().getProperty();   // clave foránea
         Property responsableId = activo.addLongProperty("responsable_id").index().getProperty();   // clave foránea
         Property cuentacontableId = activo.addLongProperty("cuentacontable_id").index().getProperty();   // clave foránea
         Property centrocostoId = activo.addLongProperty("centrocosto_id").index().getProperty();   // clave foránea
         Property catalogoId = activo.addLongProperty("catalogo_id").index().getProperty();   // clave foránea
-        Property empresaId = activo.addLongProperty("empresa_id").index().getProperty();// clave foránea
+
 
 
         Entity historial = schema.addEntity("Historial");
         historial.addIdProperty().primaryKey().autoincrement();
-        historial.addStringProperty("campo");
-        historial.addStringProperty("fechamodificacion");
+        historial.addStringProperty("campo_modificado");
+        historial.addStringProperty("fecha_modificacion");
         Property activoId = historial.addLongProperty("activo_id").index().getProperty();  // clave foránea
 
 
@@ -182,10 +184,10 @@ public class Generator {
 
 
         /**/
-        //catalogo.addToOne(empresa, empresaId);
-        //empresa.addToMany(catalogo, empresaId);
-        activo.addToOne(empresa, empresaId);
-        empresa.addToMany(activo, empresaId);
+        catalogo.addToOne(empresa, empresaId);
+        empresa.addToMany(catalogo, empresaId);
+        //activo.addToOne(empresa, empresaId);
+        //empresa.addToMany(activo, empresaId);
 
         activo.addToOne(catalogo, catalogoId);
         catalogo.addToMany(activo, catalogoId);

@@ -4,7 +4,7 @@
     android:id="@+id/activity_activo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.evertvd.bienes.vista.activitys.ActivoActivity">
+    tools:context="com.evertvd.bienes.vista.activitys.ActivoView">
 
     <include
         layout="@layout/app_bar_activo"

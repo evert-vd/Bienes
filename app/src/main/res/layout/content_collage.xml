@@ -5,8 +5,6 @@
     android:id="@+id/content_activty_collage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.evertvd.bienes.vista.activitys.CollageActivity">
 

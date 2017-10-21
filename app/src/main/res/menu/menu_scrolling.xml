@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".vista.activitys.CLActivity">
+
+
+    <item
+        android:id="@+id/action_camera"
+        android:orderInCategory="200"
+        android:title="Tomar Foto"
+        app:itemIconTint="@color/colorWhite"
+        app:showAsAction="always"
+        app:itemTextColor="@android:color/white"
+        android:background="@android:color/white"
+        android:icon="@drawable/ic_menu_camera_white"/>
+
+    <item
+        android:id="@+id/action_edit"
+        android:orderInCategory="200"
+        android:title="Editar"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="always" />
+
+</menu>

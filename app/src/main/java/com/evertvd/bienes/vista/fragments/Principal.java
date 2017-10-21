@@ -27,8 +27,8 @@ import android.widget.Toast;
 import com.csvreader.CsvReader;
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
+import com.evertvd.bienes.hilos.ThreadWriteData;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.ActivoAll;
 import com.evertvd.bienes.modelo.Catalogo;
 import com.evertvd.bienes.modelo.CentroCosto;
 import com.evertvd.bienes.modelo.CuentaContable;
@@ -48,7 +48,8 @@ import com.evertvd.bienes.modelo.dao.UbicacionDao;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScanner;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScannerBuilder;
 import com.evertvd.bienes.utils.Buscar;
-import com.evertvd.bienes.vista.activitys.ActivoActivity;
+import com.evertvd.bienes.vista.activitys.ActivoView;
+
 import com.evertvd.bienes.vista.activitys.MainActivity;
 import com.evertvd.bienes.vista.adapters.ActivoAdapter;
 import com.evertvd.bienes.vista.dialogs.DialgoFilterData;
@@ -119,15 +120,15 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
 
 
         final List<Total>totalList=Controller.getDaoSession().getTotalDao().loadAll();
-       // if(totalList.isEmpty() || totalList.get(0).getTotal()==0){
-            //groupFiltro.setVisibility(View.GONE);
-            //habilitarControles();
-            //progressActivity.setVisibility(View.VISIBLE);
-        //}else{
-            //progressActivity.setVisibility(View.GONE);
-           // groupFiltro.setVisibility(View.VISIBLE);
+       if(totalList.isEmpty() || totalList.get(0).getTotal()==0){
+            groupFiltro.setVisibility(View.GONE);
+            habilitarControles();
+            progressActivity.setVisibility(View.VISIBLE);
+        }else{
+            progressActivity.setVisibility(View.GONE);
+            groupFiltro.setVisibility(View.VISIBLE);
             ocultarControles();
-        //}
+        }
 
         /**/
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -197,7 +198,8 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                 //bundle.putString("CADENA", "Hola StackOverflow");
                 dialogfilterData.setArguments(bundle);
                 dialogfilterData.setTargetFragment(this, 0);
-                dialogfilterData.show(fm, "add_friend_dialog");
+                dialogfilterData.setCancelable(false);
+                dialogfilterData.show(fm, "dialog");
                 break;
 
             case R.id.rbnEmpresa:
@@ -209,7 +211,8 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                 //bundle.putString("CADENA", "Hola StackOverflow");
                 dialogfilterData.setArguments(bundle);
                 dialogfilterData.setTargetFragment(this, 0);
-                dialogfilterData.show(fm, "add_friend_dialog");
+                dialogfilterData.setCancelable(false);
+                dialogfilterData.show(fm, "dialog");
                 break;
             case R.id.rbnCentro:
                 //DialgoFilterData dialogfilterData = new DialgoFilterData();
@@ -217,7 +220,8 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                 //bundle.putString("CADENA", "Hola StackOverflow");
                 dialogfilterData.setArguments(bundle);
                 dialogfilterData.setTargetFragment(this, 0);
-                dialogfilterData.show(fm, "add_friend_dialog");
+                dialogfilterData.setCancelable(false);
+                dialogfilterData.show(fm, "dialog");
                 break;
 
         }
@@ -328,9 +332,9 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
         //MenuItem item1=item;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_cargar) {
+        if (id == R.id.action_importar) {
             getActivity().finish();
-            Controller.getDaoSession().deleteAll(Total.class);
+            /*Controller.getDaoSession().deleteAll(Total.class);
             Controller.getDaoSession().deleteAll(Empresa.class);
             Controller.getDaoSession().deleteAll(Departamento.class);
             Controller.getDaoSession().deleteAll(Sede.class);
@@ -338,12 +342,17 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
             Controller.getDaoSession().deleteAll(Catalogo.class);
             Controller.getDaoSession().deleteAll(Responsable.class);
             Controller.getDaoSession().deleteAll(CentroCosto.class);
-            Controller.getDaoSession().deleteAll(CuentaContable.class);
+            Controller.getDaoSession().deleteAll(CuentaContable.class);*/
             Controller.getDaoSession().deleteAll(Activo.class);
             Controller.getDaoSession().deleteAll(Historial.class);
             //Controller.getDaoSession().deleteAll(ActivoAll.class);
+
             startActivity(new Intent(getActivity(),MainActivity.class));
             //startActivity(new Intent(this,MainActivity.class));
+        }else if(id==R.id.action_exportar){
+            //crear fragment export activo
+            ThreadWriteData threadWriteData=new ThreadWriteData(getActivity());
+            threadWriteData.start();
         }
 
         return super.onOptionsItemSelected(item);
@@ -382,7 +391,7 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                 .withBackfacingCamera()
                 .withCenterTracker()
                 //.withCenterTracker(R.drawable.common_full_open_on_phone, R.drawable.common_google_signin_btn_icon_dark)
-                .withText("Buscando Código de Barras")
+                .withText("Scaneando Código de Barras")
                 .withResultListener(new MaterialBarcodeScanner.OnResultListener() {
                     @Override
                     public void onResult(Barcode barcode) {
@@ -391,7 +400,7 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                         //result.setText(barcode.rawValue);
                         //List<Activo> activoList= Buscar.buscarBarras(barcode.rawValue);
                         if(!Buscar.buscarBarras(barcode.rawValue).isEmpty()){
-                            Intent intent=new Intent(getActivity(),ActivoActivity.class);
+                            Intent intent=new Intent(getActivity(),ActivoView.class);
                             //barcode.rawValue
                             intent.putExtra("activo", Buscar.buscarBarras(barcode.rawValue).get(0).getCodigo());
                             //intent.putExtra("activo", (Serializable) activoList);
@@ -402,11 +411,10 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                                 if(total.get(0).getTotal()!=0){
                                     progressActivity.setVisibility(View.GONE);
                                 }
-
                                 if(buscarBarraCSV(total.get(0).getRuta(),barcode.rawValue)!=null) {
-                                    Toast.makeText(getActivity(),"C.B. "+barcode.rawValue+" se encontró en la data pero aun falta cargar la información al dispositivo. Vuelve a consultar en unos segundos",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"C.Barras. "+barcode.rawValue+" se encontró en la data pero aun falta cargar la información al dispositivo. Vuelve a consultar en unos segundos",Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(getActivity(),"C.B. "+barcode.rawValue+" no ubicado",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"C.Barras. "+barcode.rawValue+" no ubicado",Toast.LENGTH_SHORT).show();
                                 }
                         }
                     }
@@ -456,6 +464,9 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
         }else if(departamento==null && sede!=null && ubicacion==null){
             //solo sede
             activoList=filterSede(sede);
+        }else{
+            //todos null
+            rbnTodos.setChecked(true);
         }
 
             inicializarAdapter(activoList);
@@ -468,8 +479,13 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
             activoList=filterEmpresa(empresa);
         }else if(empresa==null & catalogo!=null ){
             activoList=filterCatalogo(catalogo);
+            //Toast.makeText(getActivity(),"Seleccion:"+catalogo.getCatalogo(),Toast.LENGTH_SHORT).show();
         }else if(empresa!=null & catalogo!=null){
             activoList=filterEmpresaCatalogo(empresa, catalogo);
+            //Toast.makeText(getActivity(),"Empresa:"+empresa.getEmpresa()+" Catalogo:"+catalogo.getCatalogo(),Toast.LENGTH_SHORT).show();
+        }else{
+            //todos null
+            rbnTodos.setChecked(true);
         }
         inicializarAdapter(activoList);
     }
@@ -478,6 +494,9 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
     public void onAddFilterCentroCosto(CentroCosto centroCosto) {
         if(centroCosto!=null){
             activoList=filterCentroCosto(centroCosto);
+        }else{
+            //todos null
+            rbnTodos.setChecked(true);
         }
         inicializarAdapter(activoList);
     }
@@ -533,33 +552,44 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
     }
 
     private List<Activo>filterEmpresa(Empresa object){
-        //QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
-        //Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class);
-        //Join empresa = qb.join(catalogo, CatalogoDao.Properties.EmpresaId, Empresa.class, EmpresaDao.Properties.Id);
-        //empresa.where(EmpresaDao.Properties.Id.eq(object.getId()));
-        //List<Activo> list = qb.list();
-        List<Activo>list=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Empresa_id.eq(object.getId())).orderAsc(ActivoDao.Properties.Descripcion).list();
+        QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
+        Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class);
+        Join empresa = qb.join(catalogo, CatalogoDao.Properties.Empresa_id, Empresa.class, EmpresaDao.Properties.Id);
+        empresa.where(EmpresaDao.Properties.Id.eq(object.getId()));
+        List<Activo> list = qb.list();
+        //List<Activo>list=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Empresa_id.eq(object.getId())).orderAsc(ActivoDao.Properties.Descripcion).list();
         return list;
 
     }
 
     private List<Activo>filterCatalogo(Catalogo object){
-        //QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
-        //Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class);
-        //catalogo.where(CatalogoDao.Properties.Id.eq(object.getId()));
-        //List<Activo> list = qb.list();
-        List<Activo>list=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Catalogo_id.eq(object.getId())).orderAsc(ActivoDao.Properties.Descripcion).list();
-        return list;
+        /*QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
+        Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class);
+        catalogo.where(CatalogoDao.Properties.Id.eq(object.getId()));
+        List<Activo> list = qb.list();*/
+
+       List<Catalogo>catalogoList=Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(object.getCatalogo())).list();
+
+        List<Activo>activoList1=new ArrayList<>();
+        //recorrer y obtener todos los catalogos con el nombre del objeto devuelto
+        for(int i=0;i<catalogoList.size();i++){
+            List<Activo>list=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Catalogo_id.eq(catalogoList.get(i).getId())).list();
+            activoList1.addAll(list);//agregar a la lista activo todas las lista de catalagos por empresas
+        }
+        return activoList1;
     }
 
     private List<Activo>filterEmpresaCatalogo(Empresa object1, Catalogo object2){
-        //QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
-        //Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class).where(CatalogoDao.Properties.Id.eq(object2.getId()));
-        //Join empresa = qb.join(catalogo, CatalogoDao.Properties.EmpresaId, Empresa.class, EmpresaDao.Properties.Id);
-        //empresa.where(EmpresaDao.Properties.Id.eq(object1.getId()));
-        //List<Activo> list = qb.list();
-        List<Activo>list=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Empresa_id.eq(object1.getId()))
-                .where(ActivoDao.Properties.Catalogo_id.eq(object2.getId())).orderAsc(ActivoDao.Properties.Descripcion).list();
+        //buscar el catalogo con el nomcatalogo y nomempresa real
+        //object2 es un valor devuelto de la posicion 0 de una lista desde el jdialog (puede pertenecer a cualquier empresa)
+        Catalogo newCatalogo=Buscar.buscarCatalogo(object2.getCatalogo(),object1.getEmpresa());
+
+        QueryBuilder<Activo> qb = Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion);
+        Join catalogo = qb.join(ActivoDao.Properties.Catalogo_id, Catalogo.class);
+        catalogo.where(CatalogoDao.Properties.Id.eq(newCatalogo.getId()));
+        Join empresa = qb.join(catalogo, CatalogoDao.Properties.Empresa_id, Empresa.class, EmpresaDao.Properties.Id);
+        empresa.where(EmpresaDao.Properties.Id.eq(object1.getId()));
+        List<Activo> list = qb.list();
         return list;
     }
 

@@ -16,27 +16,6 @@
         android:layout_gravity="center_vertical">
 
 
-        <ProgressBar
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_centerHorizontal="true"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-            android:progress="0"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="En la Espera"
-            android:visibility="gone"
-            android:id="@+id/progressLabel"
-            android:layout_above="@+id/progressBar"
-            android:layout_centerHorizontal="true" />
-
-
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -50,20 +29,21 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/btnBuscarData"
+            android:id="@+id/btnLeerArchivo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Leer Archivo"
             android:layout_marginTop="20dp"/>
+           </LinearLayout>
 
-        <Button
-            android:id="@+id/btnCancelar"
+        <ProgressBar
+            android:id="@+id/progressLoad"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Cancelar"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorAccent"
+            android:layout_gravity="center_vertical"
+            android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:layout_marginTop="20dp"/>
-
-    </LinearLayout>
-
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true" />
 </FrameLayout>

@@ -21,8 +21,8 @@ public class Historial {
 
     @Id(autoincrement = true)
     private Long id;
-    private String campo;
-    private String fechamodificacion;
+    private String campo_modificado;
+    private String fecha_modificacion;
 
     @Index
     private Long activo_id;
@@ -53,10 +53,10 @@ public class Historial {
     }
 
     @Generated
-    public Historial(Long id, String campo, String fechamodificacion, Long activo_id) {
+    public Historial(Long id, String campo_modificado, String fecha_modificacion, Long activo_id) {
         this.id = id;
-        this.campo = campo;
-        this.fechamodificacion = fechamodificacion;
+        this.campo_modificado = campo_modificado;
+        this.fecha_modificacion = fecha_modificacion;
         this.activo_id = activo_id;
     }
 
@@ -75,20 +75,20 @@ public class Historial {
         this.id = id;
     }
 
-    public String getCampo() {
-        return campo;
+    public String getCampo_modificado() {
+        return campo_modificado;
     }
 
-    public void setCampo(String campo) {
-        this.campo = campo;
+    public void setCampo_modificado(String campo_modificado) {
+        this.campo_modificado = campo_modificado;
     }
 
-    public String getFechamodificacion() {
-        return fechamodificacion;
+    public String getFecha_modificacion() {
+        return fecha_modificacion;
     }
 
-    public void setFechamodificacion(String fechamodificacion) {
-        this.fechamodificacion = fechamodificacion;
+    public void setFecha_modificacion(String fecha_modificacion) {
+        this.fecha_modificacion = fecha_modificacion;
     }
 
     public Long getActivo_id() {

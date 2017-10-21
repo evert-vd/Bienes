@@ -7,18 +7,20 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_bar_scanner"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        android:orientation="vertical"
-        android:layout_margin="8dp"
-        tools:context="com.evertvd.bienes.vista.activitys.BarScanner">
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_bar_scanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            tools:context="com.evertvd.bienes.vista.activitys.BarScanner">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +70,7 @@
                                 android:layout_weight="0.5">
 
                                 <TextView
-                                    android:id="@+id/txtTipoActivo1"
+                                    android:id="@+id/txtTipoActivo"
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginBottom="5dp"
@@ -82,7 +84,7 @@
 
 
                             <TextView
-                                android:id="@+id/txtDescipcion1"
+                                android:id="@+id/txtDescipcion"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="4dp"
@@ -96,7 +98,7 @@
 
 
                             <ImageButton
-                                android:id="@+id/imgEstado1"
+                                android:id="@+id/imgEstado"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="0.5"
@@ -117,8 +119,9 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
                                 android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -126,7 +129,7 @@
                                     android:text="C.Sigaf"/>
 
                                 <TextView
-                                    android:id="@+id/edtCodigo1"
+                                    android:id="@+id/txtCodigo"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -135,9 +138,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.2"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -146,7 +150,7 @@
                                     android:text="C.Barras"/>
 
                                 <TextView
-                                    android:id="@+id/edtBarras1"
+                                    android:id="@+id/txtBarras"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -155,9 +159,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.35"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -166,7 +171,7 @@
                                     android:text="O/C"/>
 
                                 <TextView
-                                    android:id="@+id/txtOrdenCompra1"
+                                    android:id="@+id/txtOrdenCompra"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -175,9 +180,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="0.25"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -186,7 +192,7 @@
                                     android:text="Factura"/>
 
                                 <TextView
-                                    android:id="@+id/txtFactura1"
+                                    android:id="@+id/txtFactura"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -207,8 +213,9 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -217,7 +224,7 @@
                                     android:text="F.Compra"/>
 
                                 <TextView
-                                    android:id="@+id/txtFecha1"
+                                    android:id="@+id/txtFecha"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -227,9 +234,10 @@
 
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.7"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -237,7 +245,7 @@
                                     android:text="Catálogo"/>
 
                                 <TextView
-                                    android:id="@+id/txtCatalogo1"
+                                    android:id="@+id/txtCatalogo"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -255,8 +263,9 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -265,7 +274,7 @@
                                     android:text="Empresa"/>
 
                                 <TextView
-                                    android:id="@+id/txtEmpresa1"
+                                    android:id="@+id/txtEmpresa"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -274,9 +283,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.6"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -285,7 +295,7 @@
                                     android:text="Departamento"/>
 
                                 <TextView
-                                    android:id="@+id/edtDepartamento1"
+                                    android:id="@+id/edtDepartamento"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -297,16 +307,12 @@
                         </LinearLayout>
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
+
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
+                                android:layout_marginTop="10dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -315,7 +321,7 @@
                                     android:text="Sede"/>
 
                                 <TextView
-                                    android:id="@+id/txtSede1"
+                                    android:id="@+id/txtSede"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -326,7 +332,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="10dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -335,7 +341,7 @@
                                     android:text="Ubicación"/>
 
                                 <TextView
-                                    android:id="@+id/txtUbicacion1"
+                                    android:id="@+id/txtUbicacion"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -343,7 +349,7 @@
                                     android:hint="Ubicación"/>
                             </LinearLayout>
 
-                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -352,8 +358,9 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.14"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -361,7 +368,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="C.R"/>
                                 <TextView
-                                    android:id="@+id/txtCodCentro1"
+                                    android:id="@+id/txtCodCentro"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -370,9 +377,10 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.86"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -381,7 +389,7 @@
                                     android:text="Centro de Responsabilidad"/>
 
                                 <TextView
-                                    android:id="@+id/txtCentro1"
+                                    android:id="@+id/txtCentro"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -403,12 +411,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="Responsable"/>
                             <TextView
-                                android:id="@+id/txtResponsable1"
+                                android:id="@+id/txtResponsable"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="12dp"
                                 android:textColor="@color/cardview_dark_background"
                                 android:hint="Responsable"/>
+
+
+
+
                         </LinearLayout>
 
 
@@ -419,8 +431,9 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="0.24"
                                 android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -428,7 +441,7 @@
                                     android:text="Placa"/>
 
                                 <TextView
-                                    android:id="@+id/txtPlaca1"
+                                    android:id="@+id/txtPlaca"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -436,36 +449,38 @@
                                     android:hint="Placa"/>
                             </LinearLayout>
 
-
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.38"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Marca"/>
-
                                 <TextView
-                                    android:id="@+id/txtMarca1"
+                                    android:id="@+id/txtMarca"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
                                     android:textColor="@color/cardview_dark_background"
                                     android:hint="Marca"/>
                             </LinearLayout>
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_weight="0.38"
+                                android:layout_marginLeft="2dp"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Modelo"/>
                                 <TextView
-                                    android:id="@+id/txtModelo1"
+                                    android:id="@+id/txtModelo"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
@@ -473,34 +488,64 @@
                                     android:hint="Modelo"/>
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:orientation="vertical">
 
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.62"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Serie"/>
                                 <TextView
-                                    android:id="@+id/txtSerie1"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/txtSerie"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textSize="12dp"
                                     android:textColor="@color/cardview_dark_background"
                                     android:hint="Serie"/>
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.38"
+                                android:layout_marginLeft="2dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="¿Foto?"/>
+
+                                <TextView
+                                    android:id="@+id/txtFoto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12dp"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:hint="Si/No"/>
+                            </LinearLayout>
 
                         </LinearLayout>
+
+
 
                     </LinearLayout>
 
             </LinearLayout>
 
 </android.support.v7.widget.CardView>
-
+    </ScrollView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEditar"
         android:layout_width="wrap_content"

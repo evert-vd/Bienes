@@ -37,4 +37,10 @@
 
     </style>
 
+    <style name="dialog_theme" parent="android:Theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="yourstyle" parent="@style/Base.TextAppearance.AppCompat.Title"> <item name="android:textSize">10sp</item> </style>
 </resources>

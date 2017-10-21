@@ -25,8 +25,12 @@
         app:SearchHintText="Buscar Departamento"
         app:ShowBorders="true"
         app:BordersSize="1dp"
+        app:SearchViewTextColor="@color/white"
         app:RevealEmptyText="Departamento"
-        app:BoarderColor="@color/colorPrimary"/>
+        app:StartSearchTintColor="@color/white"
+        app:DoneSearchTintColor="@color/colorAccent"
+        app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+        app:BoarderColor="@color/colorGreyLighten_1"/>
 
         <com.evertvd.bienes.searchablespinner.SearchableSpinner
                 android:id="@+id/searchEmpresa"
@@ -37,7 +41,10 @@
                 app:ShowBorders="true"
                 app:BordersSize="1dp"
                 app:RevealEmptyText="Empresa"
-                app:BoarderColor="@color/colorPrimary"/>
+            app:StartSearchTintColor="@color/white"
+            app:DoneSearchTintColor="@color/colorAccent"
+            app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+                app:BoarderColor="@color/colorGreyLighten_1"/>
 
         <com.evertvd.bienes.searchablespinner.SearchableSpinner
             android:id="@+id/searchCentroCosto"
@@ -48,7 +55,10 @@
             app:ShowBorders="true"
             app:BordersSize="1dp"
             app:RevealEmptyText="Centro de Costo"
-            app:BoarderColor="@color/colorPrimary"/>
+            app:StartSearchTintColor="@color/white"
+            app:DoneSearchTintColor="@color/colorAccent"
+            app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+            app:BoarderColor="@color/colorGreyLighten_1"/>
     </FrameLayout>
 
         <FrameLayout
@@ -66,7 +76,10 @@
             app:ShowBorders="true"
             app:BordersSize="1dp"
             app:RevealEmptyText="Sede"
-            app:BoarderColor="@color/colorPrimary"/>
+            app:StartSearchTintColor="@color/white"
+            app:DoneSearchTintColor="@color/colorAccent"
+            app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+            app:BoarderColor="@color/colorGreyLighten_1"/>
 
             <com.evertvd.bienes.searchablespinner.SearchableSpinner
                 android:id="@+id/searchCatalogo"
@@ -77,7 +90,10 @@
                 app:ShowBorders="true"
                 app:BordersSize="1dp"
                 app:RevealEmptyText="Catalogo"
-                app:BoarderColor="@color/colorPrimary"/>
+                app:StartSearchTintColor="@color/white"
+                app:DoneSearchTintColor="@color/colorAccent"
+                app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+                app:BoarderColor="@color/colorGreyLighten_1"/>
 
         </FrameLayout>
 
@@ -93,7 +109,10 @@
         app:ShowBorders="true"
         app:BordersSize="1dp"
         app:RevealEmptyText="Ubicación"
-        app:BoarderColor="@color/colorPrimary"/>
+        app:StartSearchTintColor="@color/white"
+        app:DoneSearchTintColor="@color/colorAccent"
+        app:SearchViewBackgroundColor="@color/colorGreyLighten_1"
+        app:BoarderColor="@color/colorGreyLighten_1"/>
     </LinearLayout>
 
     <LinearLayout

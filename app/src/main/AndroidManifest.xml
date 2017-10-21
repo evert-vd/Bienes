@@ -21,21 +21,23 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-
-
-
         <activity
             android:name=".scannercode.MaterialBarcodeScannerActivity"
             android:label="@string/library_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".vista.activitys.FileInterno"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".vista.activitys.FileInterno" />
         <activity
             android:name=".vista.activitys.CollageActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".vista.activitys.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -44,17 +46,23 @@
             </intent-filter>
         </activity>
 
-
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".vista.activitys.ActivoActivity"
+            android:name=".vista.activitys.ActivoView"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
-
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".vista.activitys.MainActivity"/>
         </activity>
 
 
+        <activity
+            android:name=".vista.activitys.ActivoEdit"
+            android:label="@string/title_activity_activo_edit"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize">
+
+        </activity>
     </application>
-
-
 
 </manifest>

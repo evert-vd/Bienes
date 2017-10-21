@@ -3,7 +3,6 @@ package com.evertvd.bienes.vista.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,25 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
-import com.evertvd.bienes.tareas.Hilo1;
-import com.evertvd.bienes.utils.TareaInicial;
+import com.evertvd.bienes.hilos.MainThreadsReadData;
 import com.evertvd.bienes.vista.activitys.FileInterno;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Login extends Fragment implements View.OnClickListener {
+public class Login extends Fragment implements View.OnClickListener{
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
-    private Button btnBuscarData;
+    private Button btnLeerArchivo;
     private EditText txtNombreArchivo;
     private String path, nombreArchivo;
     int REQUEST_CODE = 1;
-    int position;
-
-
-    public ProgressBar progressBar;
+    public ProgressBar progressLoad;
 
     public Login() {
         // Required empty public constructor
@@ -52,14 +47,15 @@ public class Login extends Fragment implements View.OnClickListener {
 
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-
-        btnBuscarData=(Button)view.findViewById(R.id.btnBuscarData);
-        btnBuscarData.setOnClickListener(this);
+        btnLeerArchivo=(Button)view.findViewById(R.id.btnLeerArchivo);
+        btnLeerArchivo.setOnClickListener(this);
 
         txtNombreArchivo=(EditText) view.findViewById(R.id.txtNombreArchivo);
         txtNombreArchivo.setOnClickListener(this);
 
-        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+
+        progressLoad = (ProgressBar)view.findViewById(R.id.progressLoad);
+        progressLoad.setVisibility(View.GONE);
 
 
 
@@ -84,16 +80,14 @@ public class Login extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btnBuscarData){
-            //String nomArchivo = txtNombreArchivo.getText().toString().trim();
+        if(v.getId()==R.id.btnLeerArchivo){
             if(TextUtils.isEmpty(txtNombreArchivo.getText().toString().trim())){
                 Toast.makeText(getActivity(),"Ningún Archivo Seleccionado",Toast.LENGTH_SHORT).show();
                 return;
             }
-                ProgressDialog progress = new ProgressDialog(getActivity());
-                progress.setMessage("Cargando data de "+path+"...");
-               // new TareaInicial(progress,getActivity(),path).execute();
-            new Hilo1(getActivity(),path).execute();
+
+            MainThreadsReadData mainHilos=new MainThreadsReadData(getActivity(),progressLoad,btnLeerArchivo,txtNombreArchivo,path);
+            mainHilos.execute();
 
         }else if(txtNombreArchivo.getId()==R.id.txtNombreArchivo){
             Intent intent = new Intent(getActivity(), FileInterno.class);
@@ -148,6 +142,5 @@ public class Login extends Fragment implements View.OnClickListener {
             */
         }
     }
-
 
 }

@@ -2,7 +2,6 @@ package com.evertvd.bienes.vista.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.ItemClickListener;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.vista.activitys.ActivoActivity;
+import com.evertvd.bienes.vista.activitys.ActivoView;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 
@@ -42,7 +41,7 @@ public class ActivoAdapter extends RecyclerView.Adapter<ActivoAdapter.ViewHolder
 
     @Override
     public void onItemClick(View view, int position) {
-        Intent intent=new Intent(contexto,ActivoActivity.class);
+        Intent intent=new Intent(contexto,ActivoView.class);
         intent.putExtra("activo",activoList.get(position).getCodigo());
         contexto.startActivity(intent);
         //Toast.makeText(contexto,"ITem:"+ String.valueOf(activoList.get(position).getCodigo()),Toast.LENGTH_LONG).show();

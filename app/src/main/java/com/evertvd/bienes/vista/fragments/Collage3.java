@@ -2,6 +2,7 @@ package com.evertvd.bienes.vista.fragments;
 
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -10,25 +11,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.evertvd.bienes.R;
+import com.evertvd.bienes.hilos.ThreadCreateCollage;
 import com.evertvd.bienes.utils.DirectorioCollage;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -44,7 +46,8 @@ public class Collage3 extends Fragment implements View.OnClickListener, SeekBar.
     private String activo;
     private int requesCodeFotos;
     private View view;
-
+    private static int F1=0;
+    private ImageView[] collage= { photoView1};
     public Collage3() {
         // Required empty public constructor
     }
@@ -79,63 +82,39 @@ public class Collage3 extends Fragment implements View.OnClickListener, SeekBar.
         return view;
     }
 
-
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fabGuardar) {
-            photoView1.buildDrawingCache();
-            Bitmap foto1 = photoView1.getDrawingCache();
 
+            if(F1==0) {
+                Snackbar.make(view, "La Foto 01 está vacía", Snackbar.LENGTH_SHORT)
+                        .show();
+            }else{
 
+                photoView1.setDrawingCacheEnabled(true);
+                //photoView1.buildDrawingCache();
+                Bitmap foto1 = Bitmap.createBitmap(photoView1.getDrawingCache());
+                //Bitmap foto1 = photoView1.get);
+                fotoCollage = crearCollageFotos(foto1);
 
-            fotoCollage = crearCollageFotos(foto1);
-            //collageImage.setImageBitmap(mergedImages);
-            guardarImagen(fotoCollage);
-            Log.e("Rqcode",String.valueOf(requesCodeFotos));
-            borrarFotosBackup();
+                ProgressDialog progressDialog=new ProgressDialog(getActivity());
+                //progressDialog.setTitle("Foto");
+                progressDialog.setTitle("Creando foto...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                //0:para crear directorio cache
+                ThreadCreateCollage threadsSaveFoto=new ThreadCreateCollage(progressDialog,getActivity(),activo,fotoCollage,getFragmentManager(),photoView1.getMeasuredHeight());
+                threadsSaveFoto.execute();
 
+                }
 
         } else if (v.getId() == R.id.btnFoto1) {
             tomarFoto(1);
-            //Toast.makeText(this,"C.Barra"+codigoBarras,Toast.LENGTH_SHORT).show();
-
         } else if (v.getId() == R.id.btnClose1) {
+            photoView1.setImageDrawable(null);
+            F1=0;//indica que la photoview está vacío
             btnFoto1.setVisibility(View.VISIBLE);
             btnClose1.setVisibility(View.GONE);
-            //Glide.get(this).clearDiskCache();
-            //Glide.clear(photoView1);
-        }
-    }
-
-    private void borrarFotosBackup() {
-
-    }
-
-    private void guardarImagen(Bitmap imagen) {
-        OutputStream fileOutStream = null;
-        Uri uri;
-
-        try {
-            DirectorioCollage directorioCollage=new DirectorioCollage();
-
-            /*File file = new File(Environment.getExternalStorageDirectory()
-                    + File.separator + "imagenesguardadas" + File.separator);
-            file.mkdirs();
-            */
-            File directorioImagenes = new File(directorioCollage.crearDirectorioPublico(getActivity()), activo+".jpg");
-            uri = Uri.fromFile(directorioImagenes);
-            fileOutStream = new FileOutputStream(directorioImagenes);
-        } catch (Exception e) {
-            Log.e("ERROR!", e.getMessage());
-        }
-
-        try {
-            imagen.compress(Bitmap.CompressFormat.PNG, 100, fileOutStream);
-            fileOutStream.flush();
-            fileOutStream.close();
-        } catch (Exception e) {
-            Log.e("ERROR!", e.getMessage());
         }
     }
 
@@ -168,41 +147,38 @@ public class Collage3 extends Fragment implements View.OnClickListener, SeekBar.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Comprovamos que la foto se a realizado
         if (requestCode == 1 && resultCode ==getActivity().RESULT_OK) {
-            //requestCode++;
-
-            String path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                    "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
-
             photoView1.setVisibility(View.VISIBLE);
-            //photoView1.setImageBitmap(bMap);
-
+            //Glide
             Glide.with(this)
-                    .load(path)
+                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(photoView1);
-            //collage[0] = photoView1;
+
+            //Picasso
+
+            /*Picasso.with(getActivity())
+                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
+                    .noFade()
+                    .noPlaceholder()
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(photoView1);*/
 
             btnFoto1.setVisibility(View.GONE);
             btnClose1.setVisibility(View.VISIBLE);
             sbFoto1.setVisibility(View.VISIBLE);
+
+            F1=1;
         }
     }
 
-
     private void tomarFoto(int requestCode){
         //Creamos el Intent para llamar a la Camara
-        //Intent cameraIntent = new Intent(
-        //      android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //Creamos una carpeta en la memeria del terminal
-       /* File imagesFolder = new File(
-                Environment.getExternalStorageDirectory(), "FotosPruebasAF");
-        imagesFolder.mkdirs();*/
-        DirectorioCollage directorioCollage=new DirectorioCollage();
-        //añadimos el nombre de la imagen
-        File image = new File(directorioCollage.crearDirectorioPublico(getActivity()), activo +"("+ requestCode +")"+".jpg");
+        File image = new File(DirectorioCollage.crearDirectorioOri(getActivity()), activo +"("+ requestCode +")"+".jpg");
         Uri uriSavedImage = Uri.fromFile(image);
         //Le decimos al Intent que queremos grabar la imagen
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
@@ -220,11 +196,12 @@ public class Collage3 extends Fragment implements View.OnClickListener, SeekBar.
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if(seekBar.getId()==R.id.zbFoto1){
-
             if(progress!=0){
                 photoView1.setScale((float)progress/10);
+                photoView1.setDrawingCacheEnabled(false);//Importante: sobreescribe el bitmapCollage anterior
             }else{
                 photoView1.setScale(0);
+                photoView1.setDrawingCacheEnabled(false);//Importante: sobreescribe el bitmapCollage anterior
             }
 
         }

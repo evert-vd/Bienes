@@ -2,25 +2,19 @@ package com.evertvd.bienes.controlador;
 
 import android.app.Application;
 
-
-
-import com.evertvd.bienes.modelo.dao.ActivoAllDao;
 import com.evertvd.bienes.modelo.dao.ActivoDao;
 import com.evertvd.bienes.modelo.dao.CatalogoDao;
 import com.evertvd.bienes.modelo.dao.CentroCostoDao;
 import com.evertvd.bienes.modelo.dao.CuentaContableDao;
 import com.evertvd.bienes.modelo.dao.DaoMaster;
 import com.evertvd.bienes.modelo.dao.DaoSession;
-
 import com.evertvd.bienes.modelo.dao.DepartamentoDao;
-
 import com.evertvd.bienes.modelo.dao.EmpresaDao;
 import com.evertvd.bienes.modelo.dao.HistorialDao;
 import com.evertvd.bienes.modelo.dao.ResponsableDao;
 import com.evertvd.bienes.modelo.dao.SedeDao;
 import com.evertvd.bienes.modelo.dao.TotalDao;
 import com.evertvd.bienes.modelo.dao.UbicacionDao;
-
 
 import org.greenrobot.greendao.database.Database;
 
@@ -33,7 +27,7 @@ public class Controller extends Application {
     static TotalDao totalDao;
     static DaoSession daoSession;
     static ActivoDao activoDao;
-    static ActivoAllDao activoAllDao;
+    //static ActivoAllDao activoAllDao;
     static CatalogoDao catalogoDao;
     static CentroCostoDao centroCostoDao;
     static CuentaContableDao cuentaContableDao;

@@ -10,6 +10,7 @@ import com.evertvd.bienes.modelo.CuentaContable;
 import com.evertvd.bienes.modelo.Departamento;
 
 import com.evertvd.bienes.modelo.Empresa;
+import com.evertvd.bienes.modelo.Historial;
 import com.evertvd.bienes.modelo.Responsable;
 import com.evertvd.bienes.modelo.Sede;
 import com.evertvd.bienes.modelo.Ubicacion;
@@ -20,6 +21,7 @@ import com.evertvd.bienes.modelo.dao.CuentaContableDao;
 import com.evertvd.bienes.modelo.dao.DepartamentoDao;
 
 import com.evertvd.bienes.modelo.dao.EmpresaDao;
+import com.evertvd.bienes.modelo.dao.HistorialDao;
 import com.evertvd.bienes.modelo.dao.ResponsableDao;
 import com.evertvd.bienes.modelo.dao.SedeDao;
 import com.evertvd.bienes.modelo.dao.UbicacionDao;
@@ -106,9 +108,10 @@ public class Buscar {
         return centroCosto;
     }
 
-    public static Catalogo buscarCatalogo(String texto) {
-        Catalogo catalogo = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(texto)).unique();
-        return catalogo;
+    public static Catalogo buscarCatalogo(String catalogo, String empresa) {
+        Empresa empresa1=Buscar.buscarEmpresa(empresa);
+        Catalogo catalogo1 = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(catalogo)).where(CatalogoDao.Properties.Empresa_id.eq(empresa1.getId())).unique();
+        return catalogo1;
     }
 
 
@@ -120,6 +123,11 @@ public class Buscar {
             Log.e("cb",activoList.get(i).getCodigobarra()+" ubic:"+activoList.get(i).getUbicacion().getUbicacion());
         }
         return activoList;
+    }
+
+    public static Historial buscarHistorial(String historial, long idActivo){
+        Historial historial1=Controller.getDaoSession().getHistorialDao().queryBuilder().where(HistorialDao.Properties.Campo_modificado.eq(historial)).where(HistorialDao.Properties.Activo_id.eq(idActivo)).unique();
+        return historial1;
     }
 
 

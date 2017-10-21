@@ -21,6 +21,7 @@
     <color name="colorGreyLighten_3">#EEEEEE</color>
     <color name="colorGreyDarken_2">#616161</color>
     <color name="colorGreyLighten_1">#bdbdbd</color>
+    <color name="colorGreyLighten_5">#fafafa</color>
 
 
     <array name="colors">

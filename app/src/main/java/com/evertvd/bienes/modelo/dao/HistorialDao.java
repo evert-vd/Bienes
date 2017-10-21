@@ -32,8 +32,8 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Campo = new Property(1, String.class, "campo", false, "CAMPO");
-        public final static Property Fechamodificacion = new Property(2, String.class, "fechamodificacion", false, "FECHAMODIFICACION");
+        public final static Property Campo_modificado = new Property(1, String.class, "campo_modificado", false, "CAMPO_MODIFICADO");
+        public final static Property Fecha_modificacion = new Property(2, String.class, "fecha_modificacion", false, "FECHA_MODIFICACION");
         public final static Property Activo_id = new Property(3, Long.class, "activo_id", false, "ACTIVO_ID");
     }
 
@@ -55,8 +55,8 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"HISTORIAL\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"CAMPO\" TEXT," + // 1: campo
-                "\"FECHAMODIFICACION\" TEXT," + // 2: fechamodificacion
+                "\"CAMPO_MODIFICADO\" TEXT," + // 1: campo_modificado
+                "\"FECHA_MODIFICACION\" TEXT," + // 2: fecha_modificacion
                 "\"ACTIVO_ID\" INTEGER);"); // 3: activo_id
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_HISTORIAL_ACTIVO_ID ON HISTORIAL" +
@@ -78,14 +78,14 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
             stmt.bindLong(1, id);
         }
  
-        String campo = entity.getCampo();
-        if (campo != null) {
-            stmt.bindString(2, campo);
+        String campo_modificado = entity.getCampo_modificado();
+        if (campo_modificado != null) {
+            stmt.bindString(2, campo_modificado);
         }
  
-        String fechamodificacion = entity.getFechamodificacion();
-        if (fechamodificacion != null) {
-            stmt.bindString(3, fechamodificacion);
+        String fecha_modificacion = entity.getFecha_modificacion();
+        if (fecha_modificacion != null) {
+            stmt.bindString(3, fecha_modificacion);
         }
  
         Long activo_id = entity.getActivo_id();
@@ -103,14 +103,14 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
             stmt.bindLong(1, id);
         }
  
-        String campo = entity.getCampo();
-        if (campo != null) {
-            stmt.bindString(2, campo);
+        String campo_modificado = entity.getCampo_modificado();
+        if (campo_modificado != null) {
+            stmt.bindString(2, campo_modificado);
         }
  
-        String fechamodificacion = entity.getFechamodificacion();
-        if (fechamodificacion != null) {
-            stmt.bindString(3, fechamodificacion);
+        String fecha_modificacion = entity.getFecha_modificacion();
+        if (fecha_modificacion != null) {
+            stmt.bindString(3, fecha_modificacion);
         }
  
         Long activo_id = entity.getActivo_id();
@@ -134,8 +134,8 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
     public Historial readEntity(Cursor cursor, int offset) {
         Historial entity = new Historial( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // campo
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // fechamodificacion
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // campo_modificado
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // fecha_modificacion
             cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3) // activo_id
         );
         return entity;
@@ -144,8 +144,8 @@ public class HistorialDao extends AbstractDao<Historial, Long> {
     @Override
     public void readEntity(Cursor cursor, Historial entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCampo(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setFechamodificacion(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setCampo_modificado(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setFecha_modificacion(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setActivo_id(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
      }
     

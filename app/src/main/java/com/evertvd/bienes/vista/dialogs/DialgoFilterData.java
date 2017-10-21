@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
@@ -29,7 +29,7 @@ import com.evertvd.bienes.modelo.dao.UbicacionDao;
 import com.evertvd.bienes.searchablespinner.SearchableSpinner;
 import com.evertvd.bienes.searchablespinner.interfaces.IStatusListener;
 import com.evertvd.bienes.searchablespinner.interfaces.OnItemSelectedListener;
-import com.evertvd.bienes.vista.fragments.SimpleListAdapter;
+import com.evertvd.bienes.vista.adapters.ListSpinnerSearchAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
     private static final String TAG = DialgoFilterData.class.getSimpleName();
     private Button btnDepSedeUbic, btnEmpCatalogo, btnCentro, btnCancelar;
 
-    private SimpleListAdapter listAdapterDepartamento, listAdapterSede, listAdapterUbicacion, listAdapterEmpresa, listAdapterCatalogo, listAdapterCentroCosto;
+    private ListSpinnerSearchAdapter listAdapterDepartamento, listAdapterSede, listAdapterUbicacion, listAdapterEmpresa, listAdapterCatalogo, listAdapterCentroCosto;
     private SearchableSpinner spinnerDepartamento, spinnerSede, spinnerUbicacion, spinnerEmpresa, spinnerCatalogo, spinnerCentroCosto;
 
     private ArrayList<String> stringArrayListDepartamento = new ArrayList<String>();
@@ -260,7 +260,7 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
                         sedeList = Controller.getDaoSession().getSedeDao().queryBuilder().orderAsc(SedeDao.Properties.Sede).list();
                     }
                     initListSede(sedeList);
-                    listAdapterSede = new SimpleListAdapter(getActivity(), stringArrayListSede);
+                    listAdapterSede = new ListSpinnerSearchAdapter(getActivity(), stringArrayListSede);
                     spinnerSede.setAdapter(listAdapterSede);
                     spinnerSede.setSelectedItem(0);
                     spinnerUbicacion.setSelectedItem(0);
@@ -285,7 +285,7 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
                         ubicacionList = Controller.getDaoSession().getUbicacionDao().queryBuilder().orderAsc(UbicacionDao.Properties.Ubicacion).list();
                     }
                     initListUbicacion(ubicacionList);
-                    listAdapterUbicacion = new SimpleListAdapter(getActivity(), stringArrayListUbicacion);
+                    listAdapterUbicacion = new ListSpinnerSearchAdapter(getActivity(), stringArrayListUbicacion);
                     spinnerUbicacion.setAdapter(listAdapterUbicacion);
                     //spinnerSede.setSelectedItem(0);
                     spinnerUbicacion.setSelectedItem(0);
@@ -321,12 +321,12 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             stringArrayListCatalogo.clear();
             if (position > 0) {
                empresa = Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Empresa.eq(listAdapterEmpresa.getItem(position))).unique();
-                //catalogoList = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.EmpresaId.eq(empresa.getId())).orderAsc(CatalogoDao.Properties.Catalogo).list();
-           } //else {
+                catalogoList = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Empresa_id.eq(empresa.getId())).orderAsc(CatalogoDao.Properties.Catalogo).list();
+           } else {
                 catalogoList = Controller.getDaoSession().getCatalogoDao().queryBuilder().orderAsc(CatalogoDao.Properties.Catalogo).list();
-            //}
+            }
             initListCatalogo(catalogoList);
-            listAdapterCatalogo = new SimpleListAdapter(getActivity(), stringArrayListCatalogo);
+            listAdapterCatalogo = new ListSpinnerSearchAdapter(getActivity(), stringArrayListCatalogo);
             spinnerCatalogo.setAdapter(listAdapterCatalogo);
             //spinnerSede.setSelectedItem(0);
             spinnerCatalogo.setSelectedItem(0);
@@ -345,9 +345,15 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
         public void onItemSelected(View view, int position, long id) {
             //Toast.makeText(getActivity(), "Item on position " + position + " : " + mSimpleListAdapter3.getItem(position) + " Selected", Toast.LENGTH_SHORT).show();
             if(position>0){
-                catalogo = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(listAdapterCatalogo.getItem(position))).unique();
+                //empresa = Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Empresa.eq(listAdapterEmpresa.getItem(position))).unique();
+                List<Catalogo>catalogoList1=Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(listAdapterCatalogo.getItem(position))).list();
+                Log.e("TAG", String.valueOf(position));
+
+                catalogo=catalogoList1.get(0);
+
+                //inicializa objeto a enviar
+                //catalogo = Controller.getDaoSession().getCatalogoDao().queryBuilder().where(CatalogoDao.Properties.Catalogo.eq(listAdapterCatalogo.getItem(position))).unique();
             }
-            //
         }
 
         @Override
@@ -380,9 +386,9 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             initListSede(sedeList);
             initListUbicacion(ubicacionList);
             //mStrings=Controller.getDaoSession().getEmpresaDao().loadAll();
-            listAdapterDepartamento = new SimpleListAdapter(getActivity(), stringArrayListDepartamento);
-            listAdapterSede = new SimpleListAdapter(getActivity(), stringArrayListSede);
-            listAdapterUbicacion = new SimpleListAdapter(getActivity(), stringArrayListUbicacion);
+            listAdapterDepartamento = new ListSpinnerSearchAdapter(getActivity(), stringArrayListDepartamento);
+            listAdapterSede = new ListSpinnerSearchAdapter(getActivity(), stringArrayListSede);
+            listAdapterUbicacion = new ListSpinnerSearchAdapter(getActivity(), stringArrayListUbicacion);
 
             spinnerDepartamento = (SearchableSpinner) view.findViewById(R.id.searchDepartamento);
             spinnerDepartamento.setAdapter(listAdapterDepartamento);
@@ -442,8 +448,8 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             initListCatalogo(catalogoList);
 
             //mStrings=Controller.getDaoSession().getEmpresaDao().loadAll();
-            listAdapterEmpresa = new SimpleListAdapter(getActivity(), stringArrayListEmpresa);
-            listAdapterCatalogo = new SimpleListAdapter(getActivity(), stringArrayListCatalogo);
+            listAdapterEmpresa = new ListSpinnerSearchAdapter(getActivity(), stringArrayListEmpresa);
+            listAdapterCatalogo = new ListSpinnerSearchAdapter(getActivity(), stringArrayListCatalogo);
 
             spinnerEmpresa = (SearchableSpinner) view.findViewById(R.id.searchEmpresa);
             spinnerEmpresa.setAdapter(listAdapterEmpresa);
@@ -485,7 +491,7 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             initListCentroCosto(centroCostoList);
 
             //mStrings=Controller.getDaoSession().getEmpresaDao().loadAll();
-            listAdapterCentroCosto = new SimpleListAdapter(getActivity(), stringArrayListCentroCosto);
+            listAdapterCentroCosto = new ListSpinnerSearchAdapter(getActivity(), stringArrayListCentroCosto);
 
             spinnerCentroCosto = (SearchableSpinner) view.findViewById(R.id.searchCentroCosto);
             spinnerCentroCosto.setAdapter(listAdapterCentroCosto);
@@ -532,7 +538,10 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
 
     private void initListCatalogo (List < Catalogo > catalogoList) {
         for (int i = 0; i < catalogoList.size(); i++) {
-            stringArrayListCatalogo.add(catalogoList.get(i).getCatalogo());
+            if(!stringArrayListCatalogo.contains(catalogoList.get(i).getCatalogo())){
+                stringArrayListCatalogo.add(catalogoList.get(i).getCatalogo());
+            }
+
         }
     }
 

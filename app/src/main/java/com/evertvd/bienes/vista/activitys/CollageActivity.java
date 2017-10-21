@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
+import com.evertvd.bienes.utils.DirectorioCollage;
 import com.evertvd.bienes.vista.fragments.Collage1;
 import com.evertvd.bienes.vista.fragments.Collage2;
 import com.evertvd.bienes.vista.fragments.Collage3;
@@ -37,6 +38,10 @@ public class CollageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCollage);
         setSupportActionBar(toolbar);
 
+
+        DirectorioCollage.crearDirectorioInventario(this);
+        DirectorioCollage.crearDirectorioCache(this);
+        DirectorioCollage.crearDirectorioOri(this);
         numActivo=getIntent().getStringExtra("activo");
         //Toast.makeText(this,numActivo,Toast.LENGTH_SHORT).show();
 

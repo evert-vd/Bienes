@@ -1,6 +1,7 @@
 package com.evertvd.bienes.vista.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -13,7 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
-import android.util.Log;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.evertvd.bienes.R;
+import com.evertvd.bienes.hilos.ThreadCreateCollage;
 import com.evertvd.bienes.utils.DirectorioCollage;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -44,6 +44,7 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
     private PhotoView photoView1,photoView2,photoView3;
     private String activo;
     private View view;
+    static int F1=0,F2=0, F3=0;
 
     public Collage1() {
         // Required empty public constructor
@@ -101,16 +102,46 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fabGuardar) {
-        photoView1.buildDrawingCache();
-        Bitmap foto1 = photoView1.getDrawingCache();
 
-        photoView2.buildDrawingCache();
-        Bitmap foto2 = photoView2.getDrawingCache();
+        if(F1==0){
+            Snackbar.make(view, "La Foto 01 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+        }else if(F2==0){
+            Snackbar.make(view, "La Foto 02 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+        }else if(F3==0){
+            Snackbar.make(view, "La Foto 03 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+        }else {
 
-        photoView3.buildDrawingCache();
-        Bitmap foto3 = photoView3.getDrawingCache();
-        fotoCollage = crearCollageFotos(foto1, foto2, foto3);
-        guardarImagen(fotoCollage);
+            //photoView1.buildDrawingCache();
+            photoView1.setDrawingCacheEnabled(true);
+            //Bitmap foto1 = photoView1.getDrawingCache();
+            Bitmap foto1 = Bitmap.createBitmap(photoView1.getDrawingCache());
+            //photoView2.buildDrawingCache();
+
+            photoView2.setDrawingCacheEnabled(true);
+            Bitmap foto2 = photoView2.getDrawingCache();
+            //photoView3.buildDrawingCache();
+
+            photoView3.setDrawingCacheEnabled(true);
+            Bitmap foto3 = photoView3.getDrawingCache();
+            fotoCollage = crearCollageFotos(foto1, foto2, foto3);
+
+            ProgressDialog progressDialog=new ProgressDialog(getActivity());
+            //progressDialog.setTitle("Foto");
+            progressDialog.setTitle("Creando foto...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            ThreadCreateCollage threadsSaveFoto=new ThreadCreateCollage(progressDialog,getActivity(),activo,fotoCollage,getFragmentManager(),photoView1.getMeasuredHeight());
+            threadsSaveFoto.execute();
+
+            //guardarImagen(fotoCollage);
+            //limpiarCache();
+        }
+
+
+
 
     }else if(v.getId()==R.id.btnFoto1){
         tomarFoto(1);
@@ -122,47 +153,32 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         tomarFoto(3);
 
     }else if(v.getId()==R.id.btnClose1){
-        btnFoto1.setVisibility(View.VISIBLE);
-        btnClose1.setVisibility(View.GONE);
+            photoView1.setDrawingCacheEnabled(false);
+            photoView1.setImageDrawable(null);
+            sbFoto1.setVisibility(View.GONE);
+            sbFoto1.setProgress(0);
+            btnFoto1.setVisibility(View.VISIBLE);
+            btnClose1.setVisibility(View.GONE);
+            F1=0;
         //Glide.get(this).clearDiskCache();
         //Glide.clear(photoView1);
     }else if(v.getId()==R.id.btnClose2){
-        btnFoto2.setVisibility(View.VISIBLE);
-        btnClose2.setVisibility(View.GONE);
+            photoView2.setDrawingCacheEnabled(false);
+            photoView2.setImageDrawable(null);
+            sbFoto2.setVisibility(View.GONE);
+            sbFoto2.setProgress(0);
+            btnFoto2.setVisibility(View.VISIBLE);
+            btnClose2.setVisibility(View.GONE);
+            F2=0;
     }else if(v.getId()==R.id.btnClose3){
+            photoView3.setDrawingCacheEnabled(false);
+            photoView3.setImageDrawable(null);
+            sbFoto3.setVisibility(View.GONE);
         btnFoto3.setVisibility(View.VISIBLE);
         btnClose3.setVisibility(View.GONE);
+            F3=0;
     }
     }
-
-    private void guardarImagen(Bitmap fotoCollage) {
-        OutputStream fileOutStream = null;
-        Uri uri;
-        try {
-            //File file = new File(Environment.getExternalStorageDirectory()
-              //      + File.separator + "imagenesguardadas" + File.separator);
-            //file.mkdirs();
-
-            DirectorioCollage directorioCollage=new DirectorioCollage();
-            if(directorioCollage.crearDirectorioPublico(getActivity())!=null){
-                File directorioImagenes = new File(directorioCollage.crearDirectorioPublico(getActivity()), activo+".jpg");
-                uri = Uri.fromFile(directorioImagenes);
-                fileOutStream = new FileOutputStream(directorioImagenes);
-            }
-
-        } catch (Exception e) {
-            Log.e("ERROR!", e.getMessage());
-        }
-
-        try {
-            fotoCollage.compress(Bitmap.CompressFormat.PNG, 100, fileOutStream);
-            fileOutStream.flush();
-            fileOutStream.close();
-        } catch (Exception e) {
-            Log.e("ERROR!", e.getMessage());
-        }
-    }
-
 
     //metodo 2
 
@@ -214,37 +230,54 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
 
             photoView1.setVisibility(View.VISIBLE);
             //photoView1.setImageBitmap(bMap);
-
-
             Glide.with(this)
-                    .load(path)
+                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(photoView1);
-            //collage[0] = photoView1;
+
+            /*Picasso.with(getActivity())
+                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
+                    .noFade()
+                    .noPlaceholder()
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(photoView1);*/
 
             btnFoto1.setVisibility(View.GONE);
             btnClose1.setVisibility(View.VISIBLE);
             sbFoto1.setVisibility(View.VISIBLE);
+            //validar que la foto se tomó
+            F1=1;
+
         } else if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
 
             //String path = Environment.getExternalStorageDirectory() +
                     //"/FotosPruebasAF/" + codigoBarras +"("+ requestCode +")"+ ".jpg";
-
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
                     "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
 
             photoView2.setVisibility(View.VISIBLE);
 
             //collage[1] = photoView2;
-            Glide.with(this).load(path)
+           Glide.with(this)
+                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(photoView2);
 
+            /*Picasso.with(getActivity())
+                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
+                    .noFade()
+                    .noPlaceholder()
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(photoView2);*/
+
             btnFoto2.setVisibility(View.GONE);
             btnClose2.setVisibility(View.VISIBLE);
             sbFoto2.setVisibility(View.VISIBLE);
+            F2=1;
 
         } else if (requestCode == 3 && resultCode ==getActivity().RESULT_OK) {
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
@@ -252,14 +285,24 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
 
             photoView3.setVisibility(View.VISIBLE);
 
-            //collage[2] = photoView3;
-            Glide.with(this).load(path)
+            Glide.with(this)
+                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(photoView3);
+
+            /*Picasso.with(getActivity())
+                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
+                    .noFade()
+                    .noPlaceholder()
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(photoView3);*/
+
             btnFoto3.setVisibility(View.GONE);
             btnClose3.setVisibility(View.VISIBLE);
             sbFoto3.setVisibility(View.VISIBLE);
+            F3=1;
         }
 
     }
@@ -282,7 +325,7 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         DirectorioCollage directorioCollage=new DirectorioCollage();
 
         //añadimos el nombre de la imagen
-        File image = new File(directorioCollage.crearDirectorioPublico(getActivity()), activo +"("+ requestCode +")"+".jpg");
+        File image = new File(DirectorioCollage.crearDirectorioOri(getActivity()), activo +"("+ requestCode +")"+".jpg");
         Uri uriSavedImage = Uri.fromFile(image);
         //Le decimos al Intent que queremos grabar la imagen
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
@@ -303,24 +346,30 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
 
             if(progress!=0){
                 photoView1.setScale((float)progress/10);
+                photoView1.setDrawingCacheEnabled(false);
             }else{
                 photoView1.setScale(0);
+                photoView1.setDrawingCacheEnabled(false);
             }
 
         } else if(seekBar.getId()==R.id.zbFoto2){
 
             if(progress!=0){
                 photoView2.setScale((float)progress/10);
+                photoView2.setDrawingCacheEnabled(false);
             }else{
                 photoView2.setScale(0);
+                photoView2.setDrawingCacheEnabled(false);
             }
 
         }else if(seekBar.getId()==R.id.zbFoto3){
 
             if(progress!=0){
                 photoView3.setScale((float)progress/10);
+                photoView3.setDrawingCacheEnabled(false);
             }else{
                 photoView3.setScale(0);
+                photoView3.setDrawingCacheEnabled(false);
             }
 
         }
