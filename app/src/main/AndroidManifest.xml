@@ -3,8 +3,8 @@
     package="com.evertvd.bienes">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -50,9 +50,6 @@
             android:name=".vista.activitys.ActivoView"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".vista.activitys.MainActivity"/>
         </activity>
 
 
@@ -60,6 +57,7 @@
             android:name=".vista.activitys.ActivoEdit"
             android:label="@string/title_activity_activo_edit"
             android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation|screenSize">
 
         </activity>

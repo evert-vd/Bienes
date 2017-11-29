@@ -10,7 +10,6 @@
         <path
             android:pathData="M31.54 5.22l0 24 -24 0 0 -24 24 0z,M23.12 29.22l0 -24,M31.54 17.22l-8.42 0"
             android:strokeWidth="3"
-            android:strokeColor="@color/colorGreyDarken_2" />
-
+            android:strokeColor="@color/colorGreyDarken_2"/>
     </group>
 </vector>

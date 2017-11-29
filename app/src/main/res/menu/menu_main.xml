@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_importar"
-        android:orderInCategory="100"
-        android:title="Importar nuevo archivo"
-        app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_exportar"
-        android:orderInCategory="100"
-        android:title="Exportar data"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_buscar"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView"
         android:icon="@drawable/ic_search"
         android:title="Buscar" />
+
+    <item
+        android:orderInCategory="101"
+        android:title="Configuración"
+        android:icon="@drawable/ic_menu_settings"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_exportar"
+                android:orderInCategory="100"
+                android:icon="@drawable/ic_menu_export"
+                android:title="Exportar data"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_email"
+                android:orderInCategory="100"
+                android:icon="@drawable/ic_menu_email"
+                app:showAsAction="ifRoom|withText"
+                android:title="Adjuntar a correo" />
+
+            <item
+                android:id="@+id/action_foto"
+                android:orderInCategory="100"
+                android:icon="@drawable/ic_menu_photo"
+                android:title="Foto sin activo"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_importar"
+                android:orderInCategory="100"
+                android:icon="@drawable/ic_menu_import"
+                android:title="Eliminar Data"
+                app:showAsAction="ifRoom|withText" />
+
+        </menu>
+    </item>
+
+
+
+
 
 </menu>

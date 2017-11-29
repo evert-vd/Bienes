@@ -31,30 +31,9 @@
                         android:background="@color/colorGreyDarken_2"
                         android:text="Aceptar"/>
 
-                    <ImageButton
-                        android:id="@+id/btnFoto1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:clickable="true"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        android:backgroundTint="@color/colorGreyLighten_1"
-                        android:background="@drawable/ic_menu_camera"/>
+                    <include android:id="@+id/include1"
+                        layout="@layout/actions_photo_view1"></include>
 
-                    <ImageButton
-                        android:id="@+id/btnClose1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:background="@drawable/ic_close_white"/>
-
-                    <SeekBar
-                        android:id="@+id/zbFoto1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@android:style/Widget.Holo.SeekBar"
-                        android:visibility="gone"
-                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
 
         </LinearLayout>

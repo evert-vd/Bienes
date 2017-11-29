@@ -1,18 +1,11 @@
 package com.evertvd.bienes.vista.activitys;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,15 +18,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.Historial;
 import com.evertvd.bienes.modelo.dao.ActivoDao;
-import com.evertvd.bienes.modelo.dao.HistorialDao;
-import com.evertvd.bienes.utils.DirectorioCollage;
-import com.evertvd.bienes.vista.fragments.EditActivo;
-import com.evertvd.bienes.vista.fragments.ViewActivo;
+import com.evertvd.bienes.utils.MainDirectorios;
 
 import java.io.File;
-import java.util.List;
 
 public class ActivoView extends AppCompatActivity implements View.OnClickListener {
 
@@ -63,15 +51,8 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
         toolbar = (Toolbar) findViewById(R.id.toolbarActivo);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(activo.getCodigo());
-
-        List<Historial> historialList = Controller.getDaoSession().getHistorialDao().queryBuilder().where(HistorialDao.Properties.Activo_id.eq(activo.getId())).list();
-        if (!historialList.isEmpty()) {
-            for (int i = 0; i < historialList.size(); i++) {
-                Log.e("hisotrial", historialList.get(i).getCampo_modificado());
-            }
-        }
 
         //Toast.makeText(getActivity(),activo.getDescripcion(),Toast.LENGTH_SHORT).show();
 
@@ -108,10 +89,10 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
         cargarDatos();
 
         imgActivo = (ImageView) findViewById(R.id.imgActivo);
-        File file = new File(DirectorioCollage.obtenerDirectorioInventario(this, numActivo));
+        File file = new File(MainDirectorios.obtenerDirectorioFotos(this, numActivo));
         if (file != null) {
             Glide.with(this)
-                    .load(DirectorioCollage.obtenerDirectorioInventario(this, numActivo))
+                    .load(MainDirectorios.obtenerDirectorioFotos(this, numActivo))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .fitCenter()
@@ -128,10 +109,10 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
             transaction.commit();
         }*/
 
-        fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
-        fabCamera.setOnClickListener(this);
+        //fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
+        //fabCamera.setOnClickListener(this);
 
-
+        /*
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -150,15 +131,15 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
                     hideOption(R.id.action_camera);
                 }
             }
-        });
+        });*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        hideOption(R.id.action_camera);
+        getMenuInflater().inflate(R.menu.menu_view, menu);
+        //hideOption(R.id.action_camera);
         return true;
     }
 
@@ -174,18 +155,17 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
             Intent intent=new Intent(this,CollageActivity.class);
             intent.putExtra("activo",numActivo);
             startActivity(intent);
-
             return true;
         } else if (id == R.id.action_edit) {
             Intent intent=new Intent(this,ActivoEdit.class);
             intent.putExtra("activo",numActivo);
             startActivity(intent);
-            //return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     private void hideOption(int id) {
         MenuItem item = menu.findItem(id);
         item.setVisible(false);
@@ -195,19 +175,19 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
         MenuItem item = menu.findItem(id);
         item.setVisible(true);
     }
-
+    */
     @Override
     public void onClick(View view) {
-        if (view.getId()== R.id.fabCamera) {
+        /*if (view.getId()== R.id.fabCamera) {
             Intent intent = new Intent(this, CollageActivity.class);
             intent.putExtra("activo", numActivo);
             startActivity(intent);
-        /*}else if(view.getId()==R.id.imgCamera){
+        }else if(view.getId()==R.id.imgCamera){
             Intent intent=new Intent(this,CollageActivity.class);
             intent.putExtra("activo",numActivo);
             startActivity(intent);
-        }*/
         }
+        }*/
     }
 
 
@@ -231,9 +211,16 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
         txtModelo.setText(activo.getModelo());
         txtSerie.setText(activo.getSerie());
 
+        //comprobar si existe foto guardada
+        File ubicacionReporte = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String archivo = activo.getCodigo() + getString(R.string.extensionFoto);
+        File reporte = new File(ubicacionReporte, getResources().getString(R.string.directorioFotos)+"/"+archivo);
+
         if (activo.getFoto().equalsIgnoreCase("si")) {
             txtFoto.setText(activo.getFoto() + "|" + activo.getOrigenfoto());
-        } else {
+        }else if(reporte.exists()){
+            txtFoto.setText("Si|Aplicación");
+        }else {
             txtFoto.setText(activo.getFoto());
         }
 
@@ -241,7 +228,6 @@ public class ActivoView extends AppCompatActivity implements View.OnClickListene
             imgEstado.setBackgroundColor(getResources().getColor(R.color.colorRed));
             imgEstado.setImageResource(R.drawable.ic_close_white);
         }
-
     }
 }
 

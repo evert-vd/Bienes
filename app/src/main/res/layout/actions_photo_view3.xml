@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionPhoto4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:backgroundTint="#00000000"
+            android:src="@drawable/ic_close"/>
+
+        <!--
+        android:background="@drawable/ic_close_white"-->
+
+        <ImageButton
+            android:id="@+id/btnRotar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginLeft="1dp"
+            android:backgroundTint="#00000000"
+            android:src="@drawable/ic_rotate"/>
+
+        <TextView
+            android:id="@+id/txtPrueba"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.38">
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.24">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/btnFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/colorGreyLighten_1"
+                    android:background="@drawable/ic_menu_camera"/>
+
+                <ImageButton
+                    android:id="@+id/btnNumero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="#00000000"
+                    android:src="@drawable/ic_number_two"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.38">
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:layout_marginBottom="5dp"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:id="@+id/zbFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.SeekBar"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"/>
+    </LinearLayout>
+
+
+
+
+
+
+    <!--
+    <ImageButton
+        android:id="@+id/flashIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_close_white" />
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_gravity="right"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_check"/>
+        -->
+
+
+</LinearLayout>
+
+
+

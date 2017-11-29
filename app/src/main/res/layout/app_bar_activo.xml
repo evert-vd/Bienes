@@ -58,6 +58,7 @@
     <!--<include layout="@layout/content_scrolling" />-->
     <include layout="@layout/content_activo_view"/>
 
+    <!--
     <android.support.design.widget.FloatingActionButton
     android:id="@+id/fabCamera"
     android:layout_width="wrap_content"
@@ -67,11 +68,7 @@
     app:layout_anchorGravity="bottom|end"
     app:backgroundTint="@color/colorAccent"
     android:tint="@color/colorWhite"
-    android:src="@drawable/ic_menu_camera"/>
-
-
-
-
+    android:src="@drawable/ic_menu_camera"/>-->
 
 
 </android.support.design.widget.CoordinatorLayout>

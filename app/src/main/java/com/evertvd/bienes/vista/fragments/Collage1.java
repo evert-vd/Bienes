@@ -8,9 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
@@ -20,13 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.evertvd.bienes.R;
-import com.evertvd.bienes.hilos.ThreadCreateCollage;
-import com.evertvd.bienes.utils.DirectorioCollage;
+import com.evertvd.bienes.threads.ThreadCreateCollage;
+import com.evertvd.bienes.utils.MainDirectorios;
+import com.evertvd.bienes.utils.RotateTransformation;
 
 import java.io.File;
 
@@ -35,17 +35,21 @@ import uk.co.senab.photoview.PhotoView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class Collage1 extends Fragment implements View.OnClickListener{
 
     private SeekBar sbFoto1,sbFoto2,sbFoto3;
     private Bitmap fotoCollage;
     private FloatingActionButton btnGuardar;
-    private ImageButton btnFoto1,btnClose1,btnRotar1, btnClose2,btnFoto2,btnFoto3,btnClose3;
+    private ImageButton btnClose1,btnClose2,btnClose3,btnRotar1,btnRotar2,btnRotar3;
+    private ImageButton btnNumero1,btnNumero2,btnNumero3;
+    private ImageButton btnFoto1,btnFoto2,btnFoto3;
     private PhotoView photoView1,photoView2,photoView3;
     private String activo;
+    private int requesCodeFotos;
     private View view;
+    private View viewInclude1,viewInclude2, viewInclude3;
     static int F1=0,F2=0, F3=0;
-
+    private int numClicks = 1;
     public Collage1() {
         // Required empty public constructor
     }
@@ -57,8 +61,6 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_collage1, container, false);
         activo=getActivity().getIntent().getStringExtra("activo");//dato recuperado en el activity
-        //codigoBarras=getIntent().getStringExtra("barras");
-        Toast.makeText(getActivity(),"C.activo1: "+activo,Toast.LENGTH_SHORT).show();
 
         btnGuardar = (FloatingActionButton)view.findViewById(R.id.fabGuardar);
         btnGuardar.setOnClickListener(this);
@@ -66,35 +68,216 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         photoView1 = (PhotoView)view.findViewById(R.id.photo_view1);
         photoView1.setMaximumScale(10);
 
-        sbFoto1=(SeekBar)view.findViewById(R.id.zbFoto1);
-        sbFoto1.setOnSeekBarChangeListener(this);
-
         photoView2 = (PhotoView)view.findViewById(R.id.photo_view2);
         photoView2.setMaximumScale(10);
-
-        sbFoto2=(SeekBar)view.findViewById(R.id.zbFoto2);
-        sbFoto2.setOnSeekBarChangeListener(this);
 
         photoView3 = (PhotoView)view.findViewById(R.id.photo_view3);
         photoView3.setMaximumScale(10);
 
-        sbFoto3=(SeekBar)view.findViewById(R.id.zbFoto3);
-        sbFoto3.setOnSeekBarChangeListener(this);
 
-        btnFoto1 = (ImageButton)view.findViewById(R.id.btnFoto1);
-        btnFoto1.setOnClickListener(this);
-        btnClose1=(ImageButton)view.findViewById(R.id.btnClose1);
-        btnClose1.setOnClickListener(this);
+        //Include1
+        viewInclude1=(View)view.findViewById(R.id.include1);
+        btnFoto1 = (ImageButton)viewInclude1.findViewById(R.id.btnFoto);
+        btnFoto1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(1);
+            }
+        });
+        btnNumero1=(ImageButton)viewInclude1.findViewById(R.id.btnNumero);
+        btnNumero1.setImageResource(R.drawable.ic_number_one);
+        btnNumero1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(1);
+            }
+        });
+        sbFoto1=(SeekBar)viewInclude1.findViewById(R.id.zbFoto);
+        sbFoto1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(i!=0){
+                    photoView1.setScale((float)i/10);
+                    photoView1.setDrawingCacheEnabled(false);
+                }else{
+                    photoView1.setScale(0);
+                    photoView1.setDrawingCacheEnabled(false);
+                }
+            }
 
-        btnFoto2 = (ImageButton)view.findViewById(R.id.btnFoto2);
-        btnFoto2.setOnClickListener(this);
-        btnClose2=(ImageButton)view.findViewById(R.id.btnClose2);
-        btnClose2.setOnClickListener(this);
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-        btnFoto3 = (ImageButton)view.findViewById(R.id.btnFoto3);
-        btnFoto3.setOnClickListener(this);
-        btnClose3=(ImageButton)view.findViewById(R.id.btnClose3);
-        btnClose3.setOnClickListener(this);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        btnRotar1=(ImageButton)viewInclude1.findViewById(R.id.btnRotar);
+        btnRotar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadImageGlideRotate(45*numClicks, photoView1);
+                numClicks ++;
+                if (numClicks*45==360){
+                    numClicks=0;
+                }
+            }
+        });
+
+        btnClose1=(ImageButton)viewInclude1.findViewById(R.id.btnClose);
+        btnClose1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoView1.setDrawingCacheEnabled(false);
+                photoView1.setImageDrawable(null);
+                sbFoto1.setVisibility(View.GONE);
+                sbFoto1.setProgress(0);
+                btnFoto1.setVisibility(View.VISIBLE);
+                btnClose1.setVisibility(View.GONE);
+                btnNumero1.setVisibility(View.VISIBLE);
+                btnRotar1.setVisibility(View.GONE);
+                F1=0;
+            }
+        });
+
+        //Include2
+        viewInclude2 = (View)view.findViewById(R.id.include2);
+        btnFoto2 = (ImageButton)viewInclude2.findViewById(R.id.btnFoto);
+        btnFoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(1);
+            }
+        });
+
+        btnNumero2 = (ImageButton)viewInclude2.findViewById(R.id.btnNumero);
+        btnNumero2.setImageResource(R.drawable.ic_number_two);
+        btnNumero2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(2);
+            }
+        });
+        sbFoto2=(SeekBar)viewInclude2.findViewById(R.id.zbFoto);
+        sbFoto2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(i!=0){
+                    photoView2.setScale((float)i/10);
+                    photoView2.setDrawingCacheEnabled(false);
+                }else{
+                    photoView2.setScale(0);
+                    photoView2.setDrawingCacheEnabled(false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        btnRotar2=(ImageButton)viewInclude2.findViewById(R.id.btnRotar);
+        btnRotar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadImageGlideRotate(45*numClicks, photoView2);
+                numClicks ++;
+                if (numClicks*45==360){
+                    numClicks=0;
+                }
+            }
+        });
+        btnClose2=(ImageButton)viewInclude2.findViewById(R.id.btnClose);
+        btnClose2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoView2.setDrawingCacheEnabled(false);
+                photoView2.setImageDrawable(null);
+                sbFoto2.setVisibility(View.GONE);
+                sbFoto2.setProgress(0);
+                btnFoto2.setVisibility(View.VISIBLE);
+                btnClose2.setVisibility(View.GONE);
+                btnNumero2.setVisibility(View.VISIBLE);
+                btnRotar2.setVisibility(View.GONE);
+            }
+        });
+
+
+        //Include3
+        viewInclude3 = (View)view.findViewById(R.id.include3);
+        btnFoto3 = (ImageButton)viewInclude3.findViewById(R.id.btnFoto);
+        btnFoto3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(3);
+            }
+        });
+
+        btnNumero3 = (ImageButton)viewInclude3.findViewById(R.id.btnNumero);
+        btnNumero3.setImageResource(R.drawable.ic_number_three);
+        btnNumero3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tomarFoto(3);
+            }
+        });
+        sbFoto3=(SeekBar)viewInclude3.findViewById(R.id.zbFoto);
+        sbFoto3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(i!=0){
+                    photoView3.setScale((float)i/10);
+                    photoView3.setDrawingCacheEnabled(false);
+                }else{
+                    photoView3.setScale(0);
+                    photoView3.setDrawingCacheEnabled(false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        btnRotar3=(ImageButton)viewInclude3.findViewById(R.id.btnRotar);
+        btnRotar3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadImageGlideRotate(45*numClicks, photoView3);
+                numClicks ++;
+                if (numClicks*45==360){
+                    numClicks=0;
+                }
+            }
+        });
+        btnClose3=(ImageButton)viewInclude3.findViewById(R.id.btnClose);
+        btnClose3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoView3.setDrawingCacheEnabled(false);
+                photoView3.setImageDrawable(null);
+                sbFoto3.setVisibility(View.GONE);
+                sbFoto3.setProgress(0);
+                btnFoto3.setVisibility(View.VISIBLE);
+                btnNumero3.setVisibility(View.VISIBLE);
+                btnClose3.setVisibility(View.GONE);
+                btnRotar3.setVisibility(View.GONE);
+                F3=0;
+            }
+        });
 
         return view;
     }
@@ -102,85 +285,89 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fabGuardar) {
+           if(validaFotoVacia()){
+                //photoView1.setDrawingCacheEnabled(true);
+                // Bitmap foto1 = photoView1.getDrawingCache();
+                //Bitmap foto1 = Bitmap.createBitmap(photoView1.getDrawingCache());
+                //photoView2.buildDrawingCache();
+                photoView1.destroyDrawingCache();
+                photoView1.setDrawingCacheEnabled(true);
+                Bitmap foto1 = Bitmap.createBitmap(photoView1.getDrawingCache());
 
-        if(F1==0){
-            Snackbar.make(view, "La Foto 01 está vacía", Snackbar.LENGTH_SHORT)
-                    .show();
-        }else if(F2==0){
-            Snackbar.make(view, "La Foto 02 está vacía", Snackbar.LENGTH_SHORT)
-                    .show();
-        }else if(F3==0){
-            Snackbar.make(view, "La Foto 03 está vacía", Snackbar.LENGTH_SHORT)
-                    .show();
-        }else {
 
-            //photoView1.buildDrawingCache();
-            photoView1.setDrawingCacheEnabled(true);
-            //Bitmap foto1 = photoView1.getDrawingCache();
-            Bitmap foto1 = Bitmap.createBitmap(photoView1.getDrawingCache());
-            //photoView2.buildDrawingCache();
+                photoView2.destroyDrawingCache();
+                photoView2.setDrawingCacheEnabled(true);
+                Bitmap foto2 = photoView2.getDrawingCache();
 
-            photoView2.setDrawingCacheEnabled(true);
-            Bitmap foto2 = photoView2.getDrawingCache();
-            //photoView3.buildDrawingCache();
+                photoView3.destroyDrawingCache();
+                photoView3.setDrawingCacheEnabled(true);
+                Bitmap foto3 = photoView3.getDrawingCache();
 
-            photoView3.setDrawingCacheEnabled(true);
-            Bitmap foto3 = photoView3.getDrawingCache();
-            fotoCollage = crearCollageFotos(foto1, foto2, foto3);
+                fotoCollage = crearCollageFotos(foto1, foto2, foto3);
+                ProgressDialog progressDialog = new ProgressDialog(getActivity());
+                //progressDialog.setTitle("Foto");
+                progressDialog.setTitle("Creando collage de fotos...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                ThreadCreateCollage threadsSaveFoto = new ThreadCreateCollage(progressDialog, getActivity(), activo, fotoCollage, getFragmentManager(), photoView1.getMeasuredHeight());
+                threadsSaveFoto.execute();
+            }
 
-            ProgressDialog progressDialog=new ProgressDialog(getActivity());
-            //progressDialog.setTitle("Foto");
-            progressDialog.setTitle("Creando foto...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            ThreadCreateCollage threadsSaveFoto=new ThreadCreateCollage(progressDialog,getActivity(),activo,fotoCollage,getFragmentManager(),photoView1.getMeasuredHeight());
-            threadsSaveFoto.execute();
+        /*else if(v.getId()==R.id.btnRotar){
+            loadImageGlideRotate(45*numClicks, photoView1);
+            numClicks ++;
+            if (numClicks*45==360){
+                numClicks=0;
+            }
 
-            //guardarImagen(fotoCollage);
-            //limpiarCache();
+            /*
+            mCurrRotation %= 360;
+            float fromRotation = mCurrRotation;
+            float toRotation = mCurrRotation += 90;
+            final RotateAnimation rotateAnim = new RotateAnimation(
+                    fromRotation, toRotation, photoView1.getWidth()/2, photoView1.getHeight()/2);
+            rotateAnim.setDuration(1000); // Use 0 ms to rotate instantly
+            rotateAnim.setFillAfter(true); // Must be true or the animation will reset
+            photoView1.startAnimation(rotateAnim);
+
+    */
         }
-
-
-
-
-    }else if(v.getId()==R.id.btnFoto1){
-        tomarFoto(1);
-        //Toast.makeText(this,"C.Barra"+codigoBarras,Toast.LENGTH_SHORT).show();
-    }else if(v.getId()==R.id.btnFoto2){
-        tomarFoto(2);
-
-    }else if(v.getId()==R.id.btnFoto3){
-        tomarFoto(3);
-
-    }else if(v.getId()==R.id.btnClose1){
-            photoView1.setDrawingCacheEnabled(false);
-            photoView1.setImageDrawable(null);
-            sbFoto1.setVisibility(View.GONE);
-            sbFoto1.setProgress(0);
-            btnFoto1.setVisibility(View.VISIBLE);
-            btnClose1.setVisibility(View.GONE);
-            F1=0;
-        //Glide.get(this).clearDiskCache();
-        //Glide.clear(photoView1);
-    }else if(v.getId()==R.id.btnClose2){
-            photoView2.setDrawingCacheEnabled(false);
-            photoView2.setImageDrawable(null);
-            sbFoto2.setVisibility(View.GONE);
-            sbFoto2.setProgress(0);
-            btnFoto2.setVisibility(View.VISIBLE);
-            btnClose2.setVisibility(View.GONE);
-            F2=0;
-    }else if(v.getId()==R.id.btnClose3){
-            photoView3.setDrawingCacheEnabled(false);
-            photoView3.setImageDrawable(null);
-            sbFoto3.setVisibility(View.GONE);
-        btnFoto3.setVisibility(View.VISIBLE);
-        btnClose3.setVisibility(View.GONE);
-            F3=0;
-    }
     }
 
-    //metodo 2
+    private boolean validaFotoVacia(){
+    boolean estado=true;
+        if(F1==0){
+            Snackbar.make(view, "La Foto 1 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+            estado=false;
+        }else if (F2 == 0) {
+            Snackbar.make(view, "La Foto 2 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+            estado=false;
+        } else if (F3 == 0) {
+            Snackbar.make(view, "La Foto 3 está vacía", Snackbar.LENGTH_SHORT)
+                    .show();
+            estado=false;
+    }
+    return estado;
+    }
+
+    private void loadImageGlide(PhotoView photoView, int requestCode) {
+        Glide.with(this)
+                .load(MainDirectorios.obtenerDirectorioFotosOri(getActivity(),activo,requestCode))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(photoView);
+    }
+
+    private void loadImageGlideRotate(float angle, PhotoView photoView) {
+                Glide.with(this)
+                .load(MainDirectorios.obtenerDirectorioFotosOri(getActivity(), activo, 1))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .transform( new RotateTransformation( getActivity(), angle ))
+                .into( photoView );
+    }
 
     private Bitmap crearCollageFotos(Bitmap foto1, Bitmap foto2, Bitmap foto3) {
         int w = foto1.getWidth() + foto2.getWidth();
@@ -203,6 +390,7 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         return result;
     }
 
+
     private void crearMarcoFoto(Canvas canvas, Paint paint) {
         canvas.drawRect(0,0,(photoView1.getMeasuredWidth()+photoView2.getMeasuredWidth())-1,photoView1.getMeasuredHeight()-1,paint);//dibuja rectangulo
         canvas.drawLine(photoView1.getMeasuredWidth(), 0, photoView1.getMeasuredWidth(), photoView1.getMeasuredHeight(), paint);//dibuja linea vertical
@@ -213,31 +401,10 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         //Comprovamos que la foto se a realizado
 
         if (requestCode == 1 && resultCode ==getActivity().RESULT_OK) {
-
-            //Creamos un bitmap con la imagen recientemente..se concluye que con esto,... hace lento la aplicacion, se opta por glide
-
-            /*
-            Bitmap bMap = BitmapFactory.decodeFile(
-                    Environment.getExternalStorageDirectory() +
-                            "/FotosPruebasAF/" + codigoBarras +"("+ requestCode +")"+ ".jpg");
-
-            */
-            //Añadimos el bitmap al imageView para
-            //mostrarlo por pantalla
-            //img.setImageBitmap(bMap);
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                    "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
-
-            photoView1.setVisibility(View.VISIBLE);
-            //photoView1.setImageBitmap(bMap);
-            Glide.with(this)
-                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(photoView1);
-
+            loadImageGlide(photoView1,requestCode);
+                //photoView1.set=imgF1;
             /*Picasso.with(getActivity())
-                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
+                    .load(new File(DirectorioCollage.obtenerDirectorioFotosOri(getActivity(),activo,requestCode)))
                     .noFade()
                     .noPlaceholder()
                     .memoryPolicy(MemoryPolicy.NO_STORE)
@@ -245,68 +412,35 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
                     .into(photoView1);*/
 
             btnFoto1.setVisibility(View.GONE);
+            btnNumero1.setVisibility(View.GONE);
             btnClose1.setVisibility(View.VISIBLE);
+            btnRotar1.setVisibility(View.VISIBLE);
             sbFoto1.setVisibility(View.VISIBLE);
             //validar que la foto se tomó
+
             F1=1;
 
         } else if (requestCode == 2 && resultCode == getActivity().RESULT_OK) {
-
-            //String path = Environment.getExternalStorageDirectory() +
-                    //"/FotosPruebasAF/" + codigoBarras +"("+ requestCode +")"+ ".jpg";
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                    "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
-
-            photoView2.setVisibility(View.VISIBLE);
-
-            //collage[1] = photoView2;
-           Glide.with(this)
-                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(photoView2);
-
-            /*Picasso.with(getActivity())
-                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
-                    .noFade()
-                    .noPlaceholder()
-                    .memoryPolicy(MemoryPolicy.NO_STORE)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .into(photoView2);*/
+            //photoView2.setVisibility(View.VISIBLE);
+            loadImageGlide(photoView2,requestCode);
 
             btnFoto2.setVisibility(View.GONE);
+            btnNumero2.setVisibility(View.GONE);
             btnClose2.setVisibility(View.VISIBLE);
+            btnRotar2.setVisibility(View.VISIBLE);
             sbFoto2.setVisibility(View.VISIBLE);
             F2=1;
 
         } else if (requestCode == 3 && resultCode ==getActivity().RESULT_OK) {
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +
-                    "/"+getString(R.string.directorio)+"/" + activo +"("+ requestCode +")"+ ".jpg";
-
-            photoView3.setVisibility(View.VISIBLE);
-
-            Glide.with(this)
-                    .load(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(photoView3);
-
-            /*Picasso.with(getActivity())
-                    .load(new File(DirectorioCollage.obtenerDirectorioOri(getActivity(),activo,requestCode)))
-                    .noFade()
-                    .noPlaceholder()
-                    .memoryPolicy(MemoryPolicy.NO_STORE)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .into(photoView3);*/
-
+            loadImageGlide(photoView3,requestCode);
             btnFoto3.setVisibility(View.GONE);
+            btnNumero3.setVisibility(View.GONE);
             btnClose3.setVisibility(View.VISIBLE);
+            btnRotar3.setVisibility(View.VISIBLE);
             sbFoto3.setVisibility(View.VISIBLE);
             F3=1;
         }
-
     }
-
 
 
     private void tomarFoto(int requestCode){
@@ -316,16 +450,8 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //Creamos una carpeta en la memeria del terminal
-        //File imagesFolder = new File(
-          //      Environment.getExternalStorageDirectory(), "FotosPruebasAF");
-        //imagesFolder.mkdirs();
-
-
-        DirectorioCollage directorioCollage=new DirectorioCollage();
-
         //añadimos el nombre de la imagen
-        File image = new File(DirectorioCollage.crearDirectorioOri(getActivity()), activo +"("+ requestCode +")"+".jpg");
+        File image = new File(MainDirectorios.crearDirectorioFotosOri(getActivity()), activo +"("+ requestCode +")"+getString(R.string.extensionFoto));
         Uri uriSavedImage = Uri.fromFile(image);
         //Le decimos al Intent que queremos grabar la imagen
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
@@ -337,51 +463,5 @@ public class Collage1 extends Fragment implements View.OnClickListener, SeekBar.
     public void onDestroy(){
 
         super.onDestroy();
-    }
-
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if(seekBar.getId()==R.id.zbFoto1){
-
-            if(progress!=0){
-                photoView1.setScale((float)progress/10);
-                photoView1.setDrawingCacheEnabled(false);
-            }else{
-                photoView1.setScale(0);
-                photoView1.setDrawingCacheEnabled(false);
-            }
-
-        } else if(seekBar.getId()==R.id.zbFoto2){
-
-            if(progress!=0){
-                photoView2.setScale((float)progress/10);
-                photoView2.setDrawingCacheEnabled(false);
-            }else{
-                photoView2.setScale(0);
-                photoView2.setDrawingCacheEnabled(false);
-            }
-
-        }else if(seekBar.getId()==R.id.zbFoto3){
-
-            if(progress!=0){
-                photoView3.setScale((float)progress/10);
-                photoView3.setDrawingCacheEnabled(false);
-            }else{
-                photoView3.setScale(0);
-                photoView3.setDrawingCacheEnabled(false);
-            }
-
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 }

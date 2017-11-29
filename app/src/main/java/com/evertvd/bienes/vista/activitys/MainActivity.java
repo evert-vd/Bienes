@@ -5,12 +5,12 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
 import com.evertvd.bienes.modelo.Activo;
-import com.evertvd.bienes.modelo.Empresa;
+import com.evertvd.bienes.threads.ThreadListDataDB;
 import com.evertvd.bienes.vista.fragments.Login;
 import com.evertvd.bienes.vista.fragments.Principal;
 
@@ -18,11 +18,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity{
-
+    private ProgressBar progressBar;
     private List<Activo> activoDaoList;
-    private List<Empresa>empresaList;
-
-    private String path;
 
     private final String TAG = "MainActivity";
     @Override
@@ -32,19 +29,17 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        activoDaoList= Controller.getDaoSession().getActivoDao().loadAll();
-        empresaList= Controller.getDaoSession().getEmpresaDao().loadAll();
-
-       //List<ActivoAll> activoAll=Controller.getDaoSession().getActivoAllDao().loadAll();
-
-
-
+        progressBar=(ProgressBar)findViewById(R.id.progressLoad);
+        FragmentManager fragmentManager = MainActivity.this.getFragmentManager();
+        /*activoDaoList= Controller.getDaoSession().getActivoDao().loadAll();
         if(activoDaoList.isEmpty()){
             abrirFragmentLogin();
         }else{
            abrirFragmentPrincipal();
-            Log.e("emp", String.valueOf(empresaList.size()));
-        }
+        }*/
+
+        ThreadListDataDB threadListDataDB=new ThreadListDataDB(this,fragmentManager,progressBar );
+        threadListDataDB.execute();
 
     }
 

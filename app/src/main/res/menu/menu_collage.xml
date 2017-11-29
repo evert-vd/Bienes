@@ -2,16 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Otras Opciones"
-        app:showAsAction="never" />
+
+
     <item
         android:id="@+id/action_collage1"
         android:orderInCategory="100"
         android:title="Collage1"
-       android:icon="@drawable/ic_collage1b"
+        android:icon="@drawable/ic_collage1b"
         app:showAsAction="always" />
 
     <item
@@ -26,4 +23,54 @@
         android:icon="@drawable/ic_collage3"
         android:title="Collage3"
         app:showAsAction="always" />
+
+
+    <item
+        android:orderInCategory="101"
+        android:title="Configuración"
+        android:icon="@drawable/ic_menu_settings"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_screen"
+                android:orderInCategory="100"
+                android:icon="@drawable/ic_screen_rotate"
+                android:title="Pantalla Vertical"
+                app:showAsAction="ifRoom|withText"/>
+        </menu>
+    </item>
+
+
+    <!--
+        <item
+            android:id="@+id/action_screen"
+            android:orderInCategory="100"
+            android:title="Pantalla Vertical"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_collage1"
+            android:orderInCategory="100"
+            android:title="Collage1"
+           android:icon="@drawable/ic_collage1b"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/action_collage2"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_collage2"
+            android:title="Collage2"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/action_collage3"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_collage3"
+            android:title="Collage3"
+            app:showAsAction="always" />
+
+
+
+
+
+        -->
+
 </menu>

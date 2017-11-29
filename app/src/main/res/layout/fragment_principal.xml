@@ -59,90 +59,72 @@
         </LinearLayout>
         </android.support.v7.widget.CardView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp">
 
-        <!--
-                <com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView
-                    android:id="@+id/recycler_view"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:fastScrollHideDelay="600"
-                    app:fastScrollAlwaysEnabled="false"
-                    app:fastScrollPopupBackgroundColor="?attr/colorAccent"
-                    app:fastScrollPopupTextColor="@android:color/white"
-                    app:fastScrollThumbActiveColor="?attr/colorAccent"
-                    app:fastScrollThumbInactiveColor="?attr/colorAccent"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:scrollbars="vertical"
-                    android:layout_height="match_parent">
-                </android.support.v7.widget.RecyclerView>
-        -->
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            />
+            android:layout_marginTop="2dp">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"/>
 
-        <com.futuremind.recyclerviewfastscroll.FastScroller
-            android:id="@+id/fastscroll"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="5dp"
-            app:fastscroll__handleColor="#8f93d1"
-            android:layout_alignParentRight="true"/>
+            <com.futuremind.recyclerviewfastscroll.FastScroller
+                android:id="@+id/fastscroll"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="5dp"
+                app:fastscroll__handleColor="#8f93d1"
+                android:layout_alignParentRight="true"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_anchorGravity="bottom|right|end"
-            android:src="@drawable/ic_barcode"/>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/fab_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_anchorGravity="bottom|right|end"
+                android:src="@drawable/ic_barcode"/>
 
-        <LinearLayout
-            android:id="@+id/layoutFondo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorGreyLighten_3"
-            android:alpha="0.8">
+            <LinearLayout
+                android:id="@+id/layoutFondo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:orientation="vertical"
+                android:background="@color/colorGreyLighten_3"
+                android:alpha="0.8"/>
+            <ProgressBar
+                android:id="@+id/progressActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/txtCargando"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@id/progressActivity"
+                android:text="Cargando Data"/>
+
+        </RelativeLayout>
+
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/progressActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateTint="@color/colorPrimary"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true" />
-        <TextView
-            android:id="@+id/txtCargando"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorPrimary"
-            android:layout_below="@id/progressActivity"
-            android:text="Cargando Data"/>
-    </RelativeLayout>
-    </LinearLayout>
+
+
 </FrameLayout>

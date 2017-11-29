@@ -75,6 +75,7 @@ public class ActivoAdapter extends RecyclerView.Adapter<ActivoAdapter.ViewHolder
         // each data item is just a string in this case
         TextView txtCodigo;
         TextView txtDescripcion;
+        TextView txtEmpresa;
 
         public ItemClickListener listener;
 
@@ -83,6 +84,7 @@ public class ActivoAdapter extends RecyclerView.Adapter<ActivoAdapter.ViewHolder
 
             this.txtCodigo = (TextView) v.findViewById(R.id.txtCodigo);
             this.txtDescripcion = (TextView) v.findViewById(R.id.txtDescripcion);
+            this.txtEmpresa=(TextView)v.findViewById(R.id.txtEmpresa);
             //METODOS DE PRUEBA
             //this.stock=(TextView)v.findViewById(R.id.stock);
             //this.estado=(TextView)v.findViewById(R.id.estadoVista);
@@ -96,7 +98,6 @@ public class ActivoAdapter extends RecyclerView.Adapter<ActivoAdapter.ViewHolder
         @Override
         public void onClick(View v) {
             listener.onItemClick(v, getAdapterPosition());
-
         }
     }
 
@@ -126,6 +127,7 @@ public class ActivoAdapter extends RecyclerView.Adapter<ActivoAdapter.ViewHolder
         try {
             holder.txtCodigo.setText("("+String.valueOf(position+1)+") "+String.valueOf(activoList.get(position).getCodigo()));
             holder.txtDescripcion.setText(activoList.get(position).getDescripcion());
+            holder.txtEmpresa.setText(activoList.get(position).getCatalogo().getEmpresa().getEmpresa());
 
             //METODOS DE PRUEBA
             //holder.stock.setText(String.valueOf(items.get(position).getStock()));

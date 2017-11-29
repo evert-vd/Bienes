@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.evertvd.bienes.R;
-import com.evertvd.bienes.hilos.ThreadSaveCollage;
-import com.evertvd.bienes.utils.DirectorioCollage;
+import com.evertvd.bienes.threads.ThreadSaveCollage;
+import com.evertvd.bienes.utils.MainDirectorios;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -110,12 +110,12 @@ public class DialogViewCollage extends DialogFragment implements View.OnClickLis
 
             /*copyFileOfCache();
             //borrar directorio ori
-            boolean directoryOri = DirectorioCollage.deleteDirectory(DirectorioCollage.crearDirectorioOri(getActivity()));
+            boolean directoryOri = DirectorioCollage.deleteDirectory(DirectorioCollage.crearDirectorioFotosOri(getActivity()));
             if (!directoryOri) {
                 Log.e("ori","Error al eliminar directorio ori");
             }
             //borra directorio cache
-            boolean directoryCache = DirectorioCollage.deleteDirectory(DirectorioCollage.crearDirectorioCache(getActivity()));
+            boolean directoryCache = DirectorioCollage.deleteDirectory(DirectorioCollage.crearDirectorioFotosTemp(getActivity()));
             if (!directoryCache) {
                 Log.e("ori","Error al eliminar directorio cache");
             }
@@ -132,7 +132,7 @@ public class DialogViewCollage extends DialogFragment implements View.OnClickLis
     private void cargarImagen(View view) {
 
         /*Glide.with(this)
-                .load(DirectorioCollage.obtenerDirectorioCache(getActivity(),activo))
+                .load(DirectorioCollage.obtenerDirectorioFotosTemp(getActivity(),activo))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .fitCenter()
@@ -140,7 +140,7 @@ public class DialogViewCollage extends DialogFragment implements View.OnClickLis
 
         */
         Picasso.with(view.getContext())
-                .load(new File(DirectorioCollage.obtenerDirectorioCache(getActivity(),activo)))
+                .load(new File(MainDirectorios.obtenerDirectorioFotosTemp(getActivity(),activo)))
                 .noFade()
                 .noPlaceholder()
                 .memoryPolicy(MemoryPolicy.NO_CACHE)//no guardar en cache
@@ -149,8 +149,8 @@ public class DialogViewCollage extends DialogFragment implements View.OnClickLis
     }
 
     private void copyFileOfCache() {
-        File origen= new File (DirectorioCollage.obtenerDirectorioCache(getActivity(),activo));
-        File destino= new File (DirectorioCollage.obtenerDirectorioInventario(getActivity(),activo));
+        File origen= new File (MainDirectorios.obtenerDirectorioFotosTemp(getActivity(),activo));
+        File destino= new File (MainDirectorios.obtenerDirectorioFotos(getActivity(),activo));
         try{
         InputStream in = new FileInputStream(origen);
         OutputStream out = new FileOutputStream(destino);

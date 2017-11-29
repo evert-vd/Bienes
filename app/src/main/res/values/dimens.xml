@@ -11,5 +11,11 @@
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <!--Dimensiones Activo edit-->
+    <dimen name="right_dimen">5dp</dimen>
+    <dimen name="left_dimen">5dp</dimen>
+    <dimen name="top_dimen">5dp</dimen>
+    <dimen name="bottom_dimen">5dp</dimen>
+
 
 </resources>

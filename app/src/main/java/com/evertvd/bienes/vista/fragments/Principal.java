@@ -5,11 +5,15 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,20 +26,17 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.csvreader.CsvReader;
 import com.evertvd.bienes.R;
 import com.evertvd.bienes.controlador.Controller;
-import com.evertvd.bienes.hilos.ThreadWriteData;
+import com.evertvd.bienes.threads.ThreadListDataDB;
+import com.evertvd.bienes.threads.ThreadWriteData;
 import com.evertvd.bienes.modelo.Activo;
 import com.evertvd.bienes.modelo.Catalogo;
 import com.evertvd.bienes.modelo.CentroCosto;
-import com.evertvd.bienes.modelo.CuentaContable;
 import com.evertvd.bienes.modelo.Departamento;
 import com.evertvd.bienes.modelo.Empresa;
 import com.evertvd.bienes.modelo.Historial;
-import com.evertvd.bienes.modelo.Responsable;
 import com.evertvd.bienes.modelo.Sede;
 import com.evertvd.bienes.modelo.Total;
 import com.evertvd.bienes.modelo.Ubicacion;
@@ -48,11 +49,15 @@ import com.evertvd.bienes.modelo.dao.UbicacionDao;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScanner;
 import com.evertvd.bienes.scannercode.MaterialBarcodeScannerBuilder;
 import com.evertvd.bienes.utils.Buscar;
+import com.evertvd.bienes.utils.MainDirectorios;
 import com.evertvd.bienes.vista.activitys.ActivoView;
 
+import com.evertvd.bienes.vista.activitys.CollageActivity;
 import com.evertvd.bienes.vista.activitys.MainActivity;
 import com.evertvd.bienes.vista.adapters.ActivoAdapter;
 import com.evertvd.bienes.vista.dialogs.DialgoFilterData;
+import com.evertvd.bienes.vista.dialogs.DialogSendEmail;
+import com.evertvd.bienes.vista.dialogs.DialogWriteCsv;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.google.android.gms.vision.barcode.Barcode;
 
@@ -65,7 +70,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Principal extends Fragment implements SearchView.OnQueryTextListener, DialgoFilterData.OnAddFilter, RadioGroup.OnCheckedChangeListener {
+public class Principal extends Fragment implements SearchView.OnQueryTextListener, DialgoFilterData.OnAddFilter, RadioGroup.OnCheckedChangeListener, DialogWriteCsv.OnClickListener {
     private View view;
 
     public static final String BARCODE_KEY = "BARCODE";
@@ -116,6 +121,10 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
         txtCargando=(TextView)view.findViewById(R.id.txtCargando);
 
         activoList=Controller.getDaoSession().getActivoDao().queryBuilder().orderAsc(ActivoDao.Properties.Descripcion).list();
+
+        //ThreadListDataDB threadListDataDB=new ThreadListDataDB(this,fragmentManager );
+        //threadListDataDB.execute();
+
         //recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
 
 
@@ -136,7 +145,6 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
         recyclerView.setHasFixedSize(true);
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(getActivity());
-
         recyclerView.setLayoutManager(lManager);
 
         // Crear un nuevo adaptador
@@ -246,9 +254,7 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main,menu);
-
         item = menu.findItem(R.id.action_buscar);
-
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
 
@@ -268,8 +274,6 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
             }
 
         });
-
-        //return true;
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -306,9 +310,25 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                 String queryDescripcion = activo.getDescripcion().toLowerCase();
                 //busqueda por codigo
                 String queryCodigo = String.valueOf(activo.getCodigo()).toLowerCase();
+                //otras busquedas
+                String queryPlaca = String.valueOf(activo.getPlaca()).toLowerCase();
+                String queryMarca = String.valueOf(activo.getMarca()).toLowerCase();
+                String queryModelo = String.valueOf(activo.getModelo()).toLowerCase();
+                String querySerie = String.valueOf(activo.getSerie()).toLowerCase();
+                String queryOC = String.valueOf(activo.getOrdencompra()).toLowerCase();
                 if (queryDescripcion.contains(query)) {
                     listaFiltrada.add(activo);
                 } else if (queryCodigo.contains(query)) {
+                    listaFiltrada.add(activo);
+                }else if(queryPlaca.contains(query)){
+                    listaFiltrada.add(activo);
+                }else if(queryMarca.contains(query)){
+                    listaFiltrada.add(activo);
+                }else if(queryModelo.contains(query)){
+                    listaFiltrada.add(activo);
+                }else if(querySerie.contains(query)){
+                    listaFiltrada.add(activo);
+                }else if(queryOC.contains(query)){
                     listaFiltrada.add(activo);
                 }
             }
@@ -350,9 +370,31 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
             startActivity(new Intent(getActivity(),MainActivity.class));
             //startActivity(new Intent(this,MainActivity.class));
         }else if(id==R.id.action_exportar){
-            //crear fragment export activo
-            ThreadWriteData threadWriteData=new ThreadWriteData(getActivity());
-            threadWriteData.start();
+            if(MainDirectorios.obtenerNombreFileExport(getActivity())){//valida si el archivo activo.csv existe
+            //mostrar di
+                FragmentManager fm = getActivity().getFragmentManager();
+                DialogWriteCsv dialogWriteCsv = new DialogWriteCsv();
+                dialogWriteCsv.setTargetFragment(this, 0);
+                dialogWriteCsv.setCancelable(false);
+                dialogWriteCsv.show(fm, "dialog");
+
+
+            }else{
+                ThreadWriteData threadWriteData2=new ThreadWriteData(getActivity(),layoutFondo,progressActivity,0);
+                threadWriteData2.execute();
+            }
+
+
+        }else if(id==R.id.action_email){
+            //FragmentManager fm = getActivity().getFragmentManager();
+            DialogSendEmail enviarEmail = new DialogSendEmail();
+            enviarEmail.setCancelable(false);
+            enviarEmail.show(getFragmentManager(), "tag");
+
+        }else if(id==R.id.action_foto){
+            Intent intent=new Intent(getActivity(), CollageActivity.class);
+            intent.putExtra("activo",getResources().getString(R.string.sinCodActivo));
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -407,43 +449,24 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
                             startActivity(intent);
                             //startActivity(new Intent(getActivity(),BarScanner.class));
                         }else{
-                               List<Total> total=Controller.getDaoSession().getTotalDao().loadAll();
-                                if(total.get(0).getTotal()!=0){
-                                    progressActivity.setVisibility(View.GONE);
-                                }
-                                if(buscarBarraCSV(total.get(0).getRuta(),barcode.rawValue)!=null) {
-                                    Toast.makeText(getActivity(),"C.Barras. "+barcode.rawValue+" se encontró en la data pero aun falta cargar la información al dispositivo. Vuelve a consultar en unos segundos",Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(getActivity(),"C.Barras. "+barcode.rawValue+" no ubicado",Toast.LENGTH_SHORT).show();
-                                }
+
+
+                            String mensaje1="Codigo de barras ";
+                            String mensaje2=barcode.rawValue;
+                            String mensaje3=" no encontrado";
+                            SpannableString mensaje = new SpannableString(mensaje1+" "+mensaje2+" "+mensaje3);
+                            ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.colorOrange));// Puedes usar tambien .. new ForegroundColorSpan(Color.RED);
+                            mensaje.setSpan(colorSpan, mensaje1.length()+1, (mensaje1.length()+mensaje2.length()+1), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            //txtMensaje1.setText(mensaje);
+                            Snackbar.make(view, mensaje, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            //Toast.makeText(getActivity(),"C.Barras. "+barcode.rawValue+" no ubicado",Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
                 .build();
         materialBarcodeScanner.startScan();
     }
-
-    public String buscarBarraCSV( String path, String scanbarra){
-        String cBarra=null;
-        try{
-        CsvReader csvReader=new CsvReader(path);
-
-        csvReader.readHeaders();
-            while (csvReader.readRecord()) {
-                String barra = csvReader.get("Cod. Barras");
-                if ((barra.equalsIgnoreCase(scanbarra))) {
-                    //Toast.makeText(getActivity(),"C.B. "+barcode.rawValue+" se encontró en la data pero aun falta cargar la información al dispositivo. Vuleve a consultar en unos segundos",Toast.LENGTH_SHORT).show();
-                   cBarra=barra;
-                    break;
-                }
-            }
-        }catch(Exception e){
-            }
-        return cBarra;
-    }
-
-
-
 
 
     @Override
@@ -468,7 +491,6 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
             //todos null
             rbnTodos.setChecked(true);
         }
-
             inicializarAdapter(activoList);
 
     }
@@ -598,5 +620,10 @@ public class Principal extends Fragment implements SearchView.OnQueryTextListene
         return list;
     }
 
+    @Override
+    public void botonDialogOnClick(int evento) {
+        ThreadWriteData threadWriteData=new ThreadWriteData(getActivity(),layoutFondo,progressActivity, evento);
+        threadWriteData.execute();
+    }
 }
 

@@ -203,6 +203,7 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.btnDepSedeUbic) {
             //callback.onSearchDepSedeUbicDialog();
+
             if(spinnerDepartamento.getSelectedPosition()==0){
                 departamento=null;
             }
@@ -212,10 +213,10 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             if(spinnerUbicacion.getSelectedPosition()==0){
                 ubicacion=null;
             }
-
+            this.dismiss();
             OnAddFilter filter = (OnAddFilter) getTargetFragment();
             filter.onAddFilterDepSedeUbic(departamento, sede, ubicacion);
-            this.dismiss();
+
 
             /*
              RegistrarConteo.OnClickListener activity = (RegistrarConteo.OnClickListener) getActivity();
@@ -229,21 +230,24 @@ public class DialgoFilterData extends DialogFragment implements View.OnClickList
             if(spinnerCatalogo.getSelectedPosition()==0){
                 catalogo=null;
             }
+            this.dismiss();
             OnAddFilter filter = (OnAddFilter) getTargetFragment();
             filter.onAddFilterEmpCatalogo(empresa, catalogo);
-            this.dismiss();
+
 
               }else if(view.getId()==R.id.btnCentroCosto){
             if(spinnerCentroCosto.getSelectedPosition()==0){
                 centroCosto=null;
             }
+            this.dismiss();
             OnAddFilter filter = (OnAddFilter) getTargetFragment();
             filter.onAddFilterCentroCosto(centroCosto);
-            this.dismiss();
+
         }else if(view.getId()==R.id.btnCancelar){
+            this.dismiss();
             OnAddFilter filter = (OnAddFilter) getTargetFragment();
             filter.onButtonCancel();
-            this.dismiss();
+
         }
             }
 

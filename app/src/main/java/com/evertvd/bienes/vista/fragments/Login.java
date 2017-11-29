@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
-import com.evertvd.bienes.hilos.MainThreadsReadData;
+import com.evertvd.bienes.threads.MainThreadsReadData;
 import com.evertvd.bienes.vista.activitys.FileInterno;
 
 /**
@@ -103,10 +103,9 @@ public class Login extends Fragment implements View.OnClickListener{
                 // cogemos el valor devuelto por la otra actividad
                 path = data.getStringExtra("path");
                 nombreArchivo = data.getStringExtra("nombreArchivo");
-
                 // enseñamos al usuario el resultado
                 txtNombreArchivo.setText(path);
-                //Toast.makeText(this, "ParametrosActivity devolviÃ³: " + nombreArchivo, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Parametros Activity devolvió: " + nombreArchivo, Toast.LENGTH_LONG).show();
             }
         } else {
             if (txtNombreArchivo.getText().toString().trim().length() == 0) {

@@ -34,37 +34,6 @@ import java.util.List;
 
 public class Buscar {
 
-    /*
-    public static Empresa buscarEmpresa(String texto){
-        //List<Empresa> empresaList=Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Empresa.eq(texto)).list();
-       // if(empresaList.isEmpty()){
-            //return null;
-        //}else{
-        Empresa empresa = Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Id.eq(texto)).unique();
-            if(empresa!=null){
-               return empresa;
-            }else{
-                return null;
-            }
-       // }
-    }
-
-    public static Departamento buscarDepartamento(String texto) {
-        Departamento departamento = Controller.getDaoSession().getDepartamentoDao().queryBuilder().where(DepartamentoDao.Properties.Departamento.eq(texto)).unique();
-        return departamento;
-    }
-
-
-
-
-
-
-    public static Activo buscarBarras(String texto) {
-        Activo activo = Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).unique();
-        return activo;
-    }
-    */
-
     public static Empresa buscarEmpresa(String texto){
         Empresa empresa = Controller.getDaoSession().getEmpresaDao().queryBuilder().where(EmpresaDao.Properties.Empresa.eq(texto)).unique();
        return empresa;
@@ -75,13 +44,6 @@ public class Buscar {
         return departamento;
     }
 
-    /*
-    public static Departamento_Has_Empresa buscarDepartamentoHasEmpresa(long idEmpresa, long idDepartamento) {
-        Departamento_Has_Empresa departamento_has_empresa = Controller.getDaoSession().getDepartamento_Has_EmpresaDao().queryBuilder().where(Departamento_Has_EmpresaDao.Properties.Departamento_id.eq(idDepartamento))
-                .where(Departamento_Has_EmpresaDao.Properties.Empresa_id.eq(idEmpresa)).unique();
-        return departamento_has_empresa;
-    }
-    */
 
     public static Sede buscarSede(String texto) {
         Sede sede = Controller.getDaoSession().getSedeDao().queryBuilder().where(SedeDao.Properties.Sede.eq(texto)).unique();
@@ -119,9 +81,6 @@ public class Buscar {
     public static List<Activo> buscarBarras(String texto) {
         List<Activo> activoList=Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).list();
         //Activo activo = Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigobarra.eq(texto)).unique();
-        for (int i=0;i<activoList.size();i++){
-            Log.e("cb",activoList.get(i).getCodigobarra()+" ubic:"+activoList.get(i).getUbicacion().getUbicacion());
-        }
         return activoList;
     }
 
@@ -129,6 +88,4 @@ public class Buscar {
         Historial historial1=Controller.getDaoSession().getHistorialDao().queryBuilder().where(HistorialDao.Properties.Campo_modificado.eq(historial)).where(HistorialDao.Properties.Activo_id.eq(idActivo)).unique();
         return historial1;
     }
-
-
 }

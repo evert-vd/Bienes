@@ -3,7 +3,10 @@ package com.evertvd.bienes.vista.activitys;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -11,10 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.evertvd.bienes.R;
-import com.evertvd.bienes.utils.DirectorioCollage;
+import com.evertvd.bienes.utils.MainDirectorios;
 import com.evertvd.bienes.vista.fragments.Collage1;
 import com.evertvd.bienes.vista.fragments.Collage2;
 import com.evertvd.bienes.vista.fragments.Collage3;
@@ -25,6 +27,7 @@ public class CollageActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 2;
+    private int orientationScreen=0;
 
     private Menu menu;
     private Toolbar toolbar;
@@ -37,15 +40,14 @@ public class CollageActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbarCollage);
         setSupportActionBar(toolbar);
-
-
-        DirectorioCollage.crearDirectorioInventario(this);
-        DirectorioCollage.crearDirectorioCache(this);
-        DirectorioCollage.crearDirectorioOri(this);
+        MainDirectorios.crearDirectorioFotos(this);
+        MainDirectorios.crearDirectorioFotosTemp(this);
+        MainDirectorios.crearDirectorioFotosOri(this);
         numActivo=getIntent().getStringExtra("activo");
+        setTitle("Crear Foto del activo "+numActivo);
         //Toast.makeText(this,numActivo,Toast.LENGTH_SHORT).show();
 
-        abrirFragmentCollage(1);
+        abrirFragmentCollage(1);//collage por default
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -115,23 +117,32 @@ public class CollageActivity extends AppCompatActivity {
         //MenuItem item1=item;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_screen) {
+            if(orientationScreen==0){
+                this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                item.setTitle("Pantalla Horizontal");
+                orientationScreen=1;
+            }else{
+                this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                item.setTitle("Pantalla Vertical");
+                orientationScreen=0;
+            }
             return true;
         }else if(id==R.id.action_collage1){
-            menu.getItem(1).setIcon(R.drawable.ic_collage1b);
-            menu.getItem(2).setIcon(R.drawable.ic_collage2);
-            menu.getItem(3).setIcon(R.drawable.ic_collage3);
+            menu.getItem(0).setIcon(R.drawable.ic_collage1b);
+            menu.getItem(1).setIcon(R.drawable.ic_collage2);
+            menu.getItem(2).setIcon(R.drawable.ic_collage3);
             abrirFragmentCollage(1);
 
         }else if(id==R.id.action_collage2){
-            menu.getItem(1).setIcon(R.drawable.ic_collage1);
-            menu.getItem(2).setIcon(R.drawable.ic_collage2b);
-            menu.getItem(3).setIcon(R.drawable.ic_collage3);
+            menu.getItem(0).setIcon(R.drawable.ic_collage1);
+            menu.getItem(1).setIcon(R.drawable.ic_collage2b);
+            menu.getItem(2).setIcon(R.drawable.ic_collage3);
             abrirFragmentCollage(2);
         }else if(id==R.id.action_collage3){
-            menu.getItem(1).setIcon(R.drawable.ic_collage1);
-            menu.getItem(2).setIcon(R.drawable.ic_collage2);
-            menu.getItem(3).setIcon(R.drawable.ic_collage3b);
+            menu.getItem(0).setIcon(R.drawable.ic_collage1);
+            menu.getItem(1).setIcon(R.drawable.ic_collage2);
+            menu.getItem(2).setIcon(R.drawable.ic_collage3b);
             abrirFragmentCollage(3);
         }
 
@@ -144,20 +155,13 @@ public class CollageActivity extends AppCompatActivity {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 1
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-
+                if (grantResults.length > 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 }
                 return;
             }
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 2 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-
                 }
                 return;
             }

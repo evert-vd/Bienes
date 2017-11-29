@@ -6,10 +6,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evertvd.bienes.R;
@@ -29,65 +38,80 @@ import com.evertvd.bienes.utils.Buscar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivoEdit extends AppCompatActivity implements View.OnClickListener {
+public class ActivoEdit extends AppCompatActivity{
 
     private String numActivo;
     private Activo activo;
     private AutoCompleteTextView txtDepartamento, txtCatalogo, txtSede, txtUbicacion, txtCentro, txtResponsable, txtPlaca, txtMarca, txtModelo;
     private EditText txtDescripcion, txtCodigo, txtBarras, txtOC, txtFactura, txtFecha, txtEmpresa, txtCodCentro, txtSerie;
-    private FloatingActionButton fabGuardar;
-    private List<String> camposModificados;
+    private Menu menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activo_edit);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        camposModificados = new ArrayList<>();
+        //camposModificados = new ArrayList<>();
         numActivo=getIntent().getExtras().getString("activo");
         activo = Controller.getDaoSession().getActivoDao().queryBuilder().where(ActivoDao.Properties.Codigo.eq(this.getIntent().getExtras().getString("activo"))).unique();
+        setTitle("Editar activo "+activo.getCodigo());
 
-        fabGuardar = (FloatingActionButton) findViewById(R.id.fabGuardar);
-        fabGuardar.setOnClickListener(this);
-
-        txtDescripcion = (EditText)findViewById(R.id.txtDescipcion);
-        txtDescripcion.setText(activo.getDescripcion());
 
         txtCodigo = (EditText) findViewById(R.id.txtCodigo);
         txtCodigo.setText(activo.getCodigo());
+        txtCodigo.setFocusable(false);
+        txtCodigo.clearFocus();
+
+        txtOC = (EditText)findViewById(R.id.txtOrdenCompra);
+        txtOC.setText(activo.getOrdencompra());
+        txtOC.setFocusable(false);
+
+        txtFactura = (EditText)findViewById(R.id.txtFactura);
+        txtFactura.setText(activo.getFactura());
+        txtFactura.setFocusable(false);
+
+        txtFecha = (EditText) findViewById(R.id.txtFecha);
+        txtFecha.setText(activo.getFechacompra());
+        txtFecha.setFocusable(false);
+
+        txtEmpresa = (EditText) findViewById(R.id.txtEmpresa);
+        txtEmpresa.setText(activo.getCatalogo().getEmpresa().getEmpresa());
+        txtEmpresa.setFocusable(false);
+
+        txtSede = (AutoCompleteTextView) findViewById(R.id.txtSede);
+        txtSede.setText(activo.getUbicacion().getSede().getSede());
+        txtSede.setFocusable(false);
+
+        txtDepartamento = (AutoCompleteTextView) findViewById(R.id.txtDepartamento);
+        txtDepartamento.setText(activo.getUbicacion().getSede().getDepartamento().getDepartamento());
+
+
+        //campos editables
+        txtDescripcion = (EditText)findViewById(R.id.txtDescipcion);
+        txtDescripcion.setText(activo.getDescripcion());
 
         txtBarras = (EditText)findViewById(R.id.txtBarras);
         txtBarras.setText(activo.getCodigobarra());
 
-        txtOC = (EditText)findViewById(R.id.txtOrdenCompra);
-        txtOC.setText(activo.getOrdencompra());
-
-        txtFactura = (EditText)findViewById(R.id.txtFactura);
-        txtFactura.setText(activo.getFactura());
-
-        txtFecha = (EditText) findViewById(R.id.txtFecha);
-        txtFecha.setText(activo.getFechacompra());
-
-        txtEmpresa = (EditText) findViewById(R.id.txtEmpresa);
-        txtEmpresa.setText(activo.getCatalogo().getEmpresa().getEmpresa());
-
-        txtCodCentro = (EditText) findViewById(R.id.txtCodCentro);
-        txtCodCentro.setText(activo.getCentroCosto().getCodigo());
-
-        txtSerie = (EditText) findViewById(R.id.txtSerie);
-        txtSerie.setText(activo.getSerie());
-
         txtCatalogo = (AutoCompleteTextView) findViewById(R.id.txtCatalogo);
         txtCatalogo.setText(activo.getCatalogo().getCatalogo());
 
-        txtSede = (AutoCompleteTextView) findViewById(R.id.txtSede);
-        txtSede.setText(activo.getUbicacion().getSede().getSede());
-
         txtUbicacion = (AutoCompleteTextView) findViewById(R.id.txtUbicacion);
         txtUbicacion.setText(activo.getUbicacion().getUbicacion());
+
+        txtCentro = (AutoCompleteTextView) findViewById(R.id.txtCentro);
+        txtCentro.setText(activo.getCentroCosto().getCentro());
+
+        txtCodCentro = (EditText) findViewById(R.id.txtCodCentro);
+        txtCodCentro.setText(activo.getCentroCosto().getCodigo());
+        txtCodCentro.setFocusable(false);
+
+        txtSerie = (EditText) findViewById(R.id.txtSerie);
+        txtSerie.setText(activo.getSerie());
 
         txtResponsable = (AutoCompleteTextView) findViewById(R.id.txtResponsable);
         txtResponsable.setText(activo.getResponsable().getResponsable());
@@ -100,12 +124,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
 
         txtModelo = (AutoCompleteTextView) findViewById(R.id.txtModelo);
         txtModelo.setText(activo.getModelo());
-
-        txtCentro = (AutoCompleteTextView) findViewById(R.id.txtCentro);
-        txtCentro.setText(activo.getCentroCosto().getCentro());
-
-        txtDepartamento = (AutoCompleteTextView) findViewById(R.id.txtDepartamento);
-        txtDepartamento.setText(activo.getUbicacion().getSede().getDepartamento().getDepartamento());
 
 
         List<Departamento> departamentoList = Controller.getDaoSession().getDepartamentoDao().loadAll();
@@ -123,6 +141,7 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         ArrayAdapter<Catalogo> adapterCatalogo = new ArrayAdapter<Catalogo>(this, android.R.layout.simple_list_item_1, catalogoList);
         txtCatalogo.setThreshold(1);
         txtCatalogo.setAdapter(adapterCatalogo);
+        ocultarTeclado(txtCatalogo);
 
         ArrayAdapter<Sede> adapterSede = new ArrayAdapter<Sede>(this, android.R.layout.simple_list_item_1, sedeList);
         txtSede.setThreshold(1);
@@ -131,22 +150,46 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         ArrayAdapter<Ubicacion> adapterUbicacion = new ArrayAdapter<Ubicacion>(this, android.R.layout.simple_list_item_1, ubicacionList);
         txtUbicacion.setThreshold(1);
         txtUbicacion.setAdapter(adapterUbicacion);
+        ocultarTeclado(txtUbicacion);
 
         ArrayAdapter<CentroCosto> adapterCentroCosto = new ArrayAdapter<CentroCosto>(this, android.R.layout.simple_list_item_1, centroCostoList);
         txtCentro.setThreshold(1);
         txtCentro.setAdapter(adapterCentroCosto);
+        ocultarTeclado(txtCentro);
 
         ArrayAdapter<Responsable> adapterResponsable = new ArrayAdapter<Responsable>(this, android.R.layout.simple_list_item_1, responsableList);
         txtResponsable.setThreshold(1);
         txtResponsable.setAdapter(adapterResponsable);
-
+        ocultarTeclado(txtResponsable);
 
     }
 
     @Override
-    public void onClick(View view) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        //hideOption(R.id.action_camera);
+        return true;
+    }
 
-        if(view.getId()==R.id.fabGuardar){
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_save) {
+            guardarCambios();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void guardarCambios(){
             String descripcion=txtDescripcion.getText().toString().trim().toUpperCase();
             String barra=txtBarras.getText().toString().trim().toUpperCase();
             String catalogo=txtCatalogo.getText().toString().trim().toUpperCase();
@@ -161,47 +204,60 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
             String serie=txtSerie.getText().toString().trim().toUpperCase();
 
             //guardar cambios
-            if(editDescripcion(descripcion)||editBarras(barra)||editCatalogo(catalogo)||editUbicacion(ubicacion)||editCentro(centro)||editResponsable(responsable)||editPlaca(placa)||editMarca(marca)||editModelo(modelo)||editSerie(serie)){
-                if(editDescripcion(descripcion)){
+            boolean editDescripcion=editDescripcion(descripcion);
+            boolean editBarras=editBarras(barra);
+            boolean editCatalogo=editCatalogo(catalogo);
+            boolean editUbicacion=editUbicacion(ubicacion);
+            boolean editCentro=editCentro(centro);
+            boolean editResponsable=editResponsable(responsable);
+            boolean editPlaca=editPlaca(placa);
+            boolean editMarca=editMarca(marca);
+            boolean editModelo=editModelo(modelo);
+            boolean editSerie=editSerie(serie);
+
+               if(editDescripcion || editBarras || editCatalogo || editUbicacion || editCentro || editResponsable|| editPlaca ||editMarca||editModelo||editSerie){
+               List<String> camposModificados=new ArrayList<>();
+                if(editDescripcion){
                     camposModificados.add("descripcion");
                 }
-                if(editBarras(barra)){
+
+                if(editBarras){
                     camposModificados.add("barra");
                 }
 
-                if(editCatalogo(catalogo)){
+                if(editCatalogo){
                     camposModificados.add("catalogo");
                 }
 
-                if(editSerie(serie)){
+                if(editSerie){
                     camposModificados.add("serie");
                 }
 
-                if(editModelo(modelo)){
+                if(editModelo){
                     camposModificados.add("modelo");
                 }
 
-                if(editCentro(centro)){
+                if(editCentro){
                     camposModificados.add("centro");
                 }
 
-                if(editMarca(marca)){
+                if(editMarca){
                     camposModificados.add("marca");
                 }
 
-                if(editPlaca(placa)){
+                if(editPlaca){
                     camposModificados.add("placa");
                 }
 
-                if(editResponsable(responsable)){
+                if(editResponsable){
                     camposModificados.add("responsable");
                 }
 
-                if(editUbicacion(ubicacion)){
+                if(editUbicacion){
                     camposModificados.add("ubicacion");
                 }
 
-                actualizarHistorialCambios();
+                actualizarHistorialCambios(camposModificados);
 
                 Intent intent=new Intent(this,ActivoView.class);
                 intent.putExtra("activo",numActivo);
@@ -212,13 +268,8 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
             }else{
                 Toast.makeText(this,"Ningún Cambio Realizado", Toast.LENGTH_SHORT).show();
             }
-
-
         }
 
-
-
-    }
 
     private boolean editDescripcion(String texto){
         boolean estado=false;
@@ -235,7 +286,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         if(!activo.getCodigobarra().equalsIgnoreCase(texto)){
             activo.setCodigobarra(texto);
             Controller.getDaoSession().getActivoDao().update(activo);
-
             estado=true;
 
         }
@@ -280,7 +330,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
             }
             activo.setCentrocosto_id(Buscar.buscarCentro(texto).getId());
             Controller.getDaoSession().getActivoDao().update(activo);
-
             estado= true;
         }
         return estado;
@@ -315,7 +364,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         if(!activo.getMarca().equalsIgnoreCase(texto)){
             activo.setMarca(texto);
             Controller.getDaoSession().getActivoDao().update(activo);
-
             estado= true;
         }
         return estado;
@@ -326,7 +374,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         if(!activo.getModelo().equalsIgnoreCase(texto)){
             activo.setModelo(texto);
             Controller.getDaoSession().getActivoDao().update(activo);
-
             estado= true;
         }
         return estado;
@@ -337,7 +384,6 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         if(!activo.getSerie().equalsIgnoreCase(texto)){
             activo.setSerie(texto);
             Controller.getDaoSession().getActivoDao().update(activo);
-
             estado= true;
         }
         return estado;
@@ -374,7 +420,8 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
         Controller.getDaoSession().getResponsableDao().insert(responsable);
     }
 
-    private void actualizarHistorialCambios(){
+    private void actualizarHistorialCambios(List<String>camposModificados){
+
         if(!camposModificados.isEmpty()){
             for (int i=0;i<camposModificados.size();i++){
                 if(Buscar.buscarHistorial(camposModificados.get(i),activo.getId())==null){
@@ -387,7 +434,19 @@ public class ActivoEdit extends AppCompatActivity implements View.OnClickListene
             }
 
         }else{
-            Toast.makeText(this,"Esta lista está vacía",Toast.LENGTH_SHORT).show();
+            Log.e("TAG", "lista historial vacía");
         }
     }
+
+    private void ocultarTeclado(final AutoCompleteTextView autoCompleteTextView){
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(autoCompleteTextView.getWindowToken(), 0);
+            }
+        });
+    }
+
 }
+
